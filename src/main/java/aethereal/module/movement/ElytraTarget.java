@@ -41,7 +41,15 @@ public class ElytraTarget extends Module {
     private final SliderSetting hitReach = new SliderSetting("Hit reach", 3.2f, 2.0f, 6.0f, 0.1f).a(() -> {
         return this.hitAlign.c();
     });
-    private final SliderSetting overshoot = new SliderSetting("Overshoot distance", 4.0f, 0.0f, 8.0f, 0.5f);
+    private final BooleanSetting precise = new BooleanSetting("Precise pursuit", true);
+    private final BooleanSetting drift = new BooleanSetting("Drift compensation", true);
+    private final SliderSetting driftStrength = new SliderSetting("Drift strength", 1.0f, 0.0f, 3.0f, 0.1f).a(() -> {
+        return this.drift.c();
+    });
+    private final SliderSetting chaseDelay = new SliderSetting("Chase firework delay (ms)", 100.0f, 50.0f, 1000.0f, 10.0f);
+    private final SliderSetting overshoot = new SliderSetting("Overshoot distance", 0.0f, 0.0f, 8.0f, 0.5f).a(() -> {
+        return !this.precise.c();
+    });
     private final SliderSetting liftHeight = new SliderSetting("Lift height", 1.0f, 0.0f, 6.0f, 0.5f);
     private final BooleanSetting critPitch = new BooleanSetting("Crit pitch limit", true);
     private final SliderSetting turnSpeed = new SliderSetting("Turn speed", 180.0f, 30.0f, 360.0f, 10.0f);
@@ -52,6 +60,7 @@ public class ElytraTarget extends Module {
     private boolean swapped;
     private int slot = -1;
     private int wait;
+    private boolean chasing;
 
     // Target motion tracking (other players' client velocity is unreliable, so we measure position change per tick).
     private LivingEntity lastTarget;
@@ -60,7 +69,7 @@ public class ElytraTarget extends Module {
 
     public ElytraTarget() {
         a(this.cutOff, this.fleeSpeed, this.cutOffLead, this.maxPredict, this.hitAlign, this.alignRange, this.hitReach,
-                this.overshoot, this.liftHeight, this.critPitch, this.turnSpeed, this.fireworkDelay, this.fireworkSpeedLimit);
+                this.precise, this.drift, this.driftStrength, this.chaseDelay, this.overshoot, this.liftHeight, this.critPitch, this.turnSpeed, this.fireworkDelay, this.fireworkSpeedLimit);
     }
 
     @Override
@@ -80,7 +89,7 @@ public class ElytraTarget extends Module {
         if (aura.m() && mc.player.isGliding()) {
             // The sword stays in the main hand; the firework is never held visibly.
             boolean totemBusy = Reaxc.getInstance().getModuleProcessor().t().V().b;
-            boolean shouldFire = (this.b.a((long) this.fireworkDelay.c().floatValue()) && mc.player.getVelocity().length() < (double) this.fireworkSpeedLimit.c().floatValue()) || aura.attackCooldown == 1;
+            boolean shouldFire = (this.b.a((long) (this.chasing ? Math.min(this.chaseDelay.c().floatValue(), this.fireworkDelay.c().floatValue()) : this.fireworkDelay.c().floatValue())) && mc.player.getVelocity().length() < (double) this.fireworkSpeedLimit.c().floatValue()) || aura.attackCooldown == 1;
             if (this.swapped) {
                 if (mc.player.getOffHandStack().getItem() == Items.FIREWORK_ROCKET) {
                     mc.interactionManager.interactItem(mc.player, Hand.OFF_HAND);
@@ -158,23 +167,41 @@ public class ElytraTarget extends Module {
             }
 
             double lift = Math.max(0.0d, (double) this.liftHeight.c().floatValue() - q());
+            double mySpeed = Math.max(mc.player.getVelocity().length(), 0.8d);
+            double distance = eye.distanceTo(enemy);
+            boolean fleeing = this.cutOff.c().booleanValue() && isFleeing(dx, dz, horizontal);
+            this.chasing = fleeing || distance > 8.0d;
             Vec3d aim;
-            if (this.cutOff.c().booleanValue() && isFleeing(dx, dz, horizontal)) {
-                // Get in front of the runner: aim where it will be when we arrive, plus a bit further ahead.
-                double mySpeed = Math.max(mc.player.getVelocity().length(), 0.8d);
-                double distance = Math.sqrt((dx * dx) + (dz * dz) + ((enemy.y - eye.y) * (enemy.y - eye.y)));
+            if (this.precise.c().booleanValue() || fleeing) {
+                // Lead pursuit: aim where the target will be when we get there (the target's centre, same height),
+                // and when it runs away aim a bit further ahead of it to cut it off.
                 double ticks = MathHelper.clamp(distance / mySpeed, 1.0d, (double) this.maxPredict.c().floatValue());
                 double vy = target.isGliding() ? MathHelper.clamp(this.targetVelocity.y, -1.0d, 1.0d) : 0.0d;
                 double hx = this.targetVelocity.x;
                 double hz = this.targetVelocity.z;
                 double hLen = Math.sqrt((hx * hx) + (hz * hz));
-                double lead = (double) this.cutOffLead.c().floatValue();
+                double lead = fleeing ? (double) this.cutOffLead.c().floatValue() : 0.0d;
                 double ux = hLen == 0.0d ? 0.0d : hx / hLen;
                 double uz = hLen == 0.0d ? 0.0d : hz / hLen;
                 aim = new Vec3d(enemy.x + (hx * ticks) + (ux * lead), enemy.y + (vy * ticks) + lift, enemy.z + (hz * ticks) + (uz * lead));
             } else {
                 double over = (double) this.overshoot.c().floatValue();
                 aim = new Vec3d(enemy.x + (nx * over), enemy.y + lift, enemy.z + (nz * over));
+            }
+            if (this.drift.c().booleanValue()) {
+                // Elytra velocity lags behind where you look. Push the look direction against the drift so the
+                // actual flight path (not just the crosshair) ends up on the target.
+                Vec3d velocity = mc.player.getVelocity();
+                Vec3d to = aim.subtract(eye);
+                double len = to.length();
+                if (len > 3.0d && velocity.length() > 0.3d) {
+                    Vec3d dir = to.multiply(1.0d / len);
+                    Vec3d vdir = velocity.normalize();
+                    Vec3d fixed = dir.add(dir.subtract(vdir).multiply((double) this.driftStrength.c().floatValue()));
+                    if (fixed.length() > 0.001d) {
+                        aim = eye.add(fixed.normalize().multiply(len));
+                    }
+                }
             }
             Rotation aimRotation = Rotation.a(eye, aim);
             float Yaw = AuraUtil.a(mc.player.getYaw(), aimRotation.c(), 1.0f);
