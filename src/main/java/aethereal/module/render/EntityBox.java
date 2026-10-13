@@ -17,15 +17,15 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
 
-@ModuleRegister(name = "Entity Box", description = "Отображает боксы вокруг сущностей", category = Category.Render)
+@ModuleRegister(name = "Entity Box", description = "Displays boxes around entities", category = Category.Render)
 public class EntityBox extends Module {
-    private final ModeSetting visualMode = new ModeSetting("Тип визуализации", "Квадрат", "Квадрат", "Углы", "Заливка", "Отключен");
-    private final ModeSetting colorSource = new ModeSetting("Источник цвета", "Клиентский", "Клиентский", "Статичный");
-    private final ModeSetting healthBarMode = new ModeSetting("Бар здоровья", "Отключен", "Отключен", "Стандартный").a(() -> {
-        return Boolean.valueOf(this.visualMode.l("Квадрат") || this.visualMode.l("Углы"));
+    private final ModeSetting visualMode = new ModeSetting("Visualization type", "Square", "Square", "Corners", "Fill", "Disabled");
+    private final ModeSetting colorSource = new ModeSetting("Color source", "Client", "Client", "Static");
+    private final ModeSetting healthBarMode = new ModeSetting("Health bar", "Disabled", "Disabled", "Standard").a(() -> {
+        return Boolean.valueOf(this.visualMode.l("Square") || this.visualMode.l("Corners"));
     });
-    private final ColorSetting colorSetting = new ColorSetting("Цвет визуализации", Integer.valueOf(ColorUtil.convertToARGB(255, 255, 255, 255))).a(() -> {
-        return Boolean.valueOf(this.colorSource.l("Статичный"));
+    private final ColorSetting colorSetting = new ColorSetting("Visualization color", Integer.valueOf(ColorUtil.convertToARGB(255, 255, 255, 255))).a(() -> {
+        return Boolean.valueOf(this.colorSource.l("Static"));
     });
 
     public EntityBox() {
@@ -34,11 +34,11 @@ public class EntityBox extends Module {
 
     @EventTarget
     public void onDraw(DrawEvent event) {
-        if (this.visualMode.l("Заливка")) {
+        if (this.visualMode.l("Fill")) {
             if (event.c()) {
                 for (Entity entity : mc.world.getEntities()) {
                     if (shouldRender(entity)) {
-                        event.getDraw3DProcessor().a(event.h(), entity.getBoundingBox().offset(MathUtil.a(entity, event.g()).subtract(entity.getPos())), this.colorSource.l("Статичный") ? this.colorSetting.c().intValue() : Reaxc.getInstance().getModuleProcessor().o().a(ThemeInfo.PRIMARY).toIntColor(), 0.75f);
+                        event.getDraw3DProcessor().a(event.h(), entity.getBoundingBox().offset(MathUtil.a(entity, event.g()).subtract(entity.getPos())), this.colorSource.l("Static") ? this.colorSetting.c().intValue() : Reaxc.getInstance().getModuleProcessor().o().a(ThemeInfo.PRIMARY).toIntColor(), 0.75f);
                     }
                 }
                 return;
@@ -46,18 +46,18 @@ public class EntityBox extends Module {
             return;
         }
         if (event.b()) {
-            if (this.visualMode.l("Квадрат") || this.visualMode.l("Углы")) {
+            if (this.visualMode.l("Square") || this.visualMode.l("Corners")) {
                 Draw2DProcessor draw = event.getDraw2DProcessor();
                 for (Entity entity : mc.world.getEntities()) {
                     Box box = shouldRender(entity) ? entity.getBoundingBox().offset(MathUtil.a(entity, event.g()).subtract(entity.getPos())) : null;
                     float[] bounds = box == null ? null : ProjectUtil.getBounds(box);
                     if (bounds != null) {
                         LivingEntity living = entity instanceof LivingEntity ? (LivingEntity) entity : null;
-                        boolean healthBar = !this.healthBarMode.l("Отключен") && living != null;
+                        boolean healthBar = !this.healthBarMode.l("Disabled") && living != null;
                         float percent = healthBar ? Math.min(Math.max(0.0f, ServerUtil.a.a$(living)) / Math.max(1.0f, living.getMaxHealth()), 1.0f) : 0.0f;
                         int healthColor = ColorUtil.lerpColorValue(ColorUtil.convertToARGB(255, 0, 0, 255), ColorUtil.convertToARGB(0, 255, 0, 255), percent);
-                        int color = this.colorSource.l("Статичный") ? this.colorSetting.c().intValue() : ColorUtil.combineColorWithAlpha(Reaxc.getInstance().getModuleProcessor().o().a(ThemeInfo.PRIMARY).toIntColor(), 255);
-                        drawBox(draw, event, bounds[0], bounds[1], bounds[2], bounds[3], color, this.visualMode.l("Углы"), healthBar, percent, healthColor);
+                        int color = this.colorSource.l("Static") ? this.colorSetting.c().intValue() : ColorUtil.combineColorWithAlpha(Reaxc.getInstance().getModuleProcessor().o().a(ThemeInfo.PRIMARY).toIntColor(), 255);
+                        drawBox(draw, event, bounds[0], bounds[1], bounds[2], bounds[3], color, this.visualMode.l("Corners"), healthBar, percent, healthColor);
                     }
                 }
             }

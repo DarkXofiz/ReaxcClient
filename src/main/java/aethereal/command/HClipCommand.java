@@ -23,7 +23,7 @@ public class HClipCommand extends BaseCommand {
             float distance = a(dir);
             if (distance != 0.0f) {
                 a(dir, distance);
-                ChatUtil.sendMessage("Вы были успешно перемещены вперёд по горизонтали взгляда");
+                ChatUtil.sendMessage("You were successfully moved forward along your horizontal look direction");
                 return 1;
             }
             return 1;
@@ -32,18 +32,18 @@ public class HClipCommand extends BaseCommand {
             float distance = a(dir);
             if (distance != 0.0f) {
                 a(dir, distance);
-                ChatUtil.sendMessage("Вы были успешно перемещены назад по горизонтали взгляда");
+                ChatUtil.sendMessage("You were successfully moved backward along your horizontal look direction");
                 return 1;
             }
             return 1;
-        })).then(f("число").executes(context3 -> {
-            float distance = c(context3, "число");
+        })).then(f("number").executes(context3 -> {
+            float distance = c(context3, "number");
             Vec3d forward = c().normalize();
             a(forward, distance);
-            ChatUtil.sendMessage("Вы успешно сдвинулись на " + distance + " блоков по горизонтали взгляда");
+            ChatUtil.sendMessage("You successfully moved by " + distance + " blocks along your horizontal look direction");
             return 1;
         })).executes(context4 -> {
-            ChatUtil.sendMessage("Использование: .hclip <число|forward|back>");
+            ChatUtil.sendMessage("Usage: .hclip <number|forward|back>");
             return 1;
         });
     }
@@ -67,7 +67,7 @@ public class HClipCommand extends BaseCommand {
                 return blocks + 1;
             }
             if (mc.world.getBlockState(here).isOf(Blocks.BEDROCK)) {
-                ChatUtil.sendMessage(Formatting.GRAY + "Телепортация в данное место невозможно");
+                ChatUtil.sendMessage(Formatting.GRAY + "Teleporting to this location is not possible");
                 return 0.0f;
             }
         }

@@ -119,12 +119,12 @@ public class Module implements Interface {
     public void b() {
         EventManager.a(this);
         Reaxc.getInstance().getModuleProcessor().m().a(new Notification("Q",
-                ColorUtil.convertToARGB(InterfaceC0020Opcode.bW, 220, InterfaceC0020Opcode.bv, 255), j() + " активирован", 1500));
+                ColorUtil.convertToARGB(InterfaceC0020Opcode.bW, 220, InterfaceC0020Opcode.bv, 255), j() + " enabled", 1500));
     }
 
     public void c() {
         EventManager.b(this);
         Reaxc.getInstance().getModuleProcessor().m().a(new Notification("Q",
-                ColorUtil.convertToARGB(230, InterfaceC0020Opcode.bW, InterfaceC0020Opcode.bW, 255), j() + " деактивирован", 1500));
+                ColorUtil.convertToARGB(230, InterfaceC0020Opcode.bW, InterfaceC0020Opcode.bW, 255), j() + " disabled", 1500));
     }
 }

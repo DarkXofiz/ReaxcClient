@@ -16,7 +16,7 @@ public class VClipCommand extends BaseCommand {
             float offset = a(true);
             if (offset != 0.0f) {
                 a(offset);
-                ChatUtil.sendMessage("Вы были успешно подняты по Y");
+                ChatUtil.sendMessage("You were successfully moved up on Y");
                 return 1;
             }
             return 1;
@@ -24,17 +24,17 @@ public class VClipCommand extends BaseCommand {
             float offset = a(false);
             if (offset != 0.0f) {
                 a(offset);
-                ChatUtil.sendMessage("Вы были успешно опущены по Y");
+                ChatUtil.sendMessage("You were successfully moved down on Y");
                 return 1;
             }
             return 1;
-        })).then(f("число").executes(context3 -> {
-            float offset = c(context3, "число");
+        })).then(f("number").executes(context3 -> {
+            float offset = c(context3, "number");
             a(offset);
-            ChatUtil.sendMessage("Вы были успешно перемещены на " + offset + " по Y");
+            ChatUtil.sendMessage("You were successfully moved by " + offset + " on Y");
             return 1;
         })).executes(context4 -> {
-            ChatUtil.sendMessage("Использование: .vclip <число|up|down>");
+            ChatUtil.sendMessage("Usage: .vclip <number|up|down>");
             return 1;
         });
     }
@@ -64,7 +64,7 @@ public class VClipCommand extends BaseCommand {
                 if (up || !mc.world.getBlockState(targetPos).isOf(Blocks.BEDROCK)) {
                     i = offset + step;
                 } else {
-                    ChatUtil.sendMessage(Formatting.GRAY + "Телепортация в данное место невозможно");
+                    ChatUtil.sendMessage(Formatting.GRAY + "Teleporting to this location is not possible");
                     return 0.0f;
                 }
             } else {

@@ -101,7 +101,7 @@ public class InGameHudMixin {
     @Inject(method = {"renderMainHud"}, at = {@At("HEAD")})
     private void headRenderMainHud(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
         Animations animations = Reaxc.getInstance().getModuleProcessor().t().Q();
-        if (animations.m() && animations.q().a("Поднятие хотбара").c().booleanValue()) {
+        if (animations.m() && animations.q().a("Hotbar raise").c().booleanValue()) {
             context.getMatrices().push();
             context.getMatrices().translate(0.0f, (-16.0f) * animations.s().c(), 0.0f);
         }
@@ -110,7 +110,7 @@ public class InGameHudMixin {
     @Inject(method = {"renderMainHud"}, at = {@At("RETURN")})
     private void renderMainHud(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
         Animations animations = Reaxc.getInstance().getModuleProcessor().t().Q();
-        if (animations.m() && animations.q().a("Поднятие хотбара").c().booleanValue()) {
+        if (animations.m() && animations.q().a("Hotbar raise").c().booleanValue()) {
             context.getMatrices().pop();
         }
     }
@@ -118,7 +118,7 @@ public class InGameHudMixin {
     @ModifyArg(method = {"renderHotbar"}, index = 2, at = @At(value = "INVOKE", ordinal = 1, target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Ljava/util/function/Function;Lnet/minecraft/util/Identifier;IIII)V"))
     private int hotbarSelectionSlot(int x) {
         Animations animations = Reaxc.getInstance().getModuleProcessor().t().Q();
-        if (animations.m() && animations.q().a("Слот хотбара").c().booleanValue() && Interface.mc.player != null) {
+        if (animations.m() && animations.q().a("Hotbar slot").c().booleanValue() && Interface.mc.player != null) {
             return Math.round((x - (Interface.mc.player.getInventory().selectedSlot * 20)) + (animations.v() * 20.0f));
         }
         return x;
@@ -127,7 +127,7 @@ public class InGameHudMixin {
     @Inject(method = {"renderExperienceLevel"}, at = {@At("HEAD")})
     private void headRenderExperienceLevel(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
         Animations animations = Reaxc.getInstance().getModuleProcessor().t().Q();
-        if (animations.m() && animations.q().a("Поднятие хотбара").c().booleanValue()) {
+        if (animations.m() && animations.q().a("Hotbar raise").c().booleanValue()) {
             context.getMatrices().push();
             context.getMatrices().translate(0.0f, (-16.0f) * animations.s().c(), 0.0f);
         }
@@ -136,7 +136,7 @@ public class InGameHudMixin {
     @Inject(method = {"renderExperienceLevel"}, at = {@At("RETURN")})
     private void renderExperienceLevel(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
         Animations animations = Reaxc.getInstance().getModuleProcessor().t().Q();
-        if (animations.m() && animations.q().a("Поднятие хотбара").c().booleanValue()) {
+        if (animations.m() && animations.q().a("Hotbar raise").c().booleanValue()) {
             context.getMatrices().pop();
         }
     }

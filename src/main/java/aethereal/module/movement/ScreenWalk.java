@@ -26,9 +26,9 @@ import platform.inject.accessors.ClientConnectionAccessor;
 import java.util.ArrayList;
 import java.util.List;
 
-@ModuleRegister(name = "Screen Walk", description = "Позволяет двигаться с открытым контейнером, задерживая пакеты инвентаря", category = Category.Movement)
+@ModuleRegister(name = "Screen Walk", description = "Lets you move with a container open by delaying inventory packets", category = Category.Movement)
 public class ScreenWalk extends Module {
-    private final ModeSetting b = new ModeSetting("Обход перемещения предметов", "Ускоренный", "Ускоренный", "Медленный");
+    private final ModeSetting b = new ModeSetting("Item move bypass", "Accelerated", "Accelerated", "Slow");
     private final List<a> c = new ArrayList<>();
     private boolean d = false;
 
@@ -58,7 +58,7 @@ public class ScreenWalk extends Module {
                         if (shulker) {
                             stopHandler.a(2);
                         }
-                        this.c.add(new a(event.getPacket(), this.b.l("Медленный") ? this.c.isEmpty() ? 1 : this.c.size() + 1 : 2, shulker));
+                        this.c.add(new a(event.getPacket(), this.b.l("Slow") ? this.c.isEmpty() ? 1 : this.c.size() + 1 : 2, shulker));
                         event.a(true);
                     }
                 }
@@ -73,7 +73,7 @@ public class ScreenWalk extends Module {
                 this.d = false;
             }
         }
-        if (event.isReceive() && this.b.l("Медленный")) {
+        if (event.isReceive() && this.b.l("Slow")) {
             if (event.getPacket() instanceof OpenScreenS2CPacket) {
                 this.d = true;
             }
@@ -92,7 +92,7 @@ public class ScreenWalk extends Module {
         }
         if (!MoveUtil.a() && !this.c.isEmpty()) {
             ClientConnectionAccessor connection = (ClientConnectionAccessor) mc.player.networkHandler.getConnection();
-            if (this.b.l("Медленный")) {
+            if (this.b.l("Slow")) {
                 connection.sendWithoutEvent(this.c.removeFirst().a(), null, true);
             } else {
                 this.c.forEach(packetInfo -> {

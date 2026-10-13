@@ -13,11 +13,11 @@ import net.minecraft.text.Text;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
-@ModuleRegister(name = "Streamer Mode", description = "Скрывает личные данные при стриминге и записи", category = Category.Misc)
+@ModuleRegister(name = "Streamer Mode", description = "Hides personal data while streaming and recording", category = Category.Misc)
 public class StreamerMode extends Module {
-    private final BooleanSetting b = new BooleanSetting("Скрывать скины игроков", true);
-    private final BooleanSetting c = new BooleanSetting("Скрывать имена друзей", true);
-    private final BooleanSetting d = new BooleanSetting("Скрывать номер анархии", true);
+    private final BooleanSetting b = new BooleanSetting("Hide player skins", true);
+    private final BooleanSetting c = new BooleanSetting("Hide friend names", true);
+    private final BooleanSetting d = new BooleanSetting("Hide anarchy number", true);
 
     public StreamerMode() {
         a(this.b, this.c, this.d);

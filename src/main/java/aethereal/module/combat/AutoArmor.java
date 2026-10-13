@@ -17,9 +17,9 @@ import net.minecraft.item.Items;
 import net.minecraft.network.packet.c2s.play.BundleItemSelectedC2SPacket;
 import net.minecraft.registry.RegistryKeys;
 
-@ModuleRegister(name = "Auto Armor", description = "Автоматически надевает лучшую броню из инвентаря и мешков", category = Category.Combat)
+@ModuleRegister(name = "Auto Armor", description = "Automatically equips the best armor from your inventory and bags", category = Category.Combat)
 public class AutoArmor extends Module {
-    private final BooleanSetting b = new BooleanSetting("Не в движении", true);
+    private final BooleanSetting b = new BooleanSetting("Not while moving", true);
     private final EquipmentSlot[] c = {EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET};
     private int tickCounter;
 

@@ -39,8 +39,8 @@ public class EnvironmentWidget extends Widget implements Interface {
     private final UUID[] i;
 
     public EnvironmentWidget() {
-        super(new DragInfo("Окружение", 0.0f, 0.0f, 0.0f, 0.0f));
-        this.f = new BooleanSetting("Показывать броню", true);
+        super(new DragInfo("Environment", 0.0f, 0.0f, 0.0f, 0.0f));
+        this.f = new BooleanSetting("Show armor", true);
         this.g = new HashMap<>();
         this.h = new ArrayList<>();
         this.i = new UUID[2];
@@ -111,14 +111,14 @@ public class EnvironmentWidget extends Widget implements Interface {
         }).filter((v0) -> {
             return Objects.nonNull(v0);
         }).toList();
-        float width = 14.5f + Fonts.e.a("Окружение", this.e) + 5.0f;
+        float width = 14.5f + Fonts.e.a("Environment", this.e) + 5.0f;
         for (b data : shown) {
             width = Math.max(width, Math.max(20.0f + Fonts.e.a(data.d + ((int) data.f) + "HP", 6.5f) + 34.0f,
                     (data.b.size() * 15.0f) - 2.0f));
         }
         j().setWidth(width);
         if (animation > 0.0f) {
-            a(event, "x", "Окружение", width, animation);
+            a(event, "x", "Environment", width, animation);
         }
         float contentY = y + this.d + 3.0f;
         Iterator<b> it = shown.iterator();

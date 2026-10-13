@@ -150,13 +150,13 @@ public class RadialScreen implements Interface {
         if (hasSegment) {
             Fonts.e.a(context.getMatrices(), name, cx - (Fonts.e.a(name, 10.0f) / 2.0f), baseY, 10.0f, ColorUtil.convertToARGB(255, 255, 255, 255));
             if (mc.currentScreen instanceof AssistantScreen) {
-                Fonts.d.a(context.getMatrices(), "СКМ – добавление слота", cx - (Fonts.d.a("СКМ – добавление слота", 7.0f) / 2.0f), baseY + Fonts.d.a(10.0f) + 3.0f, 7.0f, ColorUtil.convertToARGB(255, 255, 255, InterfaceC0020Opcode.cG));
+                Fonts.d.a(context.getMatrices(), "MMB – add slot", cx - (Fonts.d.a("MMB – add slot", 7.0f) / 2.0f), baseY + Fonts.d.a(10.0f) + 3.0f, 7.0f, ColorUtil.convertToARGB(255, 255, 255, InterfaceC0020Opcode.cG));
                 return;
             }
             return;
         }
         if (mc.currentScreen instanceof AssistantScreen) {
-            Fonts.d.a(context.getMatrices(), "СКМ – добавление слота", cx - (Fonts.d.a("СКМ – добавление слота", 7.0f) / 2.0f), baseY, 7.0f, ColorUtil.convertToARGB(255, 255, 255, InterfaceC0020Opcode.cG));
+            Fonts.d.a(context.getMatrices(), "MMB – add slot", cx - (Fonts.d.a("MMB – add slot", 7.0f) / 2.0f), baseY, 7.0f, ColorUtil.convertToARGB(255, 255, 255, InterfaceC0020Opcode.cG));
         }
     }
 

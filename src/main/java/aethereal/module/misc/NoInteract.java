@@ -5,9 +5,9 @@ import aethereal.core.Module;
 import aethereal.core.ModuleRegister;
 import aethereal.setting.BooleanSetting;
 
-@ModuleRegister(name = "No Interact", description = "Блокирует случайное взаимодействие с контейнерами и блоками", category = Category.Misc)
+@ModuleRegister(name = "No Interact", description = "Blocks accidental interaction with containers and blocks", category = Category.Misc)
 public class NoInteract extends Module {
-    private final BooleanSetting b = new BooleanSetting("Учитывать включённую Aura", true);
+    private final BooleanSetting b = new BooleanSetting("Account for enabled Aura", true);
 
     public NoInteract() {
         a(this.b);

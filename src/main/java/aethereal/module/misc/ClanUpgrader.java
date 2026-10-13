@@ -10,7 +10,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
-@ModuleRegister(name = "Clan Upgrader", description = "Быстро прокачивает клан с помощью редстоуна и факела", category = Category.Misc)
+@ModuleRegister(name = "Clan Upgrader", description = "Quickly levels up your clan using redstone and a torch", category = Category.Misc)
 public class ClanUpgrader extends Module {
     private int upgradeCount;
 
@@ -29,7 +29,7 @@ public class ClanUpgrader extends Module {
         int torch = InventoryUtil.a(Items.TORCH, true);
         int target = redstone != -1 ? redstone : torch;
         if (redstone == -1 && torch == -1) {
-            ChatUtil.sendMessage("Вам необходимо иметь факел или редстоун в хотбаре");
+            ChatUtil.sendMessage("You need a torch or redstone in your hotbar");
             a();
             return;
         }

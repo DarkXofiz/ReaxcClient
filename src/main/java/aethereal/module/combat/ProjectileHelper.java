@@ -25,7 +25,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.stream.StreamSupport;
 
-@ModuleRegister(name = "Projectile Helper", description = "Помогает целиться по противнику при стрельбе из лука или трезубца", category = Category.Combat)
+@ModuleRegister(name = "Projectile Helper", description = "Helps you aim at opponents when shooting a bow or trident", category = Category.Combat)
 public class ProjectileHelper extends Module {
     private final LivingEntity[] b = new LivingEntity[2];
     private final Vec3d[] c = new Vec3d[5];

@@ -14,9 +14,9 @@ import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
 
 import java.util.Objects;
 
-@ModuleRegister(name = "Elytra Helper", description = "Выполняет действия с элитрой по нажатию назначенной клавиши", category = Category.Player)
+@ModuleRegister(name = "Elytra Helper", description = "Performs elytra actions when the assigned key is pressed", category = Category.Player)
 public class ElytraHelper extends Module {
-    private final BooleanSetting b = new BooleanSetting("Автостарт после свапа", false);
+    private final BooleanSetting b = new BooleanSetting("Auto-start after swap", false);
     private final BooleanSetting c;
     private final BooleanSetting d;
     private final BindSetting e;
@@ -26,18 +26,18 @@ public class ElytraHelper extends Module {
     private int i;
 
     public ElytraHelper() {
-        BooleanSetting booleanSetting = new BooleanSetting("Использовать /fly при свапе", false);
+        BooleanSetting booleanSetting = new BooleanSetting("Use /fly when swapping", false);
         BooleanSetting booleanSetting2 = this.b;
         Objects.requireNonNull(booleanSetting2);
         this.c = booleanSetting.a(booleanSetting2::c);
-        BooleanSetting booleanSetting3 = new BooleanSetting("Автофейерверк", false);
+        BooleanSetting booleanSetting3 = new BooleanSetting("Auto firework", false);
         BooleanSetting booleanSetting4 = this.b;
         Objects.requireNonNull(booleanSetting4);
         this.d = booleanSetting3.a(booleanSetting4::c);
-        this.e = new BindSetting("Кнопка фейерверка", -1).a(() -> {
+        this.e = new BindSetting("Firework key", -1).a(() -> {
             z();
         });
-        this.f = new BindSetting("Кнопка переключения", -1).a(() -> {
+        this.f = new BindSetting("Toggle key", -1).a(() -> {
             int slot = mc.player.getEquippedStack(EquipmentSlot.CHEST).getItem() == Items.ELYTRA ? InventoryUtil.a() : InventoryUtil.b(Items.ELYTRA);
             Reaxc.getInstance().getModuleProcessor().v().getInventoryHandler().moveToArmor(slot, 1, 1);
             if (this.b.c().booleanValue() && InventoryUtil.b(Items.ELYTRA) == slot) {

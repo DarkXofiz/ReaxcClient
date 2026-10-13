@@ -16,9 +16,9 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.*;
 
-@ModuleRegister(name = "Auto Explosion", description = "Размещает кристалл на обсидиане и мгновенно его подрывает", category = Category.Combat)
+@ModuleRegister(name = "Auto Explosion", description = "Places a crystal on obsidian and detonates it instantly", category = Category.Combat)
 public class AutoExplosion extends Module {
-    private final BooleanSetting b = new BooleanSetting("Установить двойной кристалл", false);
+    private final BooleanSetting b = new BooleanSetting("Place double crystal", false);
     private BlockPos targetPos;
     private int placeDelay;
     private int crystalState = -1;

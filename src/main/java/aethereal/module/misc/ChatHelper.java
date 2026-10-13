@@ -8,10 +8,10 @@ import aethereal.event.TickEvent;
 import aethereal.setting.BooleanSetting;
 import aethereal.util.ServerUtil;
 
-@ModuleRegister(name = "Chat Helper", description = "Расширяет возможности чата и его настройки", category = Category.Misc)
+@ModuleRegister(name = "Chat Helper", description = "Extends chat features and settings", category = Category.Misc)
 public class ChatHelper extends Module {
-    private final BooleanSetting b = new BooleanSetting("Ширина под сообщение", false);
-    private final BooleanSetting c = new BooleanSetting("Автоматическое /event delay", false);
+    private final BooleanSetting b = new BooleanSetting("Message width", false);
+    private final BooleanSetting c = new BooleanSetting("Automatic /event delay", false);
     private int d = -1;
 
     public ChatHelper() {

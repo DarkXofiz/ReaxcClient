@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@ModuleRegister(name = "Anti Bot", description = "Скрывает фальшивых игроков, появляющихся в мире", category = Category.Combat)
+@ModuleRegister(name = "Anti Bot", description = "Hides fake players that appear in the world", category = Category.Combat)
 public class AntiBot extends Module {
     private final List<UUID> b = new ArrayList<>();
 
@@ -60,7 +60,7 @@ public class AntiBot extends Module {
                 if (player.getUuid().equals(uuid)) {
                     boolean armor = !player.getEquippedStack(EquipmentSlot.HEAD).isEmpty() && !player.getEquippedStack(EquipmentSlot.CHEST).isEmpty() && !player.getEquippedStack(EquipmentSlot.LEGS).isEmpty() && !player.getEquippedStack(EquipmentSlot.FEET).isEmpty();
                     if (armor) {
-                        ChatUtil.sendMessage("Фальшивый игрок был обнаружен, и удален из мира.");
+                        ChatUtil.sendMessage("A fake player was detected and removed from the world.");
                         mc.world.removeEntity(player.getId(), Entity.RemovalReason.DISCARDED);
                     }
                     checked.add(uuid);

@@ -30,9 +30,9 @@ import net.minecraft.world.RaycastContext;
 
 import java.util.*;
 
-@ModuleRegister(name = "Scaffold", description = "Автоматически ставит блоки под вами", category = Category.Movement)
+@ModuleRegister(name = "Scaffold", description = "Automatically places blocks under you", category = Category.Movement)
 public class Scaffold extends Module {
-    private final BooleanSetting b = new BooleanSetting("Избегать падения", false);
+    private final BooleanSetting b = new BooleanSetting("Avoid falling", false);
     private final int[] e = {-1, -1, -1};
     private a c;
     private Vec3d d = Vec3d.ZERO;

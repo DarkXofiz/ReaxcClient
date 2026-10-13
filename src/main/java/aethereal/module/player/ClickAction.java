@@ -10,12 +10,12 @@ import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.item.Items;
 import net.minecraft.util.hit.EntityHitResult;
 
-@ModuleRegister(name = "Click Action", description = "Выполняет действие, привязанное к выбранной клавише", category = Category.Player)
+@ModuleRegister(name = "Click Action", description = "Performs the action bound to the selected key", category = Category.Player)
 public class ClickAction extends Module {
-    private final BindSetting b = new BindSetting("Эндер-жемчуг", -1).a(() -> {
+    private final BindSetting b = new BindSetting("Ender pearl", -1).a(() -> {
         Reaxc.getInstance().getModuleProcessor().v().getUseableHandler().a(Items.ENDER_PEARL.getDefaultStack());
     });
-    private final BindSetting c = new BindSetting("Добавление друга", -1).a(() -> {
+    private final BindSetting c = new BindSetting("Add friend", -1).a(() -> {
         EntityHitResult hit = mc.crosshairTarget instanceof EntityHitResult ehr ? ehr : null;
         if (hit != null) {
             if (hit.getEntity() instanceof AbstractClientPlayerEntity targetPlayer) {
@@ -24,11 +24,11 @@ public class ClickAction extends Module {
                     if (Reaxc.getInstance().getModuleProcessor().e().d(name)) {
                         Reaxc.getInstance().getModuleProcessor().e().c(name);
                         Reaxc.getInstance().getModuleProcessor().e().unSetup();
-                        ChatUtil.sendMessage("Товарищ " + name + " был успешно удален из списка друзей.");
+                        ChatUtil.sendMessage("Friend " + name + " was successfully removed from the friends list.");
                     } else {
                         Reaxc.getInstance().getModuleProcessor().e().b(name);
                         Reaxc.getInstance().getModuleProcessor().e().unSetup();
-                        ChatUtil.sendMessage("Товарищ " + name + " был успешно добавлен в список друзей.");
+                        ChatUtil.sendMessage("Friend " + name + " was successfully added to the friends list.");
                     }
                 }
             }

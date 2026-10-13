@@ -22,12 +22,12 @@ import net.minecraft.util.math.Vec3d;
 import java.util.Comparator;
 import java.util.stream.StreamSupport;
 
-@ModuleRegister(name = "Aim Assistant", description = "Доводит прицел до цели", category = Category.Combat)
+@ModuleRegister(name = "Aim Assistant", description = "Moves the crosshair onto the target", category = Category.Combat)
 public class AimAssistant extends Module {
-    private final MultiModeSetting b = new MultiModeSetting("Цели для наведения", new BooleanSetting("Игроки", true), new BooleanSetting("Животные", false), new BooleanSetting("Мобы", false), new BooleanSetting("Друзья", true));
-    private final BooleanSetting c = new BooleanSetting("Наводить за стеной", false);
-    private final SliderSetting d = new SliderSetting("Порог", 5.0f, 1.0f, 5.0f, 0.25f);
-    private final BooleanSetting e = new BooleanSetting("Только с оружием", true);
+    private final MultiModeSetting b = new MultiModeSetting("Aim targets", new BooleanSetting("Players", true), new BooleanSetting("Animals", false), new BooleanSetting("Mobs", false), new BooleanSetting("Friends", true));
+    private final BooleanSetting c = new BooleanSetting("Aim through walls", false);
+    private final SliderSetting d = new SliderSetting("Threshold", 5.0f, 1.0f, 5.0f, 0.25f);
+    private final BooleanSetting e = new BooleanSetting("Only with a weapon", true);
     private LivingEntity target;
     private Vec3d targetPos;
 
@@ -110,11 +110,11 @@ public class AimAssistant extends Module {
 
     private boolean isTargetAllowed(LivingEntity entity) {
         if (entity instanceof PlayerEntity player) {
-            return this.b.a("Игроки").c().booleanValue() && (this.b.a("Друзья").c().booleanValue() || !Reaxc.getInstance().getModuleProcessor().e().d(player.getName().getString()));
+            return this.b.a("Players").c().booleanValue() && (this.b.a("Friends").c().booleanValue() || !Reaxc.getInstance().getModuleProcessor().e().d(player.getName().getString()));
         }
         if (entity instanceof MobEntity) {
-            return this.b.a("Мобы").c().booleanValue();
+            return this.b.a("Mobs").c().booleanValue();
         }
-        return (entity instanceof AnimalEntity) && this.b.a("Животные").c().booleanValue();
+        return (entity instanceof AnimalEntity) && this.b.a("Animals").c().booleanValue();
     }
 }

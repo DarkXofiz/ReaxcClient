@@ -10,10 +10,10 @@ import aethereal.setting.StringSetting;
 import aethereal.util.ServerUtil;
 import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
 
-@ModuleRegister(name = "Auto Auth", description = "Автоматически вводит пароль при авторизации и регистрации", category = Category.Player)
+@ModuleRegister(name = "Auto Auth", description = "Automatically enters your password on login and registration", category = Category.Player)
 public class AutoAuth extends Module {
-    private final StringSetting b = new StringSetting("Пароль авторизации", "").a();
-    private final StringSetting c = new StringSetting("Пароль регистрации", "").a();
+    private final StringSetting b = new StringSetting("Login password", "").a();
+    private final StringSetting c = new StringSetting("Registration password", "").a();
     private String password;
 
     public AutoAuth() {

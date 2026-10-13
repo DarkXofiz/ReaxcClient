@@ -20,9 +20,9 @@ import org.joml.Vector2f;
 import java.util.ArrayList;
 import java.util.List;
 
-@ModuleRegister(name = "Sound ESP", description = "Отображает место, где был воспроизведён выбранный звук", category = Category.Render)
+@ModuleRegister(name = "Sound ESP", description = "Shows where the selected sound was played", category = Category.Render)
 public class SoundESP extends Module {
-    private final MultiModeSetting b = new MultiModeSetting("Отслеживать звуки", new BooleanSetting("Трезубец", true), new BooleanSetting("Фейерверк", true), new BooleanSetting("Взрывы", true));
+    private final MultiModeSetting b = new MultiModeSetting("Track sounds", new BooleanSetting("Trident", true), new BooleanSetting("Firework", true), new BooleanSetting("Explosions", true));
     private final List<a> c = new ArrayList<>();
 
     public SoundESP() {
@@ -32,7 +32,7 @@ public class SoundESP extends Module {
     @EventTarget
     public void a(SoundEvent e) {
         String path = e.getSound().getId().getPath();
-        if ((path.contains("entity.firework_rocket.launch") && this.b.a("Фейерверк").c().booleanValue()) || ((path.contains("entity.generic.explode") && this.b.a("Взрывы").c().booleanValue()) || (path.contains("item.trident.return") && this.b.a("Трезубец").c().booleanValue()))) {
+        if ((path.contains("entity.firework_rocket.launch") && this.b.a("Firework").c().booleanValue()) || ((path.contains("entity.generic.explode") && this.b.a("Explosions").c().booleanValue()) || (path.contains("item.trident.return") && this.b.a("Trident").c().booleanValue()))) {
             boolean exists = false;
             for (a info : this.c) {
                 if (Math.abs(info.b().getX() - e.getSound().getX()) <= 0.5d && Math.abs(info.b().getY() - e.getSound().getY()) <= 0.5d && Math.abs(info.b().getZ() - e.getSound().getZ()) <= 0.5d) {
@@ -59,16 +59,16 @@ public class SoundESP extends Module {
                     if (ProjectUtil.isOnScreen(screenPos)) {
                         String path = soundInfo.b().getId().getPath();
                         if (path.contains("firework_rocket")) {
-                            str = "Фейерверк";
+                            str = "Firework";
                         } else if (path.contains("explode")) {
-                            str = "Взрывы";
+                            str = "Explosions";
                         } else {
-                            str = path.contains("trident") ? "Трезубец" : "Звук";
+                            str = path.contains("trident") ? "Trident" : "Sound";
                         }
                         String soundName = str;
                         int distance = (int) mc.player.getPos().distanceTo(new Vec3d(soundInfo.b().getX(), soundInfo.b().getY(), soundInfo.b().getZ()));
                         int timeAlive = (int) (soundInfo.getCounter().c() / 1000);
-                        Text text = Text.literal(soundName + " [" + distance + "м/" + timeAlive + " сек]");
+                        Text text = Text.literal(soundName + " [" + distance + "m/" + timeAlive + " sec]");
                         float textWidth = Fonts.e.a(text, 7.5f);
                         float textHeight = Fonts.e.d().lineHeight() * 7.5f;
                         float textX = screenPos.x() - (textWidth / 2.0f);

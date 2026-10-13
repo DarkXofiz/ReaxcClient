@@ -43,7 +43,7 @@ public class DistributionHandler extends BaseHandler implements Interface {
                     this.b = MathUtil.a(event.f(), event.g(), x, y, 10.0f, 10.0f);
                     Reaxc.getInstance().getModuleProcessor().i().a(event.getContext().getMatrices(), Identifier.of("reaxc", this.b ? "pictures/minecraft/distribution_button_hovered.png" : "pictures/minecraft/distribution_button.png"), x, y, 10.0f, 10.0f, 0.0f, -1);
                     if (this.b) {
-                        event.getContext().drawTooltip(event.getScreen().getTextRenderer(), List.of(Text.of("Отсортировать предметы")), event.f(), event.g());
+                        event.getContext().drawTooltip(event.getScreen().getTextRenderer(), List.of(Text.of("Sort items")), event.f(), event.g());
                     }
                 }
             }

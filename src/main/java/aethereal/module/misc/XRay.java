@@ -16,7 +16,7 @@ import net.minecraft.util.math.Box;
 import java.util.ArrayList;
 import java.util.List;
 
-@ModuleRegister(name = "X Ray", description = "Подсвечивает найденные древние обломки при взрыве динамита", category = Category.Misc)
+@ModuleRegister(name = "X Ray", description = "Highlights found ancient debris when TNT explodes", category = Category.Misc)
 public class XRay extends Module {
     private final List<BlockPos> b = new ArrayList<>();
     private final CounterUtil c = new CounterUtil();
@@ -83,7 +83,7 @@ public class XRay extends Module {
     public void onTick(TickEvent e) {
         this.c.a();
         if (this.showOverlay && this.c.b(5L)) {
-            ChatUtil.sendMessage("Обнаружено &c" + this.b.size() + "&7 древних обломков ");
+            ChatUtil.sendMessage("Detected &c" + this.b.size() + "&7 ancient debris ");
             this.showOverlay = false;
         }
     }

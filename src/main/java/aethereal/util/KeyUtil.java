@@ -160,15 +160,15 @@ public enum KeyUtil {
         }
         String n = name.toUpperCase(Locale.ROOT);
         switch (n) {
-            case "ЛКМ":
+            case "LMB":
             case "LEFT":
             case "LEFT_BUTTON":
                 return LMB;
-            case "ПКМ":
+            case "RMB":
             case "RIGHT":
             case "RIGHT_BUTTON":
                 return RMB;
-            case "СКМ":
+            case "MMB":
             case "MIDDLE":
             case "WHEEL":
             case "MIDDLE_BUTTON":

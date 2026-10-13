@@ -37,33 +37,33 @@ import java.util.Optional;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-@ModuleRegister(name = "Aura", description = "Автоматически атакует цели рядом с вами", category = Category.Combat)
+@ModuleRegister(name = "Aura", description = "Automatically attacks targets near you", category = Category.Combat)
 public class Aura extends Module {
 
     final float[] timers = { -1.0f, -1.0f, -1.0f, -1.0f, 0.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f };
     final int[] savedSlots = { -1, -1 };
-    private final ModeSetting rotationType = new ModeSetting("Выберите тип наведения", "ФанТайм", "ФанТайм",
-            "ФанТайм ФОВ",
-            "Легит");
-    private final MultiModeSetting targetSettings = new MultiModeSetting("Цели для атаки",
-            new BooleanSetting("Без брони", true),
-            new BooleanSetting("Враждебные мобы", false), new BooleanSetting("Животные", false),
-            new BooleanSetting("Друзья", false), new BooleanSetting("Игроки", true));
-    private final SliderSetting attackDistance = new SliderSetting("Дистанция атаки", 3.0f, 0.1f, 6.0f, 0.1f);
-    private final SliderSetting extraReach = new SliderSetting("Дополнительная дистанция", 0.5f, 0.1f, 3.0f, 0.1f);
-    private final BooleanSetting onlyCrits = new BooleanSetting("Только критические удары", true);
-    private final BooleanSetting adaptiveHits = new BooleanSetting("Адаптивные удары", true).a(() -> {
+    private final ModeSetting rotationType = new ModeSetting("Select aim type", "FunTime", "FunTime",
+            "FunTime FOV",
+            "Legit");
+    private final MultiModeSetting targetSettings = new MultiModeSetting("Attack targets",
+            new BooleanSetting("Without armor", true),
+            new BooleanSetting("Hostile mobs", false), new BooleanSetting("Animals", false),
+            new BooleanSetting("Friends", false), new BooleanSetting("Players", true));
+    private final SliderSetting attackDistance = new SliderSetting("Attack distance", 3.0f, 0.1f, 6.0f, 0.1f);
+    private final SliderSetting extraReach = new SliderSetting("Extra distance", 0.5f, 0.1f, 3.0f, 0.1f);
+    private final BooleanSetting onlyCrits = new BooleanSetting("Critical hits only", true);
+    private final BooleanSetting adaptiveHits = new BooleanSetting("Adaptive hits", true).a(() -> {
         return this.onlyCrits.c();
     });
-    private final MultiModeSetting dontHitWhen = new MultiModeSetting("Не бить когда",
-            new BooleanSetting("Используется предмет", true), new BooleanSetting("Открыт контейнер", true),
-            new BooleanSetting("Враг за стеной", true));
-    private final BooleanSetting shieldBreaking = new BooleanSetting("Пробитие щита", true);
-    private final BooleanSetting smartSprint = new BooleanSetting("Умный спринт", false);
-    private final ModeSetting targetPriority = new ModeSetting("Приоритет цели", "Прицел", "Прицел", "Дистанция", "ХП");
-    private final ModeSetting movementCorrection = new ModeSetting("Коррекция движения", "Фокус", "Фокус", "Свободно");
-    private final ModeSetting targetVisualization = new ModeSetting("Визуализация цели", "Сферы", "Сферы", "Круг",
-            "Тест");
+    private final MultiModeSetting dontHitWhen = new MultiModeSetting("Don't hit when",
+            new BooleanSetting("Using an item", true), new BooleanSetting("Container open", true),
+            new BooleanSetting("Enemy behind a wall", true));
+    private final BooleanSetting shieldBreaking = new BooleanSetting("Shield break", true);
+    private final BooleanSetting smartSprint = new BooleanSetting("Smart sprint", false);
+    private final ModeSetting targetPriority = new ModeSetting("Target priority", "Crosshair", "Crosshair", "Distance", "HP");
+    private final ModeSetting movementCorrection = new ModeSetting("Movement correction", "Focus", "Focus", "Free");
+    private final ModeSetting targetVisualization = new ModeSetting("Target visualization", "Spheres", "Spheres", "Circle",
+            "Test");
     private final float[] pitchHistory = new float[30];
     public int attackCooldown = 0;
     boolean willLand;
@@ -117,7 +117,7 @@ public class Aura extends Module {
     @EventTarget
     public void onInput(InputEvent e) {
         if (this.target != null) {
-            MoveUtil.a(e, !this.movementCorrection.l("Фокус") ? Look.b() : this.timers[1], 2);
+            MoveUtil.a(e, !this.movementCorrection.l("Focus") ? Look.b() : this.timers[1], 2);
         }
         if (this.timers[0] > 0.0f && this.target != null
                 && AuraUtil.a(this.target, this.attackDistance.c().floatValue())) {
@@ -134,7 +134,7 @@ public class Aura extends Module {
                 && !mc.player.getItemCooldownManager().isCoolingDown(Items.MACE.getDefaultStack()))) {
             LivingEntity prev = this.target;
             boolean fresh = !isValidTarget(prev);
-            this.target = (fresh && this.dontHitWhen.a("Враг за стеной").c().booleanValue())
+            this.target = (fresh && this.dontHitWhen.a("Enemy behind a wall").c().booleanValue())
                     ? findTargetWithParam(false).or(() -> {
                         return findTargetWithParam(true);
                     }).orElse(null)
@@ -187,7 +187,7 @@ public class Aura extends Module {
 
     private void performAttack() {
         if (!AuraUtil.a(mc.player.getYaw(), mc.player.getPitch(), this.attackDistance.c().floatValue(), this.target,
-                !this.dontHitWhen.a("Враг за стеной").c().booleanValue())) {
+                !this.dontHitWhen.a("Enemy behind a wall").c().booleanValue())) {
             return;
         }
         if (this.shieldBreaking.c().booleanValue() && this.target.isBlocking()) {
@@ -267,13 +267,13 @@ public class Aura extends Module {
     }
 
     public boolean canAttack() {
-        if (this.dontHitWhen.a("Используется предмет") != null
-                && this.dontHitWhen.a("Используется предмет").c().booleanValue()
+        if (this.dontHitWhen.a("Using an item") != null
+                && this.dontHitWhen.a("Using an item").c().booleanValue()
                 && mc.player.isUsingItem() && mc.player.getItemUseTimeLeft() > 0 && this.attackCooldown >= 8) {
             this.attackCooldown = 8;
             return false;
         }
-        if ((this.dontHitWhen.a("Открыт контейнер") != null && this.dontHitWhen.a("Открыт контейнер").c().booleanValue()
+        if ((this.dontHitWhen.a("Container open") != null && this.dontHitWhen.a("Container open").c().booleanValue()
                 && mc.currentScreen != null && !(mc.currentScreen instanceof GUIScreen)
                 && !(mc.currentScreen instanceof AssistantScreen))
                 || !AuraUtil.a(this.target, this.attackDistance.c().floatValue())) {
@@ -339,12 +339,12 @@ public class Aura extends Module {
                     .thenComparingDouble((LivingEntity v0) -> AuraUtil.a(v0));
         } else {
             switch (this.targetPriority.c()) {
-                case "Дистанция":
+                case "Distance":
                     comparatorComparingDouble = Comparator.comparingDouble((v0) -> {
                         return AuraUtil.a(v0);
                     });
                     break;
-                case "ХП":
+                case "HP":
                     comparatorComparingDouble = Comparator.comparingDouble((v0) -> {
                         return v0.getHealth();
                     });
@@ -382,21 +382,21 @@ public class Aura extends Module {
                     .noneMatch(slot -> {
                         return entity.getEquippedStack(slot).getItem() instanceof ArmorItem;
                     });
-            if (!isSettingEnabled("Игроки")) {
+            if (!isSettingEnabled("Players")) {
                 return false;
             }
             if (isFriend) {
-                return isSettingEnabled("Друзья");
+                return isSettingEnabled("Friends");
             }
-            return !naked || isSettingEnabled("Без брони");
+            return !naked || isSettingEnabled("Without armor");
         }
         if ((entity instanceof HostileEntity) || (entity instanceof SlimeEntity) || (entity instanceof FlyingEntity)
                 || (entity instanceof EnderDragonEntity)) {
-            return isSettingEnabled("Враждебные мобы");
+            return isSettingEnabled("Hostile mobs");
         }
         if ((entity instanceof PassiveEntity) || (entity instanceof GolemEntity) || (entity instanceof AllayEntity)
                 || (entity instanceof AmbientEntity)) {
-            return isSettingEnabled("Животные");
+            return isSettingEnabled("Animals");
         }
         return false;
     }
@@ -417,8 +417,8 @@ public class Aura extends Module {
         Vec3d eye = mc.player.getEyePos();
         LivingEntity target = this.target;
         double reach = this.attackDistance.c().floatValue();
-        boolean throughWalls = this.rotationType.c().contains("ФанТайм")
-                || !this.dontHitWhen.a("Враг за стеной").c().booleanValue();
+        boolean throughWalls = this.rotationType.c().contains("FunTime")
+                || !this.dontHitWhen.a("Enemy behind a wall").c().booleanValue();
         Vec3d targetPosition = AuraUtil.a(eye, target, reach, throughWalls);
         float yawToTarget = targetPosition == Vec3d.ZERO ? Look.b()
                 : (float) MathHelper
@@ -439,10 +439,10 @@ public class Aura extends Module {
             }
             this.timers[2] = (int) MathUtil.a(-10.0f, 10.0f);
         }
-        boolean skip = (this.dontHitWhen.a("Используется предмет").c().booleanValue() && mc.player.isUsingItem()
+        boolean skip = (this.dontHitWhen.a("Using an item").c().booleanValue() && mc.player.isUsingItem()
                 && mc.player.getItemUseTimeLeft() > 0 && this.attackCooldown >= 8)
-                || !(this.dontHitWhen.a("Открыт контейнер") == null
-                        || !this.dontHitWhen.a("Открыт контейнер").c().booleanValue()
+                || !(this.dontHitWhen.a("Container open") == null
+                        || !this.dontHitWhen.a("Container open").c().booleanValue()
                         || mc.currentScreen == null || (mc.currentScreen instanceof GUIScreen)
                         || (mc.currentScreen instanceof AssistantScreen));
         if ((this.timers[3] <= 0.0f && canAttack()) || AuraUtil.a(this.attackCooldown, this.target, skip)) {
@@ -456,7 +456,7 @@ public class Aura extends Module {
             Reaxc.getInstance().getModuleProcessor().k().startAiming(new Rotation(yawToTarget, pitchToTarget), 180.0f,
                     0, 3);
         }
-        if (!this.rotationType.c().contains("ФанТайм")
+        if (!this.rotationType.c().contains("FunTime")
                 && (InventoryUtil.b(Items.MACE) != -1 || (Reaxc.getInstance().getModuleProcessor().t().H().e
                         && mc.player.fallDistance > 3.0f && MaceUtil.a(mc.player, mc.world).map(pos -> {
                             return Double.valueOf(pos.distanceTo(mc.player.getPos()));
@@ -473,11 +473,11 @@ public class Aura extends Module {
                     180.0f, 1, 2);
         }
         switch (this.rotationType.c()) {
-            case "ФанТайм":
-            case "ФанТайм ФОВ":
+            case "FunTime":
+            case "FunTime FOV":
                 applyFantimeSmoothing(yawToTarget, pitchToTarget, targetPosition);
                 break;
-            case "Легит":
+            case "Legit":
                 applyLegitSmoothing(yawToTarget, pitchToTarget, targetPosition);
                 break;
         }
@@ -526,7 +526,7 @@ public class Aura extends Module {
         }
         Reaxc.getInstance().getModuleProcessor().k().startAiming(
                 new Rotation(finalYaw + smoothW,
-                        (this.rotationType.c().equals("ФанТайм") ? finalPitch : Look.c()) + smoothH),
+                        (this.rotationType.c().equals("FunTime") ? finalPitch : Look.c()) + smoothH),
                 220.0f, 1, 1);
     }
 

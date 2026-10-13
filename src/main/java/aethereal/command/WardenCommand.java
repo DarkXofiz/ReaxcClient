@@ -13,49 +13,49 @@ public class WardenCommand extends BaseCommand {
     public void a(LiteralArgumentBuilder<CommandSource> builder) {
         List<Integer> anarchies = Reaxc.getInstance().getModuleProcessor().t().aU().getAnarchyList();
         builder.then(a("add").executes(context -> {
-            ChatUtil.sendMessage("Использование: .warden add <анархия>");
+            ChatUtil.sendMessage("Usage: .warden add <anarchy>");
             return 1;
-        }).then(e("анархия").executes(context2 -> {
-            int anarchy = b(context2, "анархия");
+        }).then(e("anarchy").executes(context2 -> {
+            int anarchy = b(context2, "anarchy");
             if (anarchy >= 1 && anarchy <= 999) {
                 if (!anarchies.contains(Integer.valueOf(anarchy))) {
                     if (anarchies.size() < 10) {
                         anarchies.add(Integer.valueOf(anarchy));
-                        ChatUtil.sendMessage("Анархия " + anarchy + " добавлена.");
+                        ChatUtil.sendMessage("Anarchy " + anarchy + " added.");
                         return 1;
                     }
-                    ChatUtil.sendMessage("Можно добавить максимум 10 анархий.");
+                    ChatUtil.sendMessage("You can add a maximum of 10 anarchies.");
                     return 1;
                 }
-                ChatUtil.sendMessage("Анархия " + anarchy + " уже в списке.");
+                ChatUtil.sendMessage("Anarchy " + anarchy + " is already in the list.");
                 return 1;
             }
-            ChatUtil.sendMessage("Анархия должна быть от 1 до 999.");
+            ChatUtil.sendMessage("Anarchy must be between 1 and 999.");
             return 1;
         }))).then(a("remove").executes(context3 -> {
-            ChatUtil.sendMessage("Использование: .warden remove <анархия>");
+            ChatUtil.sendMessage("Usage: .warden remove <anarchy>");
             return 1;
-        }).then(e("анархия").executes(context4 -> {
-            int anarchy = b(context4, "анархия");
+        }).then(e("anarchy").executes(context4 -> {
+            int anarchy = b(context4, "anarchy");
             if (!anarchies.remove(Integer.valueOf(anarchy))) {
-                ChatUtil.sendMessage("Анархия " + anarchy + " не найдена.");
+                ChatUtil.sendMessage("Anarchy " + anarchy + " not found.");
                 return 1;
             }
-            ChatUtil.sendMessage("Анархия " + anarchy + " удалена.");
+            ChatUtil.sendMessage("Anarchy " + anarchy + " removed.");
             return 1;
         }))).then(a("list").executes(context5 -> {
             if (!anarchies.isEmpty()) {
-                ChatUtil.sendMessage("Анархии (" + anarchies.size() + "): " + anarchies);
+                ChatUtil.sendMessage("Anarchies (" + anarchies.size() + "): " + anarchies);
                 return 1;
             }
-            ChatUtil.sendMessage("Список анархий пуст.");
+            ChatUtil.sendMessage("The anarchy list is empty.");
             return 1;
         })).then(a("clear").executes(context6 -> {
             anarchies.clear();
-            ChatUtil.sendMessage("Список анархий очищен.");
+            ChatUtil.sendMessage("The anarchy list has been cleared.");
             return 1;
         })).executes(context7 -> {
-            ChatUtil.sendMessage("Использование: .warden <add|remove|list|clear>");
+            ChatUtil.sendMessage("Usage: .warden <add|remove|list|clear>");
             return 1;
         });
     }

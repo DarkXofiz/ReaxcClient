@@ -32,13 +32,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-@ModuleRegister(name = "Communication", description = "Связывает вас с другими игроками через групповые и глобальные сообщения (party, IRC и др.)", category = Category.Misc)
+@ModuleRegister(name = "Communication", description = "Connects you with other players through group and global messages (party, IRC, etc.)", category = Category.Misc)
 public class Communication extends Module {
-    private final BooleanSetting c = new BooleanSetting("Клиентский чат", false);
+    private final BooleanSetting c = new BooleanSetting("Client chat", false);
     private final List<a> d = new ArrayList<>();
 
     public Communication() {
-        BindSetting b = new BindSetting("Отправление метки друзьям", -1).a(() -> {
+        BindSetting b = new BindSetting("Send marker to friends", -1).a(() -> {
             JsonObject posObject = new JsonObject();
             posObject.addProperty("x", Double.valueOf(mc.player.getPos().x));
             posObject.addProperty("y", Double.valueOf(mc.player.getPos().y));
@@ -89,7 +89,7 @@ public class Communication extends Module {
             ThemeProcessor theme = Reaxc.getInstance().getModuleProcessor().o();
             int primary = theme.a(ThemeInfo.PRIMARY).toIntColor();
             int background = ColorUtil.applyAlphaToColor(theme.a(ThemeInfo.BACKGROUND_HUD).toIntColor(), theme.a(ThemeInfo.BACKGROUND_HUD).getAlphaFloat());
-            Text text = Text.literal(mark.b().toUpperCase(Locale.ROOT)).append(Text.literal(" /  ").setStyle(Style.EMPTY.withColor(primary))).append(Text.literal(String.format(Locale.US, "%.1fм", Double.valueOf(eyes.distanceTo(position)))));
+            Text text = Text.literal(mark.b().toUpperCase(Locale.ROOT)).append(Text.literal(" /  ").setStyle(Style.EMPTY.withColor(primary))).append(Text.literal(String.format(Locale.US, "%.1fm", Double.valueOf(eyes.distanceTo(position)))));
             float width = (3.0f * 2.0f) + 8.0f + 2.5f + Fonts.e.a(text, 6.25f);
             float height = (8.0f + (3.0f * 2.0f)) - 2.0f;
             float x = screen.x() - (width / 2.0f);

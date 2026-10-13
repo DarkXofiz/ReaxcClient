@@ -54,16 +54,16 @@ public class MainScreen extends Screen {
             this.b.d(1.0f);
             this.b.e(1.0f);
         }
-        this.c = new Button(88.0f, 38.0f, "Одиночный Режим", () -> {
+        this.c = new Button(88.0f, 38.0f, "Singleplayer", () -> {
             Interface.mc.setScreen(new SelectWorldScreen(null));
         });
-        this.d = new Button(88.0f, 38.0f, "Сетевая Игра", () -> {
+        this.d = new Button(88.0f, 38.0f, "Multiplayer", () -> {
             Interface.mc.setScreen(new MultiplayerScreen(null));
         });
-        this.e = new Button(181.0f, 30.0f, "Выбор аккаунта", () -> {
+        this.e = new Button(181.0f, 30.0f, "Select account", () -> {
             Interface.mc.setScreen(new AltScreen());
         });
-        this.f = new Button(79.0f, 19.5f, "Настройки", () -> {
+        this.f = new Button(79.0f, 19.5f, "Settings", () -> {
             Interface.mc.setScreen(new OptionsScreen(null, Interface.mc.options));
         });
         this.g = List.of(this.c, this.d, this.e, this.f);
@@ -186,7 +186,7 @@ public class MainScreen extends Screen {
         float centerY = knobY + 8.0f;
         draw.b(matrices, this.k, this.l, 79.0f, 19.5f, 8.0f, ColorUtil.convertToARGB(11, 11, 13, InterfaceC0020Opcode.bN), open);
         draw.a(matrices, this.k, this.l, 79.0f, 19.5f, 8.0f, 0.5f, ColorUtil.convertToARGB(255, 255, 255, (int) (15.0f * open)));
-        Fonts.e.c(matrices, "Выйти из игры", this.k + 9.0f, this.l + 5.75f, 7.0f, ColorUtil.applyAlphaToColor(ColorUtil.convertToARGB(220, 80, 80, 255), this.i * open), ((knobX - 3.0f) - this.k) - 9.0f);
+        Fonts.e.c(matrices, "Quit game", this.k + 9.0f, this.l + 5.75f, 7.0f, ColorUtil.applyAlphaToColor(ColorUtil.convertToARGB(220, 80, 80, 255), this.i * open), ((knobX - 3.0f) - this.k) - 9.0f);
         int knob = ColorUtil.lerpColor(ColorUtil.convertToARGB(255, 255, 255, 13), ColorUtil.convertToARGB(220, 80, 80, 40), this.i);
         draw.a(matrices, knobX, knobY, 16.0f, 16.0f, 7.0f, ColorUtil.applyAlphaToColor(knob, (ColorUtil.b(knob)[3] / 255.0f) * open));
         matrices.push();

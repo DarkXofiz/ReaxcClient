@@ -23,8 +23,8 @@ public class RCTCommand extends BaseCommand {
         builder.executes(context -> {
             c();
             return 1;
-        }).then(e("номер").executes(context2 -> {
-            a(b(context2, "номер"));
+        }).then(e("number").executes(context2 -> {
+            a(b(context2, "number"));
             return 1;
         }));
     }

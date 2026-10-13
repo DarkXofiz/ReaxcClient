@@ -91,7 +91,7 @@ public class MultiModeElement extends Element<MultiModeSetting> {
             return v0.c();
         }).count();
         this.b.c().size();
-        String counter = selectedCount + " из " + selectedCount;
+        String counter = selectedCount + " of " + selectedCount;
         float counterWidth = Fonts.c.a(counter, 6.5f);
         boolean hovered = MathUtil.a(mouseX, mouseY, this.a.x, this.a.y, this.a.z, this.a.w) && extend >= 1.0f;
         drawLabel(matrices, Fonts.c, this.b.i(), this.a.x, this.a.y, Fonts.c.a(6.5f) + 1.0f, 6.5f, theme.a(ThemeInfo.TEXT).toIntColor(), (this.a.z - counterWidth) - 4.0f, hovered, extend, delta);

@@ -31,16 +31,16 @@ public class WatermarkWidget extends Widget implements Interface {
     private float f;
 
     public WatermarkWidget() {
-        super(new DragInfo("Инфо-панель", 0.0f, 0.0f, 0.0f, 0.0f));
-        this.g = new BooleanSetting("Боковое отображение", false);
-        this.h = new BooleanSetting("Разделять элементы", false);
-        this.i = new BooleanSetting("Частота кадров", true);
-        this.j = new BooleanSetting("Задержка игрока", true);
-        this.k = new BooleanSetting("Текущее время", true);
-        this.l = new BooleanSetting("Логин в клиенте", true);
-        this.m = new BooleanSetting("Координаты", true);
-        this.n = new BooleanSetting("Задержка сервера", true);
-        this.o = new BooleanSetting("Скорость игрока", true);
+        super(new DragInfo("Info panel", 0.0f, 0.0f, 0.0f, 0.0f));
+        this.g = new BooleanSetting("Side display", false);
+        this.h = new BooleanSetting("Separate elements", false);
+        this.i = new BooleanSetting("Frame rate", true);
+        this.j = new BooleanSetting("Player ping", true);
+        this.k = new BooleanSetting("Current time", true);
+        this.l = new BooleanSetting("Client login", true);
+        this.m = new BooleanSetting("Coordinates", true);
+        this.n = new BooleanSetting("Server latency", true);
+        this.o = new BooleanSetting("Player speed", true);
         j().setWidget(this);
         j().setDragStatus(2);
         a(this.g, this.h, this.i, this.j, this.k, this.l, this.m, this.n, this.o);

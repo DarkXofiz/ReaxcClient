@@ -14,7 +14,7 @@ import net.minecraft.util.Identifier;
 
 public class ArmorWidget extends Widget implements Interface {
     public ArmorWidget() {
-        super(new DragInfo("Броня", 0.0f, 0.0f, 0.0f, 0.0f));
+        super(new DragInfo("Armor", 0.0f, 0.0f, 0.0f, 0.0f));
         j().setWidget(this);
     }
 

@@ -30,7 +30,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-@ModuleRegister(name = "Auto Dodge", description = "Автоматически уклоняется от выбранных целей", category = Category.Movement)
+@ModuleRegister(name = "Auto Dodge", description = "Automatically dodges selected targets", category = Category.Movement)
 public class AutoDodge extends Module {
     private final Map<Integer, b> c = new HashMap<>();
     int b = 0;

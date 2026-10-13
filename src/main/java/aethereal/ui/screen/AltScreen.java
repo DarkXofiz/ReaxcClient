@@ -47,7 +47,7 @@ public class AltScreen extends Screen {
         this.b = new AnimationUtil();
         this.c = new TextField(TextField.type.ALT_MANAGER);
         this.d = new ArrayList<>();
-        this.c.setPlaceholder("Никнейм");
+        this.c.setPlaceholder("Nickname");
         a().forEach(account -> {
             this.d.add(new a(account));
         });
@@ -262,8 +262,8 @@ public class AltScreen extends Screen {
     private void a(MatrixStack matrices, int w, float px, float py, float open) {
         Draw2DProcessor draw = Reaxc.getInstance().getModuleProcessor().i();
         AccountConstructor selected = Reaxc.getInstance().getModuleProcessor().h().a();
-        Fonts.e.a(matrices, GradientUtil.a("Менеджер Аккаунтов", a(open), 5.0f, 0.5f), (w - Fonts.e.a("Менеджер Аккаунтов", 11.0f)) / 2.0f, py - 28.0f, 11.0f, 0.0f, open);
-        String info = (selected != null ? selected.b() : "Не выбран") + "  |  " + a().size() + " аккаунтов";
+        Fonts.e.a(matrices, GradientUtil.a("Account Manager", a(open), 5.0f, 0.5f), (w - Fonts.e.a("Account Manager", 11.0f)) / 2.0f, py - 28.0f, 11.0f, 0.0f, open);
+        String info = (selected != null ? selected.b() : "Not selected") + "  |  " + a().size() + " accounts";
         Fonts.b.a(matrices, info, (w - Fonts.b.a(info, 7.0f)) / 2.0f, py - 13.5f, 7.0f, ColorUtil.convertToARGB(255, 255, 255, (int) (255.0f * open)));
         draw.b(matrices, px, py, 190.0f, 250.0f, 8.0f, ColorUtil.convertToARGB(11, 11, 13, InterfaceC0020Opcode.bN), open);
         draw.a(matrices, px, py, 190.0f, 250.0f, 8.0f, 0.5f, ColorUtil.convertToARGB(255, 255, 255, (int) (15.0f * open)));
@@ -331,15 +331,15 @@ public class AltScreen extends Screen {
         a(open);
         int white = ColorUtil.convertToARGB(222, 222, 222, (int) (222.0f * open));
         float fieldY = py + 224.0f;
-        float randomWidth = Fonts.a.a("H", 8.0f) + 3.0f + Fonts.d.a("Случайный", 7.0f) + 14.0f;
+        float randomWidth = Fonts.a.a("H", 8.0f) + 3.0f + Fonts.d.a("Random", 7.0f) + 14.0f;
         float fieldWidth = 146.0f - randomWidth;
         float right = px + 11.0f + fieldWidth;
         this.c.setPosition(new Vector2f(px + 7.0f, fieldY));
         this.c.setSize(new Vector2f(fieldWidth, 18.0f));
         this.c.render(context, mx, my, delta, open);
         a(matrices, draw, right + 0.5f, fieldY, 18.0f, 18.0f, new Vector4f(1.0f, 5.0f, 1.0f, 5.0f), null, "m", ColorUtil.convertToARGB(255, 255, 255, 10), white, open, mx, my);
-        a(matrices, draw, right + 27.0f, fieldY, randomWidth, 18.0f, new Vector4f(6.0f, 6.0f, 6.0f, 6.0f), "Случайный", "", ColorUtil.convertToARGB(255, 255, 255, 10), white, open, mx, my);
-        a(matrices, draw, px + 15.0f, py + 257.0f, 160.0f, 20.0f, new Vector4f(6.0f, 6.0f, 6.0f, 6.0f), "Удалить все аккаунты", null, ColorUtil.convertToARGB(220, 80, 80, 20), ColorUtil.convertToARGB(220, 80, 80, (int) (255.0f * open)), open, mx, my);
+        a(matrices, draw, right + 27.0f, fieldY, randomWidth, 18.0f, new Vector4f(6.0f, 6.0f, 6.0f, 6.0f), "Random", "", ColorUtil.convertToARGB(255, 255, 255, 10), white, open, mx, my);
+        a(matrices, draw, px + 15.0f, py + 257.0f, 160.0f, 20.0f, new Vector4f(6.0f, 6.0f, 6.0f, 6.0f), "Delete all accounts", null, ColorUtil.convertToARGB(220, 80, 80, 20), ColorUtil.convertToARGB(220, 80, 80, (int) (255.0f * open)), open, mx, my);
     }
 
     private int a(float open) {

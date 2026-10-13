@@ -25,7 +25,7 @@ import java.util.Map;
 
 public class CooldownsWidget extends Widget implements Interface {
     public CooldownsWidget() {
-        super(new DragInfo("Задержки", 0.0f, 0.0f, 0.0f, 0.0f));
+        super(new DragInfo("Cooldowns", 0.0f, 0.0f, 0.0f, 0.0f));
         j().setWidget(this);
     }
 
@@ -45,7 +45,7 @@ public class CooldownsWidget extends Widget implements Interface {
                 Item item = Registries.ITEM.get(entry.getKey());
                 active = true;
                 int remaining = Math.max(end.getEndTick() - accessor.getTick(), 0);
-                targetWidth = Math.max(targetWidth, 19.0f + Fonts.e.a(item.getName().getString(), 6.5f) + 8.0f + Fonts.e.a(String.format("%.1fс", Float.valueOf(remaining / 20.0f)), 6.5f) + 5.0f + 2.0f);
+                targetWidth = Math.max(targetWidth, 19.0f + Fonts.e.a(item.getName().getString(), 6.5f) + 8.0f + Fonts.e.a(String.format("%.1fs", Float.valueOf(remaining / 20.0f)), 6.5f) + 5.0f + 2.0f);
             }
         }
         float width = MathUtil.c(j().getWidth(), targetWidth, 0.5f);
@@ -62,7 +62,7 @@ public class CooldownsWidget extends Widget implements Interface {
             if (animation > 0.0f) {
                 Item item2 = Registries.ITEM.get(entry2.getKey());
                 int remaining2 = Math.max(end2.getEndTick() - accessor.getTick(), 0);
-                String time = String.format(Locale.US, "%.1fс", Float.valueOf(remaining2 / 20.0f));
+                String time = String.format(Locale.US, "%.1fs", Float.valueOf(remaining2 / 20.0f));
                 float offsetX = (-8.0f) * (1.0f - animation);
                 float offsetY = -(1.0f - animation);
                 float drawY = contentY + offsetY;

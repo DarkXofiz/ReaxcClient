@@ -36,9 +36,9 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-@ModuleRegister(name = "Auto Buy", description = "Автоматически скупает выбранные предметы по заданной цене", category = Category.Misc)
+@ModuleRegister(name = "Auto Buy", description = "Automatically buys the selected items at the set price", category = Category.Misc)
 public class AutoBuy extends Module {
-    private final BooleanSetting b = new BooleanSetting("Авто-перевыставление вещей", false);
+    private final BooleanSetting b = new BooleanSetting("Auto relist items", false);
     private final List<ItemStack> d = new ArrayList<>();
     private final CounterUtil e = new CounterUtil();
     private int tickCounter;
@@ -49,7 +49,7 @@ public class AutoBuy extends Module {
     private int h = -1;
 
     public AutoBuy() {
-        ButtonSetting c = new ButtonSetting("Открыть редактор", () -> {
+        ButtonSetting c = new ButtonSetting("Open editor", () -> {
             mc.setScreen(new StationScreen(Text.literal(""), 1));
         });
         a(c, this.b);
@@ -153,7 +153,7 @@ public class AutoBuy extends Module {
                     if (inventoryPacket.getContents().size() == 90 && this.tickCounter >= 7) {
                         int anarchy = (int) (MathUtil.a(0.0f, 100.0f) <= 50.0f ? MathUtil.a(205.0f, 231.0f) : MathUtil.a(305.0f, 325.0f));
                         mc.player.networkHandler.sendChatCommand("an" + anarchy);
-                        ChatUtil.sendMessage("Обнаружили замедление аукциона, переходим на " + anarchy + " анархию");
+                        ChatUtil.sendMessage("Auction slowdown detected, switching to " + anarchy + " anarchy");
                         this.tickCounter = 0;
                         this.ahPending = true;
                     }
@@ -169,9 +169,9 @@ public class AutoBuy extends Module {
                             objArr2[0] = this.pendingItem.getName().getString() + (this.pendingItem.getCount() > 1 ? " ×" + this.pendingItem.getCount() : "");
                             objArr2[1] = String.format(Locale.US, "%,d", Integer.valueOf(ServerUtil.a.a$(this.pendingItem)));
                             objArr2[2] = String.format(Locale.US, "%,d", Long.valueOf(ServerUtil.a.e()));
-                            objArr[1] = "🛒 AutoBuy — Успешная покупка!\n\n📦 Предмет: %s\n💰 Цена: %s $\n💳 Баланс: %s $\n".formatted(objArr2);
+                            objArr[1] = "🛒 AutoBuy — Purchase successful!\n\n📦 Item: %s\n💰 Price: %s $\n💳 Balance: %s $\n".formatted(objArr2);
                             clientF.a(false, "telegram", objArr);
-                            ChatUtil.sendMessage("Успешно куплен предмет &c" + this.pendingItem.getName().getString() + " &7за &c" + ServerUtil.a.a$(this.pendingItem));
+                            ChatUtil.sendMessage("Item purchased successfully &c" + this.pendingItem.getName().getString() + " &7for &c" + ServerUtil.a.a$(this.pendingItem));
                             this.d.addFirst(this.pendingItem);
                         }
                         this.pendingItem = null;

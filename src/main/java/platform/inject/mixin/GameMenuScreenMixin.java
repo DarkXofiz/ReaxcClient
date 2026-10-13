@@ -71,9 +71,9 @@ public abstract class GameMenuScreenMixin extends Screen {
             }).max((v0, v1) -> {
                 return v0.compareTo(v1);
             }).orElse(Integer.valueOf(this.height / 2)).intValue();
-            addDrawableChild(ButtonWidget.builder(Text.literal("Переподключиться"), btn -> {
+            addDrawableChild(ButtonWidget.builder(Text.literal("Reconnect"), btn -> {
                 if (ServerUtil.e() && !this.reconnect) {
-                    btn.setMessage(Text.literal("Переподключиться").setStyle(Style.EMPTY.withColor(Formatting.RED)));
+                    btn.setMessage(Text.literal("Reconnect").setStyle(Style.EMPTY.withColor(Formatting.RED)));
                     this.reconnect = true;
                 } else {
                     try {

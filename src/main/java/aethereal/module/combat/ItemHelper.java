@@ -9,10 +9,10 @@ import net.minecraft.item.Items;
 
 import java.util.List;
 
-@ModuleRegister(name = "Item Helper", description = "Перемещает нужный предмет и возвращает его обратно по нажатию клавиши", category = Category.Combat)
+@ModuleRegister(name = "Item Helper", description = "Swaps the needed item in and back again when a key is pressed", category = Category.Combat)
 public class ItemHelper extends Module {
     public ItemHelper() {
-        List.of(new a(this, "Зачарованное яблоко", Items.ENCHANTED_GOLDEN_APPLE), new a(this, "Золотое яблоко", Items.GOLDEN_APPLE), new a(this, "Плод хоруса", Items.CHORUS_FRUIT), new a(this, "Арбалет", Items.CROSSBOW)).forEach(item -> {
+        List.of(new a(this, "Enchanted apple", Items.ENCHANTED_GOLDEN_APPLE), new a(this, "Golden apple", Items.GOLDEN_APPLE), new a(this, "Chorus fruit", Items.CHORUS_FRUIT), new a(this, "Crossbow", Items.CROSSBOW)).forEach(item -> {
             a(item.b());
         });
     }

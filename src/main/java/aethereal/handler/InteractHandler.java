@@ -58,7 +58,7 @@ public class InteractHandler extends BaseHandler implements Interface {
                 this.b.remove(task);
             }
             if (task.d() >= 60) {
-                ChatUtil.sendMessage("Использование предмета не удалось по неизвестной причине");
+                ChatUtil.sendMessage("Using the item failed for an unknown reason");
                 this.b.remove(task);
             }
         }

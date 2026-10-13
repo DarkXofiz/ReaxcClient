@@ -28,9 +28,9 @@ public class NotificationWidget extends Widget implements Interface {
     private final BooleanSetting g;
 
     public NotificationWidget() {
-        super(new DragInfo("Уведомления", 0.0f, 0.0f, 0.0f, 0.0f));
-        this.f = new BooleanSetting("Оповещать о поднятии донат-предметов", true);
-        this.g = new BooleanSetting("Обновления и уведомления друзей", true);
+        super(new DragInfo("Notifications", 0.0f, 0.0f, 0.0f, 0.0f));
+        this.f = new BooleanSetting("Notify when picking up donor items", true);
+        this.g = new BooleanSetting("Friend updates and notifications", true);
         j().setWidget(this);
         j().setDragStatus(1);
         a(this.g, this.f);
@@ -87,7 +87,7 @@ public class NotificationWidget extends Widget implements Interface {
                     if (class_1542VarMethod_8469 instanceof ItemEntity) {
                         ItemEntity itemEntity = class_1542VarMethod_8469;
                         if (class_746Var != mc.player && !itemEntity.getStack().getName().getString().contains("Упс.") && ((itemEntity.getStack().contains(DataComponentTypes.CUSTOM_NAME) && itemEntity.getStack().contains(DataComponentTypes.LORE)) || itemEntity.getStack().isOf(Items.ENCHANTED_GOLDEN_APPLE))) {
-                            Reaxc.getInstance().getModuleProcessor().m().a(new Notification(itemEntity.getStack().copy(), class_746Var.getName().copy().append(" подобрал ").append(itemEntity.getStack().getName()).append(itemPickupAnimationS2CPacket.getStackAmount() > 1 ? " x" + itemPickupAnimationS2CPacket.getStackAmount() : ""), 1500));
+                            Reaxc.getInstance().getModuleProcessor().m().a(new Notification(itemEntity.getStack().copy(), class_746Var.getName().copy().append(" picked up ").append(itemEntity.getStack().getName()).append(itemPickupAnimationS2CPacket.getStackAmount() > 1 ? " x" + itemPickupAnimationS2CPacket.getStackAmount() : ""), 1500));
                         }
                     }
                 }

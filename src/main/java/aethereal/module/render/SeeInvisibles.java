@@ -7,9 +7,9 @@ import aethereal.core.ModuleRegister;
 import aethereal.event.TickEvent;
 import aethereal.setting.SliderSetting;
 
-@ModuleRegister(name = "See Invisibles", description = "Делает невидимых игроков видимыми", category = Category.Render)
+@ModuleRegister(name = "See Invisibles", description = "Makes invisible players visible", category = Category.Render)
 public class SeeInvisibles extends Module {
-    private final SliderSetting b = new SliderSetting("Прозрачность", 0.5f, 0.1f, 1.0f, 0.1f);
+    private final SliderSetting b = new SliderSetting("Transparency", 0.5f, 0.1f, 1.0f, 0.1f);
 
     public SeeInvisibles() {
         a(this.b);

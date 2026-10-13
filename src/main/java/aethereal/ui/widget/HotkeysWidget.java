@@ -16,7 +16,7 @@ import net.minecraft.client.gui.screen.ChatScreen;
 
 public class HotkeysWidget extends Widget implements Interface {
     public HotkeysWidget() {
-        super(new DragInfo("Клавиши", 0.0f, 0.0f, 0.0f, 0.0f));
+        super(new DragInfo("Keys", 0.0f, 0.0f, 0.0f, 0.0f));
         j().setWidget(this);
     }
 

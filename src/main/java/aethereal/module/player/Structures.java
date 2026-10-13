@@ -27,7 +27,7 @@ import org.joml.Vector2f;
 
 import java.util.*;
 
-@ModuleRegister(name = "Structures", description = "Отображает время до исчезновения структур трапки и пласта", category = Category.Player)
+@ModuleRegister(name = "Structures", description = "Shows the time until trap and layer structures disappear", category = Category.Player)
 public class Structures extends Module {
     private final List<Block> allowedBlocks = java.util.Arrays.asList(Blocks.QUARTZ_BLOCK, Blocks.DEAD_TUBE_CORAL_BLOCK,
             Blocks.INFESTED_MOSSY_STONE_BRICKS, Blocks.PURPUR_PILLAR, Blocks.END_STONE_BRICKS, Blocks.NETHER_BRICKS,
@@ -125,13 +125,13 @@ public class Structures extends Module {
     }
 
     public enum b {
-        DRAGON_TRAPKA("Драконья трапка", new int[][]{new int[]{7, 7, 7}, new int[]{7, 7, 6}}, true, 30000,
+        DRAGON_TRAPKA("Dragon trap", new int[][]{new int[]{7, 7, 7}, new int[]{7, 7, 6}}, true, 30000,
                 Items.NETHERITE_SCRAP),
         TRAPKA("Трапка",
                 new int[][]{new int[]{5, 5, 5}, new int[]{5, 5, 4}, new int[]{5, 6, 5},
                         new int[]{5, 6, 4}},
                 true, 15000, Items.NETHERITE_SCRAP),
-        DRAGON_PLAST("Драконий пласт", new int[][]{new int[]{7, 7, 2}, new int[]{7, 7, 1}}, true, 20000,
+        DRAGON_PLAST("Dragon layer", new int[][]{new int[]{7, 7, 2}, new int[]{7, 7, 1}}, true, 20000,
                 Items.DRIED_KELP),
         PLAST("Пласт", new int[][]{new int[]{5, 5, 2}, new int[]{5, 5, 1}}, true, 20000, Items.DRIED_KELP),
         GARMOSHKA("Пласт", new int[][]{new int[]{5, 5, 5}, new int[]{5, 6, 5}}, false, 20000,
@@ -225,7 +225,7 @@ public class Structures extends Module {
 
         public void a(float progress, float remaining) {
             MutableText barText = Text
-                    .literal(String.format(Locale.US, "%s — %.1f сек", this.d.a(), Float.valueOf(remaining)));
+                    .literal(String.format(Locale.US, "%s — %.1f sec", this.d.a(), Float.valueOf(remaining)));
             if (this.f == null) {
                 this.f = new ClientBossBar(UUID.randomUUID(), barText, progress, BossBar.Color.WHITE,
                         BossBar.Style.PROGRESS, false, false, false);

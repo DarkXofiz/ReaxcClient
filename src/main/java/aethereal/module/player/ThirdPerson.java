@@ -12,21 +12,21 @@ import aethereal.util.MathUtil;
 import aethereal.util.Rotation;
 import net.minecraft.client.option.Perspective;
 
-@ModuleRegister(name = "Third Person", description = "Свободный обзор от третьего лица без изменения направления движения", category = Category.Player)
+@ModuleRegister(name = "Third Person", description = "Free third-person view without changing movement direction", category = Category.Player)
 public class ThirdPerson extends Module {
-    private final ModeSetting b = new ModeSetting("Режим активации осмотра", "По нажатию", "По нажатию", "По зажатию");
+    private final ModeSetting b = new ModeSetting("Look activation mode", "On press", "On press", "On hold");
     private boolean isActive;
     private Rotation rotation;
 
     public ThirdPerson() {
-        BindSetting d = new BindSetting("Кнопка осмотра", Integer.valueOf(TokenId.Q_), 0).a(() -> {
-            if (this.b.l("По зажатию")) {
+        BindSetting d = new BindSetting("Look key", Integer.valueOf(TokenId.Q_), 0).a(() -> {
+            if (this.b.l("On hold")) {
                 d(true);
             } else {
                 d(!this.isActive);
             }
         }).b(() -> {
-            if (this.isActive && this.b.l("По зажатию")) {
+            if (this.isActive && this.b.l("On hold")) {
                 d(false);
             }
         });

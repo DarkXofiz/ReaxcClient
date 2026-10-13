@@ -23,32 +23,32 @@ public class ConfigCommand extends BaseCommand {
     public void a(LiteralArgumentBuilder<CommandSource> builder) {
         ModuleProcessor processor = Reaxc.getInstance().getModuleProcessor().t();
         builder.then(a("save").executes(context -> {
-            ChatUtil.sendMessage("Использование: .cfg save <имя>");
+            ChatUtil.sendMessage("Usage: .cfg save <name>");
             return 1;
-        }).then(b("имя").executes(context -> {
-            String configName = a(context, "имя");
+        }).then(b("name").executes(context -> {
+            String configName = a(context, "name");
             processor.b(configName);
-            ChatUtil.sendMessage("Конфиг " + configName + " был успешно сохранен.");
+            ChatUtil.sendMessage("Config " + configName + " was saved successfully.");
             return 1;
         }))).then(a("load").executes(context -> {
-            ChatUtil.sendMessage("Использование: .cfg load <имя>");
+            ChatUtil.sendMessage("Usage: .cfg load <name>");
             return 1;
-        }).then(b("имя").suggests(c()).executes(context -> {
-            String configName = a(context, "имя");
+        }).then(b("name").suggests(c()).executes(context -> {
+            String configName = a(context, "name");
             if (processor.c(configName)) {
-                ChatUtil.sendMessage("Конфиг " + configName + " был успешно загружен.");
+                ChatUtil.sendMessage("Config " + configName + " was loaded successfully.");
                 return 1;
             }
-            ChatUtil.sendMessage("Конфиг " + configName + " не найден.");
+            ChatUtil.sendMessage("Config " + configName + " not found.");
             return 1;
         }))).then(a("list").executes(context -> {
             File configDir = processor.d();
             File[] configFiles = configDir.listFiles((dir, name) -> name.endsWith(".json"));
             if (configFiles == null || configFiles.length == 0) {
-                ChatUtil.sendMessage("Список конфигов пуст.");
+                ChatUtil.sendMessage("The config list is empty.");
                 return 1;
             }
-            ChatUtil.sendMessage("Список конфигов (" + configFiles.length + "):");
+            ChatUtil.sendMessage("Configs (" + configFiles.length + "):");
             for (File configFile : configFiles) {
                 ChatUtil.sendMessage("  - " + configFile.getName());
             }
@@ -63,29 +63,29 @@ public class ConfigCommand extends BaseCommand {
                     }
                 }
             }
-            ChatUtil.sendMessage("Все модули были сброшены в состояние по умолчанию.");
+            ChatUtil.sendMessage("All modules were reset to their default state.");
             return 1;
         })).then(a("remove").executes(context -> {
-            ChatUtil.sendMessage("Использование: .cfg remove <имя>");
+            ChatUtil.sendMessage("Usage: .cfg remove <name>");
             return 1;
-        }).then(b("имя").suggests(c()).executes(context -> {
-            String configName = a(context, "имя");
+        }).then(b("name").suggests(c()).executes(context -> {
+            String configName = a(context, "name");
             if (processor.d(configName)) {
-                ChatUtil.sendMessage("Конфиг " + configName + " был успешно удален.");
+                ChatUtil.sendMessage("Config " + configName + " was deleted successfully.");
                 return 1;
             }
-            ChatUtil.sendMessage("Конфиг " + configName + " не найден.");
+            ChatUtil.sendMessage("Config " + configName + " not found.");
             return 1;
         }))).then(a("dir").executes(context -> {
             File configDir = processor.d();
             if (!configDir.exists()) {
                 configDir.mkdirs();
             }
-            ChatUtil.sendMessage("Папка конфигов: " + configDir.getAbsolutePath());
+            ChatUtil.sendMessage("Config folder: " + configDir.getAbsolutePath());
             Util.getOperatingSystem().open(configDir);
             return 1;
         })).executes(context -> {
-            ChatUtil.sendMessage("Использование: .cfg <load|save|list|reset|remove|dir>");
+            ChatUtil.sendMessage("Usage: .cfg <load|save|list|reset|remove|dir>");
             return 1;
         });
     }

@@ -8,7 +8,7 @@ import aethereal.event.PacketEvent;
 import net.minecraft.network.packet.c2s.play.UpdateSelectedSlotC2SPacket;
 import net.minecraft.network.packet.s2c.play.UpdateSelectedSlotS2CPacket;
 
-@ModuleRegister(name = "No Slot Change", description = "Не даёт серверу принудительно менять активный слот в хотбаре", category = Category.Combat)
+@ModuleRegister(name = "No Slot Change", description = "Stops the server from forcibly changing your active hotbar slot", category = Category.Combat)
 public class NoSlotChange extends Module {
     @EventTarget
     public void a(PacketEvent event) {

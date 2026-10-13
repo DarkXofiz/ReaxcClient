@@ -16,25 +16,25 @@ import aethereal.ui.widget.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@ModuleRegister(name = "Interface", description = "Отображает выбранные элементы интерфейса на экране", category = Category.Render)
+@ModuleRegister(name = "Interface", description = "Displays the selected interface elements on screen", category = Category.Render)
 public class Interface extends Module {
-    private final ModeSetting themeMode = new ModeSetting("Тема оформления", "Тёмная", "Тёмная", "Светлая")
+    private final ModeSetting themeMode = new ModeSetting("Theme", "Dark", "Dark", "Light")
             .a(selected -> {
-                Reaxc.getInstance().getModuleProcessor().o().a(this.themeMode.l("Светлая") ? ThemeType.LIGHT : ThemeType.DARK);
+                Reaxc.getInstance().getModuleProcessor().o().a(this.themeMode.l("Light") ? ThemeType.LIGHT : ThemeType.DARK);
             });
-    private final ColorSetting globalColor = new ColorSetting("Глобальный цвет интерфейса",
+    private final ColorSetting globalColor = new ColorSetting("Global interface color",
             Integer.valueOf(Reaxc.getInstance().getModuleProcessor().o().a(ThemeInfo.PRIMARY).toIntColor()));
-    private final MultiModeSetting widgetToggles = new MultiModeSetting("Элементы интерфейса",
-            new BooleanSetting("Клавиши", true), new BooleanSetting("Таргет-худ", true),
-            new BooleanSetting("Задержки", true), new BooleanSetting("Инфо-панель", true),
-            new BooleanSetting("Уведомления", true), new BooleanSetting("Зелья", true),
-            new BooleanSetting("Предметы", true), new BooleanSetting("Броня", true), new BooleanSetting("Стафф", true),
-            new BooleanSetting("Окружение", true));
+    private final MultiModeSetting widgetToggles = new MultiModeSetting("Interface elements",
+            new BooleanSetting("Keys", true), new BooleanSetting("Target HUD", true),
+            new BooleanSetting("Cooldowns", true), new BooleanSetting("Info panel", true),
+            new BooleanSetting("Notifications", true), new BooleanSetting("Potions", true),
+            new BooleanSetting("Items", true), new BooleanSetting("Armor", true), new BooleanSetting("Staff", true),
+            new BooleanSetting("Environment", true));
     private final List<Widget> widgets = new ArrayList<>();
 
     public Interface() {
         ThemeType current = Reaxc.getInstance().getModuleProcessor().o().a();
-        this.themeMode.a(current == ThemeType.LIGHT ? "Светлая" : "Тёмная");
+        this.themeMode.a(current == ThemeType.LIGHT ? "Light" : "Dark");
         a(this.themeMode, this.globalColor, this.widgetToggles);
         this.widgets.add(new ArmorWidget());
         this.widgets.add(new HotkeysWidget());

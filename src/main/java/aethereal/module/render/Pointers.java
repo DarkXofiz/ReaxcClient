@@ -22,11 +22,11 @@ import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.Vec3d;
 import org.joml.Matrix4f;
 
-@ModuleRegister(name = "Pointers", description = "Указывает лучами направление к игрокам", category = Category.Render)
+@ModuleRegister(name = "Pointers", description = "Points rays toward players", category = Category.Render)
 public class Pointers extends Module {
-    private final MultiModeSetting b = new MultiModeSetting("Визуальные настройки", new BooleanSetting("Фильтр по друзьям", false), new BooleanSetting("Трассировка до игрока", true), new BooleanSetting("Навигационная стрелка", true));
-    private final SliderSetting c = new SliderSetting("Размер стрелки", 7.0f, 5.0f, 15.0f, 1.0f);
-    private final SliderSetting d = new SliderSetting("Отступ от центра", 30.0f, 20.0f, 50.0f, 1.0f);
+    private final MultiModeSetting b = new MultiModeSetting("Visual settings", new BooleanSetting("Friends filter", false), new BooleanSetting("Tracer to player", true), new BooleanSetting("Navigation arrow", true));
+    private final SliderSetting c = new SliderSetting("Arrow size", 7.0f, 5.0f, 15.0f, 1.0f);
+    private final SliderSetting d = new SliderSetting("Offset from center", 30.0f, 20.0f, 50.0f, 1.0f);
     private float opacity;
 
     public Pointers() {
@@ -35,7 +35,7 @@ public class Pointers extends Module {
 
     @EventTarget
     public void onDraw(DrawEvent event) {
-        if (event.c() && this.b.a("Трассировка до игрока").c().booleanValue()) {
+        if (event.c() && this.b.a("Tracer to player").c().booleanValue()) {
             Vec3d cam = mc.getEntityRenderDispatcher().camera.getPos();
             Vec3d start = new Vec3d(0.0d, 0.0d, 27.0d).rotateX((float) (-Math.toRadians(mc.getEntityRenderDispatcher().camera.getPitch()))).rotateY((float) (-Math.toRadians(mc.getEntityRenderDispatcher().camera.getYaw()))).add(cam);
             Matrix4f matrix = event.h().peek().getPositionMatrix();
@@ -46,7 +46,7 @@ public class Pointers extends Module {
                 if (target != mc.player && target.isAlive()) {
                     Vec3d pos = MathUtil.a(target, event.g()).add(0.0d, target.getHeight() / 2.0f, 0.0d);
                     boolean isFriend = Reaxc.getInstance().getModuleProcessor().e().d(target.getName().getString());
-                    if (!this.b.a("Фильтр по друзьям").c().booleanValue() || isFriend) {
+                    if (!this.b.a("Friends filter").c().booleanValue() || isFriend) {
                         buffer.vertex(matrix, (float) (start.getX() - cam.x), (float) (start.getY() - cam.y), (float) (start.getZ() - cam.z)).color(isFriend ? 0.0f : 1.0f, 1.0f, isFriend ? 0.0f : 1.0f, 1.0f);
                         buffer.vertex(matrix, (float) (pos.getX() - cam.x), (float) (pos.getY() - cam.y), (float) (pos.getZ() - cam.z)).color(isFriend ? 0.0f : 1.0f, 1.0f, isFriend ? 0.0f : 1.0f, 1.0f);
                         any = true;
@@ -55,13 +55,13 @@ public class Pointers extends Module {
             }
             finishLineBuffer(buffer, any);
         }
-        if (event.b() && this.b.a("Навигационная стрелка").c().booleanValue()) {
+        if (event.b() && this.b.a("Navigation arrow").c().booleanValue()) {
             this.opacity = MathUtil.c(this.opacity, this.opacity + MathHelper.wrapDegrees(Look.b() - this.opacity), 2.0f);
             for (Entity entity : mc.world.getEntities()) {
                 if (!(entity instanceof PlayerEntity target)) continue;
                 if (target != mc.player && target.isAlive()) {
                     boolean isFriend = Reaxc.getInstance().getModuleProcessor().e().d(target.getName().getString());
-                    if (!this.b.a("Фильтр по друзьям").c().booleanValue() || isFriend) {
+                    if (!this.b.a("Friends filter").c().booleanValue() || isFriend) {
                         Vec3d pos = MathUtil.a(target, event.g());
                         Vec3d eye = MathUtil.a(mc.player, event.g());
                         float angle = MathHelper.wrapDegrees(((float) Math.toDegrees(Math.atan2(eye.x - pos.getX(), pos.getZ() - eye.z))) - this.opacity);

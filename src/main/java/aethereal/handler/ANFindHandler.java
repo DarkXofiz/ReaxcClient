@@ -50,7 +50,7 @@ public class ANFindHandler extends BaseHandler implements Interface {
                 this.isHovering = MathUtil.a(event.f(), event.g(), x, y, 10.0f, 10.0f);
                 Reaxc.getInstance().getModuleProcessor().i().a(event.getContext().getMatrices(), Identifier.of("reaxc", this.isHovering ? "pictures/minecraft/join_button_hovered.png" : "pictures/minecraft/join_button.png"), x, y, 10.0f, 10.0f, 0.0f, -1);
                 if (this.isHovering) {
-                    event.getContext().drawTooltip(event.getScreen().getTextRenderer(), List.of(Text.of("Авто-поиск анархии с наименьшим онлайном")), event.f(), event.g());
+                    event.getContext().drawTooltip(event.getScreen().getTextRenderer(), List.of(Text.of("Auto-find the anarchy with the lowest online")), event.f(), event.g());
                 }
             }
         }
@@ -149,13 +149,13 @@ public class ANFindHandler extends BaseHandler implements Interface {
         })).ifPresent(best -> {
             String anarchy = best.b.replace("»", "").replace("Анархия-", "").trim();
             if (!anarchy.isEmpty()) {
-                MutableText hover = GradientUtil.a("Минимальный онлайн по командам:\n", -7620097, -11503416, 1, 5.0f);
+                MutableText hover = GradientUtil.a("Minimum online by team:\n", -7620097, -11503416, 1, 5.0f);
                 this.b.stream().filter(mode3 -> {
                     return mode3.b != null;
                 }).forEach(mode4 -> {
-                    hover.append(Text.literal("§7• §f" + mode4.a.replace("Команды ", "") + ": " + mode4.b.trim() + " — " + mode4.c + " игроков\n"));
+                    hover.append(Text.literal("§7• §f" + mode4.a.replace("Команды ", "") + ": " + mode4.b.trim() + " — " + mode4.c + " players\n"));
                 });
-                ChatUtil.sendMessage(Text.literal("§a✔ §7Успешно подключился к анархии §a#" + anarchy + "§7, с онлайном §a" + best.c + "§7 — ").append(ChatUtil.sendMessage((Object) "§c[Подробнее]", hover)));
+                ChatUtil.sendMessage(Text.literal("§a✔ §7Successfully connected to anarchy §a#" + anarchy + "§7, with online §a" + best.c + "§7 — ").append(ChatUtil.sendMessage((Object) "§c[Details]", hover)));
                 mc.player.networkHandler.sendPacket(new CloseHandledScreenC2SPacket(mc.player.currentScreenHandler.syncId));
                 mc.player.networkHandler.sendChatCommand("an" + anarchy);
             }

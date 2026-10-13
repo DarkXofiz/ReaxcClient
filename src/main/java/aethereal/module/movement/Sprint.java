@@ -7,7 +7,7 @@ import aethereal.core.ModuleRegister;
 import aethereal.event.TickEvent;
 import net.minecraft.entity.effect.StatusEffects;
 
-@ModuleRegister(name = "Sprint", description = "Автоматически включает спринт при движении", category = Category.Movement)
+@ModuleRegister(name = "Sprint", description = "Automatically enables sprint while moving", category = Category.Movement)
 public class Sprint extends Module {
     @EventTarget
     public void a(TickEvent event) {

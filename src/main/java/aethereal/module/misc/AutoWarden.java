@@ -52,15 +52,15 @@ import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-@ModuleRegister(name = "Auto Warden", description = "Автоматизирует фарм варденов на анархии", category = Category.Misc)
+@ModuleRegister(name = "Auto Warden", description = "Automates warden farming on anarchy", category = Category.Misc)
 public class AutoWarden extends Module {
     private final List<Integer> anarchyList = new ArrayList<>();
     private final Map<BlockPos, Integer> chestOpenCounts = new HashMap<>();
     private final Map<BlockPos, Integer> wardenPositions = new HashMap<>();
-    private final BooleanSetting useSpeed = new BooleanSetting("Использовать скорость", false);
-    private final BooleanSetting reportKillers = new BooleanSetting("Репортить обидчиков", false);
-    private final ModeSetting lootPriority = new ModeSetting("Приоритеты лута", "Средний", "Низкий", "Средний", "Высокий");
-    private final BooleanSetting debug = new BooleanSetting("Отладка", false);
+    private final BooleanSetting useSpeed = new BooleanSetting("Use speed", false);
+    private final BooleanSetting reportKillers = new BooleanSetting("Report killers", false);
+    private final ModeSetting lootPriority = new ModeSetting("Loot priorities", "Medium", "Low", "Medium", "High");
+    private final BooleanSetting debug = new BooleanSetting("Debug", false);
     private final CounterUtil counter = new CounterUtil();
     private int roarTimer;
     private boolean died;
@@ -92,7 +92,7 @@ public class AutoWarden extends Module {
         if (!Reaxc.getInstance().getModuleProcessor().t().i().m()) {
             Reaxc.getInstance().getModuleProcessor().t().i().a();
         }
-        ChatUtil.sendMessage("Shift + Пробел — быстрое выключение функции");
+        ChatUtil.sendMessage("Shift + Space — quick disable");
         BaritoneAPI.getSettings().avoidance.value = true;
         BaritoneAPI.getSettings().maxFallHeightNoWater.value = 256;
         BaritoneAPI.getSettings().blockFreeLook.value = true;
@@ -213,7 +213,7 @@ public class AutoWarden extends Module {
                     for (StatusEffectInstance effect : mc.player.getStatusEffects()) {
                         effects.append(effect.getEffectType().value().getName().getString()).append(StringUtils.a);
                     }
-                    ChatUtil.sendMessage("Эффекты при смерти: " + (effects.isEmpty() ? "нет" : effects.toString().trim()));
+                    ChatUtil.sendMessage("Effects on death: " + (effects.isEmpty() ? "none" : effects.toString().trim()));
                     if (!mc.player.hasStatusEffect(StatusEffects.GLOWING) && !isNearChest(2.0d)) {
                         this.killerName = text.split("Вас убил ")[1].split(",")[0].trim();
                     }
@@ -306,15 +306,15 @@ public class AutoWarden extends Module {
         this.roarTimer = 0;
         this.chestOpenCounts.clear();
         if (mc.player.age % 20 == 0) {
-            StringBuilder missing = new StringBuilder("Собираем (возможно не хватает) -> ");
+            StringBuilder missing = new StringBuilder("Collecting (possibly missing) -> ");
             if (invisibilityCount() < 1) {
-                missing.append("зелье невидимости, ");
+                missing.append("invisibility potion, ");
             }
             if (InventoryUtil.a(Items.GOLDEN_CARROT) < 3) {
-                missing.append("золотая морковь, ");
+                missing.append("golden carrot, ");
             }
             if (this.useSpeed.c().booleanValue() && findSlot(this::isSpeedPotion) < 0) {
-                missing.append("зелье скорости ");
+                missing.append("speed potion ");
             }
             if (mc.player.age % InterfaceC0020Opcode.aN == 0 && !missing.isEmpty() && !hasCursorItem()) {
                 mc.player.closeScreen();
@@ -339,7 +339,7 @@ public class AutoWarden extends Module {
         }
         if (this.anarchyList.size() <= 1) {
             if (mc.player.age % 20 == 0) {
-                ChatUtil.sendMessage("ОШИБКА -> .warden list пустой");
+                ChatUtil.sendMessage("ERROR -> .warden list is empty");
                 return;
             }
             return;
@@ -363,10 +363,10 @@ public class AutoWarden extends Module {
     private int priorityMultiplier(int base) {
         double d;
         double d2 = base;
-        if (this.lootPriority.l("Низкий")) {
+        if (this.lootPriority.l("Low")) {
             d = 1.5d;
         } else {
-            d = this.lootPriority.l("Высокий") ? 0.80000014538821d : 1.0d;
+            d = this.lootPriority.l("High") ? 0.80000014538821d : 1.0d;
         }
         return (int) (d2 * d);
     }
@@ -500,11 +500,11 @@ public class AutoWarden extends Module {
 
     private void debugOutput() {
         baritone.api.IBaritone.PathingBehavior pathing = BaritoneAPI.getProvider().getPrimaryBaritone().getPathingBehavior();
-        ChatUtil.sendMessage("&7[AW] состояние &f" + this.state + " &7| анархия &f" + ServerUtil.a.d() + "&7, нужна &f" + currentAnarchy() + " &7(список: &f" + this.anarchyList.size() + "&7) | в зоне фермы &f" + isInFarmArea() + " &7| сундуков у ESP &f" + Reaxc.getInstance().getModuleProcessor().t().i().scanChests().size() + " &7| варден &f" + isWardenAggro() + " &7| пвп &f" + ServerUtil.e() + " &7| baritone: &f" + (pathing.hasPath() ? "идёт" : "стоит"));
-        ChatUtil.sendMessage("&7[AW] застрял(r) &c" + isStuck() + " &7| двигаюсь(L) &f" + isMoving() + " &7| в блоке(s) &f" + isInsideBlock() + " &7| свечи &f" + (mc.world.getBlockState(mc.player.getBlockPos()).isIn(BlockTags.CANDLES) || mc.world.getBlockState(mc.player.getBlockPos().down()).isIn(BlockTags.CANDLES)));
+        ChatUtil.sendMessage("&7[AW] state &f" + this.state + " &7| anarchy &f" + ServerUtil.a.d() + "&7, needed &f" + currentAnarchy() + " &7(list: &f" + this.anarchyList.size() + "&7) | in farm zone &f" + isInFarmArea() + " &7| chests at ESP &f" + Reaxc.getInstance().getModuleProcessor().t().i().scanChests().size() + " &7| warden &f" + isWardenAggro() + " &7| pvp &f" + ServerUtil.e() + " &7| baritone: &f" + (pathing.hasPath() ? "walking" : "standing"));
+        ChatUtil.sendMessage("&7[AW] stuck(r) &c" + isStuck() + " &7| moving(L) &f" + isMoving() + " &7| in block(s) &f" + isInsideBlock() + " &7| candles &f" + (mc.world.getBlockState(mc.player.getBlockPos()).isIn(BlockTags.CANDLES) || mc.world.getBlockState(mc.player.getBlockPos().down()).isIn(BlockTags.CANDLES)));
         BlockPos reach = findChestInHand(true);
         BlockPos far = findNearestReceiver();
-        ChatUtil.sendMessage("&7[AW] лут в инвентаре(R) &f" + hasLoot() + " &7| приёмник в руке &f" + (reach == null ? "нет" : String.valueOf(reach)) + " &7| ближайший приёмник &f" + (far == null ? "не найден в радиусе 16" : far + " (" + ((int) Math.sqrt(mc.player.squaredDistanceTo(Vec3d.ofCenter(far)))) + " бл.)") + " &7| экран &f" + (mc.currentScreen == null ? "нет" : mc.currentScreen.getClass().getSimpleName()));
+        ChatUtil.sendMessage("&7[AW] loot in inventory(R) &f" + hasLoot() + " &7| receiver in hand &f" + (reach == null ? "none" : String.valueOf(reach)) + " &7| nearest receiver &f" + (far == null ? "not found within radius 16" : far + " (" + ((int) Math.sqrt(mc.player.squaredDistanceTo(Vec3d.ofCenter(far)))) + " blocks)") + " &7| screen &f" + (mc.currentScreen == null ? "none" : mc.currentScreen.getClass().getSimpleName()));
     }
 
     private BlockPos findNearestReceiver() {
@@ -972,10 +972,10 @@ public class AutoWarden extends Module {
     }
 
     private boolean isJunk(ItemStack stack) {
-        if (this.lootPriority.l("Низкий")) {
+        if (this.lootPriority.l("Low")) {
             return false;
         }
-        return isHighPriorityJunk(stack) || (this.lootPriority.l("Высокий") && isLowPriorityJunk(stack));
+        return isHighPriorityJunk(stack) || (this.lootPriority.l("High") && isLowPriorityJunk(stack));
     }
 
     private boolean isLowPriorityJunk(ItemStack stack) {

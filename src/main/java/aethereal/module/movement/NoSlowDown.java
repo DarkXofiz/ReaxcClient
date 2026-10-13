@@ -7,9 +7,9 @@ import aethereal.core.ModuleRegister;
 import aethereal.event.SlowEvent;
 import aethereal.setting.ModeSetting;
 
-@ModuleRegister(name = "No Slow Down", description = "Убирает замедление при использовании предметов", category = Category.Movement)
+@ModuleRegister(name = "No Slow Down", description = "Removes the slowdown when using items", category = Category.Movement)
 public class NoSlowDown extends Module {
-    private final ModeSetting b = new ModeSetting("Режим использования", "Vanilla", "Vanilla");
+    private final ModeSetting b = new ModeSetting("Usage mode", "Vanilla", "Vanilla");
 
     public NoSlowDown() {
         a(this.b);

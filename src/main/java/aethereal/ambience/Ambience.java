@@ -17,25 +17,25 @@ import net.minecraft.world.biome.Biome;
 
 import java.util.Objects;
 
-@ModuleRegister(name = "Ambience", description = "Настраивает атмосферу и окружение игрового мира", category = Category.Render)
+@ModuleRegister(name = "Ambience", description = "Customizes the atmosphere and environment of the game world", category = Category.Render)
 public class Ambience extends Module {
-    public final ModeSetting b = new ModeSetting("Погода в мире", "Без изменений", "Без изменений", "Солнечно", "Дождь", "Снег", "Гроза");
-    private final ModeSetting c = new ModeSetting("Время в мире", "Без изменений", "Без изменений", "Рассвет", "День", "Полдень", "Закат", "Ночь", "Полночь");
-    private final BooleanSetting d = new BooleanSetting("Пользовательский туман", false);
+    public final ModeSetting b = new ModeSetting("World weather", "No change", "No change", "Sunny", "Rain", "Snow", "Thunderstorm");
+    private final ModeSetting c = new ModeSetting("World time", "No change", "No change", "Dawn", "Day", "Noon", "Sunset", "Night", "Midnight");
+    private final BooleanSetting d = new BooleanSetting("Custom fog", false);
     private final ColorSetting e;
     private final SliderSetting f;
     private final SliderSetting g;
 
     public Ambience() {
-        ColorSetting colorSetting = new ColorSetting("Цвет тумана", Integer.valueOf(ColorUtil.a(255, 255, 255)));
+        ColorSetting colorSetting = new ColorSetting("Fog color", Integer.valueOf(ColorUtil.a(255, 255, 255)));
         BooleanSetting booleanSetting = this.d;
         Objects.requireNonNull(booleanSetting);
         this.e = colorSetting.a(booleanSetting::h);
-        SliderSetting sliderSetting = new SliderSetting("Дальность тумана", -8.0f, -8.0f, 25.0f, 1.0f);
+        SliderSetting sliderSetting = new SliderSetting("Fog distance", -8.0f, -8.0f, 25.0f, 1.0f);
         BooleanSetting booleanSetting2 = this.d;
         Objects.requireNonNull(booleanSetting2);
         this.f = sliderSetting.a(booleanSetting2::h);
-        SliderSetting sliderSetting2 = new SliderSetting("Плотность тумана", 100.0f, 0.0f, 100.0f, 1.0f);
+        SliderSetting sliderSetting2 = new SliderSetting("Fog density", 100.0f, 0.0f, 100.0f, 1.0f);
         BooleanSetting booleanSetting3 = this.d;
         Objects.requireNonNull(booleanSetting3);
         this.g = sliderSetting2.a(booleanSetting3::h);
@@ -46,22 +46,22 @@ public class Ambience extends Module {
     public void a(AmbienceEvent.c event) {
         long jB;
         switch (this.c.c()) {
-            case "Рассвет":
+            case "Dawn":
                 jB = 23041;
                 break;
-            case "День":
+            case "Day":
                 jB = 1000;
                 break;
-            case "Полдень":
+            case "Noon":
                 jB = 6000;
                 break;
-            case "Закат":
+            case "Sunset":
                 jB = 12610;
                 break;
-            case "Ночь":
+            case "Night":
                 jB = 13000;
                 break;
-            case "Полночь":
+            case "Midnight":
                 jB = 18000;
                 break;
             default:
@@ -102,14 +102,14 @@ public class Ambience extends Module {
         switch (event.b()) {
             case RAIN_GRADIENT:
                 switch (this.b.c()) {
-                    case "Солнечно":
+                    case "Sunny":
                         fC2 = 0.0f;
                         break;
-                    case "Дождь":
-                    case "Гроза":
+                    case "Rain":
+                    case "Thunderstorm":
                         fC2 = 1.0f;
                         break;
-                    case "Снег":
+                    case "Snow":
                         fC2 = 0.9f;
                         break;
                     default:
@@ -120,12 +120,12 @@ public class Ambience extends Module {
                 break;
             case THUNDER_GRADIENT:
                 switch (this.b.c()) {
-                    case "Солнечно":
-                    case "Дождь":
-                    case "Снег":
+                    case "Sunny":
+                    case "Rain":
+                    case "Snow":
                         fC = 0.0f;
                         break;
-                    case "Гроза":
+                    case "Thunderstorm":
                         fC = 1.0f;
                         break;
                     default:
@@ -135,12 +135,12 @@ public class Ambience extends Module {
                 event.a(fC);
                 break;
             case PRECIPITATION_PARTICLES:
-                if (this.b.l("Снег")) {
+                if (this.b.l("Snow")) {
                     event.a(0.0f);
                 }
                 break;
             case PRECIPITATION:
-                if (this.b.l("Снег")) {
+                if (this.b.l("Snow")) {
                     event.a(Biome.Precipitation.SNOW);
                 }
                 break;

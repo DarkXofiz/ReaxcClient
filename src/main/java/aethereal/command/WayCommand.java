@@ -45,47 +45,47 @@ public class WayCommand extends BaseCommand {
     @Override
     public void a(LiteralArgumentBuilder<CommandSource> builder) {
         builder.then(a("add").executes(context -> {
-            ChatUtil.sendMessage("Использование: .way add <название> <x> <z> или .way add <название> <x> <y> <z>\"");
+            ChatUtil.sendMessage("Usage: .way add <name> <x> <z> or .way add <name> <x> <y> <z>\"");
             return 1;
-        }).then(d("название").executes(context2 -> {
-            ChatUtil.sendMessage("Использование: .way add <название> <x> <z> или .way add <название> <x> <y> <z>\"");
+        }).then(d("name").executes(context2 -> {
+            ChatUtil.sendMessage("Usage: .way add <name> <x> <z> or .way add <name> <x> <y> <z>\"");
             return 1;
         }).then(e("x").executes(context3 -> {
-            ChatUtil.sendMessage("Использование: .way add <название> <x> <z> или .way add <название> <x> <y> <z>\"");
+            ChatUtil.sendMessage("Usage: .way add <name> <x> <z> or .way add <name> <x> <y> <z>\"");
             return 1;
-        }).then(e("y или z").executes(context4 -> {
-            a(a(context4, "название"), new Vec3d(b(context4, "x"), mc.player.getY(), b(context4, "y или z")));
+        }).then(e("y or z").executes(context4 -> {
+            a(a(context4, "name"), new Vec3d(b(context4, "x"), mc.player.getY(), b(context4, "y or z")));
             return 1;
         }).then(e("z").executes(context5 -> {
-            a(a(context5, "название"), new Vec3d(b(context5, "x"), b(context5, "y или z"), b(context5, "z")));
+            a(a(context5, "name"), new Vec3d(b(context5, "x"), b(context5, "y or z"), b(context5, "z")));
             return 1;
         })))))).then(a("me").executes(context6 -> {
             a("me", mc.player.getPos());
             return 1;
         })).then(a("remove").executes(context7 -> {
-            ChatUtil.sendMessage("Использование: .way remove <название>");
+            ChatUtil.sendMessage("Usage: .way remove <name>");
             return 1;
-        }).then(d("название").suggests(a(() -> {
+        }).then(d("name").suggests(a(() -> {
             return this.c;
         }, (v0) -> {
             return v0.a();
         })).executes(context8 -> {
-            String name = a(context8, "название");
+            String name = a(context8, "name");
             if (!g(name)) {
-                ChatUtil.sendMessage("Метка с именем &c" + name + " &7отсутствует");
+                ChatUtil.sendMessage("Marker named &c" + name + " &7is not in the list");
                 return 1;
             }
             this.c.removeIf(way -> {
                 return way.a().equalsIgnoreCase(name);
             });
-            ChatUtil.sendMessage("Метка с именем &c" + name + " &7успешно удалена");
+            ChatUtil.sendMessage("Marker named &c" + name + " &7removed successfully");
             return 1;
         }))).then(a("list").executes(context9 -> {
             if (this.c.isEmpty()) {
-                ChatUtil.sendMessage("Список меток не содержит элементов");
+                ChatUtil.sendMessage("The marker list is empty");
                 return 1;
             }
-            ChatUtil.sendMessage("Список всех меток (" + this.c.size() + "):");
+            ChatUtil.sendMessage("All markers (" + this.c.size() + "):");
             for (b way : this.c) {
                 ChatUtil.sendMessage("— &c" + way.a() + " &7[&f" + a(way.b()) + "&7]&f");
             }
@@ -95,11 +95,11 @@ public class WayCommand extends BaseCommand {
             mc.player.networkHandler.sendCommand("event delay");
             return 1;
         })).then(a("clear").executes(context11 -> {
-            ChatUtil.sendMessage("Количество удалённых меток: " + this.c.size());
+            ChatUtil.sendMessage("Number of removed markers: " + this.c.size());
             this.c.clear();
             return 1;
         })).executes(context12 -> {
-            ChatUtil.sendMessage("Использование: .way <add|me|remove|list|clear|event>");
+            ChatUtil.sendMessage("Usage: .way <add|me|remove|list|clear|event>");
             return 1;
         });
     }
@@ -148,7 +148,7 @@ public class WayCommand extends BaseCommand {
                 }
             }
             if (!found) {
-                ChatUtil.sendMessage("Нет активного события с координатами.");
+                ChatUtil.sendMessage("There is no active event with coordinates.");
             }
             this.d.clear();
             this.e = a.NONE;
@@ -174,7 +174,7 @@ public class WayCommand extends BaseCommand {
             return way.a().equalsIgnoreCase(trimmed) || way.b().distanceTo(pos) <= 5.0d;
         });
         this.c.add(new b(trimmed, pos));
-        ChatUtil.sendMessage("Метка &c" + trimmed + (replaced ? " &7успешно переставлена: " : " &7успешно добавлена: ") + a(pos));
+        ChatUtil.sendMessage("Marker &c" + trimmed + (replaced ? " &7moved successfully: " : " &7added successfully: ") + a(pos));
     }
 
     private boolean g(String name) {
@@ -192,7 +192,7 @@ public class WayCommand extends BaseCommand {
         if (ProjectUtil.isOnScreen(screen)) {
             int primary = Reaxc.getInstance().getModuleProcessor().o().a(ThemeInfo.PRIMARY).toIntColor();
             int background = Reaxc.getInstance().getModuleProcessor().o().a(ThemeInfo.BACKGROUND_HUD).toIntColor();
-            Text text = Text.literal(way.a().toUpperCase(Locale.ROOT)).append(Text.literal("  /  ").setStyle(Style.EMPTY.withColor(primary))).append(Text.literal(String.format(Locale.US, "%.1fм", Double.valueOf(eyes.distanceTo(way.b())))));
+            Text text = Text.literal(way.a().toUpperCase(Locale.ROOT)).append(Text.literal("  /  ").setStyle(Style.EMPTY.withColor(primary))).append(Text.literal(String.format(Locale.US, "%.1fm", Double.valueOf(eyes.distanceTo(way.b())))));
             float width = 14.0f + Fonts.e.a(text, 6.25f);
             float x = screen.x() - (width / 2.0f);
             float y = screen.y() - 5.75f;
@@ -216,7 +216,7 @@ public class WayCommand extends BaseCommand {
         matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(angle));
         event.getDraw2DProcessor().a(matrices, Identifier.of("reaxc", "pictures/triangle.png"), -7.0f, -7.0f, 14.0f, 14.0f, 0.0f, primary);
         matrices.pop();
-        Text text = Text.literal(String.format(Locale.US, "%.1fм", Double.valueOf(eyes.distanceTo(gps))));
+        Text text = Text.literal(String.format(Locale.US, "%.1fm", Double.valueOf(eyes.distanceTo(gps))));
         Fonts.d.a(matrices, text, cx - (Fonts.d.a(text, 7.0f) / 2.0f), cy + 7.0f + 2.0f, 7.0f);
     }
 

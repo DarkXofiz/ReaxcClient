@@ -34,7 +34,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 
-@ModuleRegister(name = "Collector", description = "Автоматически собирает нужный инвентарь на FunTime", category = Category.Misc)
+@ModuleRegister(name = "Collector", description = "Automatically assembles the needed inventory on FunTime", category = Category.Misc)
 public class Collector extends Module {
     private final List<b> d = Reaxc.getInstance().getModuleProcessor().p().e();
     private final List<a> e = new ArrayList<>();
@@ -45,10 +45,10 @@ public class Collector extends Module {
     private int j;
 
     public Collector() {
-        ButtonSetting c = new ButtonSetting("Открыть редактор", () -> {
+        ButtonSetting c = new ButtonSetting("Open editor", () -> {
             mc.setScreen(new StationScreen(Text.literal(""), 0));
         });
-        ButtonSetting b = new ButtonSetting("Запустить работу", () -> {
+        ButtonSetting b = new ButtonSetting("Start", () -> {
             if (!m()) {
                 a();
             }
@@ -64,7 +64,7 @@ public class Collector extends Module {
     @Override
     public void b() {
         super.b();
-        ChatUtil.sendMessage("Модуль ищет самые дешевые лоты среди тех которые есть, имейте это ввиду, и будьте осторожны!");
+        ChatUtil.sendMessage("The module looks for the cheapest lots available — keep this in mind and be careful!");
     }
 
     private void startNextItem() {
@@ -80,9 +80,9 @@ public class Collector extends Module {
             return a(slot) < a(slot, false);
         }).findFirst().orElse(null);
         if (this.h != null) {
-            ChatUtil.sendMessage("Переходим к сбору предмета: " + this.h.j());
+            ChatUtil.sendMessage("Moving on to collecting item: " + this.h.j());
         } else {
-            ChatUtil.sendMessage("Все предметы собраны, работа завершена");
+            ChatUtil.sendMessage("All items collected, work finished");
         }
     }
 
@@ -96,7 +96,7 @@ public class Collector extends Module {
     public void onTick(TickEvent event) {
         if (this.h != null) {
             if (mc.player.getInventory().getEmptySlot() == -1) {
-                ChatUtil.sendMessage("Автоматическое отключение: нет свободных слотов в инвентаре, освободите место");
+                ChatUtil.sendMessage("Auto-disabled: no free inventory slots, please free up some space");
                 closeScreen();
                 a();
                 return;
@@ -116,7 +116,7 @@ public class Collector extends Module {
             String title = event.getScreen().getTitle().getString().replaceAll("§.", "").toLowerCase().trim();
             if (title.contains(this.h.j().toLowerCase())) {
                 if (this.f.a(300L, 80L) && a(this.h) >= a(this.h, false)) {
-                    ChatUtil.sendMessage("Предмет " + this.h.j() + " приобретен, перехожу к следующему");
+                    ChatUtil.sendMessage("Item " + this.h.j() + " purchased, moving on to the next");
                     startNextItem();
                     closeScreen();
                     return;
@@ -163,7 +163,7 @@ public class Collector extends Module {
                                         mc.interactionManager.clickSlot(event.getHandler().syncId, offer2.id, 0, SlotActionType.QUICK_MOVE, mc.player);
                                         this.f.b();
                                     } else {
-                                        ChatUtil.sendMessage("Оффер пропал, пересканирую");
+                                        ChatUtil.sendMessage("The offer disappeared, rescanning");
                                         this.i = null;
                                         this.e.clear();
                                         closeScreen();
@@ -203,7 +203,7 @@ public class Collector extends Module {
                                     int currentPage2 = Integer.parseInt(matcher2.group(1));
                                     int totalPages = Integer.parseInt(matcher2.group(2));
                                     if (totalPages == 1) {
-                                        ChatUtil.sendMessage("Пропускаем предмет " + this.h.j() + ", ибо нету подходящего");
+                                        ChatUtil.sendMessage("Skipping item " + this.h.j() + ", because there is no suitable one");
                                         startNextItem();
                                         closeScreen();
                                         return;
@@ -242,7 +242,7 @@ public class Collector extends Module {
                     this.e.clear();
                     return;
                 } else if (message.contains("[✘] Ошибка! У Вас не хватает Монет!")) {
-                    ChatUtil.sendMessage("Автоматическое отключение из-за нехватки баланса на аккаунте");
+                    ChatUtil.sendMessage("Auto-disabled due to insufficient account balance");
                     a();
                     return;
                 } else if (message.contains("Данная команда недоступна в режиме AFK")) {
@@ -253,7 +253,7 @@ public class Collector extends Module {
                 if (this.j >= 8) {
                     int anarchy = (int) (MathUtil.a(0.0f, 100.0f) <= 50.0f ? MathUtil.a(205.0f, 231.0f) : MathUtil.a(305.0f, 325.0f));
                     mc.player.networkHandler.sendChatMessage("/an" + anarchy);
-                    ChatUtil.sendMessage("Обнаружили замедление аукциона, переходим на " + anarchy + " анархию");
+                    ChatUtil.sendMessage("Auction slowdown detected, switching to " + anarchy + " anarchy");
                 }
                 this.g.b();
             }
@@ -275,7 +275,7 @@ public class Collector extends Module {
         }
         if (event.getKey() == 256 && this.h != null) {
             this.h = null;
-            ChatUtil.sendMessage("Работа модуля была принудительно завершена");
+            ChatUtil.sendMessage("The module was forcibly stopped");
         }
     }
 

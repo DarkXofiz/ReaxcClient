@@ -8,9 +8,9 @@ import aethereal.event.TickEvent;
 import aethereal.setting.SliderSetting;
 import net.minecraft.util.hit.BlockHitResult;
 
-@ModuleRegister(name = "Fast Break", description = "Ускоряет разрушение блоков, обрабатывая добычу несколько раз за тик", category = Category.Movement)
+@ModuleRegister(name = "Fast Break", description = "Speeds up block breaking by processing drops multiple times per tick", category = Category.Movement)
 public class FastBreak extends Module {
-    private final SliderSetting b = new SliderSetting("Интенсивность копания", 2.0f, 1.0f, 5.0f, 0.25f);
+    private final SliderSetting b = new SliderSetting("Dig intensity", 2.0f, 1.0f, 5.0f, 0.25f);
 
     public FastBreak() {
         a(this.b);

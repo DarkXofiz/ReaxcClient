@@ -74,7 +74,7 @@ public class PvEHandler extends BaseHandler implements Interface {
             return true;
         }
         if (!InventoryUtil.a(tool, Enchantments.MENDING, 1)) {
-            ChatUtil.sendMessage("На предмете нету починки, отмена.");
+            ChatUtil.sendMessage("The item has no Mending, cancelling.");
             return true;
         }
         ItemStack main = mc.player.getMainHandStack();
@@ -231,7 +231,7 @@ public class PvEHandler extends BaseHandler implements Interface {
                         int i2 = this.f + 1;
                         this.f = i2;
                         if (i2 > 20) {
-                            ChatUtil.sendMessage("Аукцион не открылся, повторяю.");
+                            ChatUtil.sendMessage("The auction did not open, retrying.");
                             this.f = 0;
                             this.e = 0;
                             return false;

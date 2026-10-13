@@ -24,7 +24,7 @@ import java.util.Locale;
 
 public class ItemsWidget extends Widget implements Interface {
     public ItemsWidget() {
-        super(new DragInfo("Предметы", 0.0f, 0.0f, 0.0f, 0.0f));
+        super(new DragInfo("Items", 0.0f, 0.0f, 0.0f, 0.0f));
         j().setWidget(this);
     }
 

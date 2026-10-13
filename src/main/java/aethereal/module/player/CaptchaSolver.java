@@ -25,7 +25,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-@ModuleRegister(name = "Captcha Solver", description = "!! ЭТОТ МОДУЛЬ НЕ РАБОТАЕТ, ТАК КАК ОН ЗАВЯЗАН С БЭКЕНДОМ !!", category = Category.Player)
+@ModuleRegister(name = "Captcha Solver", description = "!! THIS MODULE DOES NOT WORK BECAUSE IT IS TIED TO THE BACKEND !!", category = Category.Player)
 public class CaptchaSolver extends Module {
     private byte[] imageData;
 

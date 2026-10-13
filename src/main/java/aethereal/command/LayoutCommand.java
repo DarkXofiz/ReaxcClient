@@ -40,10 +40,10 @@ public class LayoutCommand extends BaseCommand {
     @Override
     public void a(LiteralArgumentBuilder<CommandSource> builder) {
         builder.then(a("save").executes(context -> {
-            ChatUtil.sendMessage("Использование: .layout save <название>");
+            ChatUtil.sendMessage("Usage: .layout save <name>");
             return 1;
-        }).then(d("название").executes(context2 -> {
-            String name = a(context2, "название");
+        }).then(d("name").executes(context2 -> {
+            String name = a(context2, "name");
             List<a> layouts = this.layouts;
             layouts.removeIf(layout -> {
                 return layout.a().equalsIgnoreCase(name);
@@ -54,51 +54,51 @@ public class LayoutCommand extends BaseCommand {
                 }
             }
             d();
-            ChatUtil.sendMessage("Раскладка &c" + name + " &7сохранена.");
+            ChatUtil.sendMessage("Layout &c" + name + " &7saved.");
             return 1;
         }))).then(a("load").executes(context3 -> {
-            ChatUtil.sendMessage("Использование: .layout load <название>");
+            ChatUtil.sendMessage("Usage: .layout load <name>");
             return 1;
-        }).then(d("название").suggests(a(this::c, (v0) -> {
+        }).then(d("name").suggests(a(this::c, (v0) -> {
             return v0.a();
         })).executes(context4 -> {
-            String name = a(context4, "название");
+            String name = a(context4, "name");
             List<a> target = this.layouts.stream().filter(layout -> {
                 return layout.a().equalsIgnoreCase(name);
             }).toList();
             if (target.isEmpty()) {
-                ChatUtil.sendMessage("Раскладка &c" + name + " &7не найдена");
+                ChatUtil.sendMessage("Layout &c" + name + " &7not found");
                 return 1;
             }
             a(target);
             return 1;
         }))).then(a("remove").executes(context5 -> {
-            ChatUtil.sendMessage("Использование: .layout remove <название>");
+            ChatUtil.sendMessage("Usage: .layout remove <name>");
             return 1;
-        }).then(d("название").suggests(a(this::c, (v0) -> {
+        }).then(d("name").suggests(a(this::c, (v0) -> {
             return v0.a();
         })).executes(context6 -> {
-            String name = a(context6, "название");
+            String name = a(context6, "name");
             List<a> layouts = this.layouts;
             if (layouts.stream().noneMatch(layout -> {
                 return layout.a().equalsIgnoreCase(name);
             })) {
-                ChatUtil.sendMessage("Раскладка &c" + name + " &7не найдена");
+                ChatUtil.sendMessage("Layout &c" + name + " &7not found");
                 return 1;
             }
             layouts.removeIf(layout2 -> {
                 return layout2.a().equalsIgnoreCase(name);
             });
             d();
-            ChatUtil.sendMessage("Раскладка &c" + name + " &7удалена");
+            ChatUtil.sendMessage("Layout &c" + name + " &7deleted");
             return 1;
         }))).then(a("list").executes(context7 -> {
             List<a> layouts = this.layouts;
             if (layouts.isEmpty()) {
-                ChatUtil.sendMessage("Список раскладок пуст.");
+                ChatUtil.sendMessage("The layout list is empty.");
                 return 1;
             }
-            ChatUtil.sendMessage("Сохраненные раскладки:");
+            ChatUtil.sendMessage("Saved layouts:");
             layouts.stream().map((v0) -> {
                 return v0.a();
             }).distinct().forEach(name -> {
@@ -108,10 +108,10 @@ public class LayoutCommand extends BaseCommand {
         })).then(a("clear").executes(context8 -> {
             this.layouts.clear();
             d();
-            ChatUtil.sendMessage("Раскладки очищены.");
+            ChatUtil.sendMessage("Layouts cleared.");
             return 1;
         })).executes(context9 -> {
-            ChatUtil.sendMessage("Использование: .layout <save|load|remove|list|clear> <название>");
+            ChatUtil.sendMessage("Usage: .layout <save|load|remove|list|clear> <name>");
             return 1;
         });
     }
@@ -158,9 +158,9 @@ public class LayoutCommand extends BaseCommand {
                 }
             }
             if (missing.isEmpty()) {
-                ChatUtil.sendMessage("Раскладка разложена.");
+                ChatUtil.sendMessage("Layout applied.");
             } else {
-                ChatUtil.sendMessage("Раскладка разложена, не хватило:");
+                ChatUtil.sendMessage("Layout applied, missing:");
                 Iterator<String> it = missing.iterator();
                 while (it.hasNext()) {
                     ChatUtil.sendMessage("- &c" + it.next());

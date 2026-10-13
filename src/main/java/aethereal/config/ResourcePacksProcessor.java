@@ -35,10 +35,10 @@ public class ResourcePacksProcessor extends BaseProcessor {
                 try {
                     Files.write(new File(directory, pack + ".zip").toPath(), java.util.Base64.getDecoder().decode(archive));
                 } catch (IOException e) {
-                    ChatUtil.sendMessage("&c✖ &7Не удалось сохранить ресурс-пак &a" + pack);
+                    ChatUtil.sendMessage("&c✖ &7Failed to save resource pack &a" + pack);
                     return;
                 }
-                ChatUtil.sendMessage("&a✔ &7Ресурс-пак &a" + pack + " &7успешно добавлен в список доступных ресурс-паков.");
+                ChatUtil.sendMessage("&a✔ &7Resource pack &a" + pack + " &7was successfully added to the available resource packs list.");
             }
         }
     }

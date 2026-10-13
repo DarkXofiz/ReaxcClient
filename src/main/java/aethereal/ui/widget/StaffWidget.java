@@ -17,7 +17,7 @@ import net.minecraft.client.network.PlayerListEntry;
 
 public class StaffWidget extends Widget implements Interface {
     public StaffWidget() {
-        super(new DragInfo("Стафф", 0.0f, 0.0f, 0.0f, 0.0f));
+        super(new DragInfo("Staff", 0.0f, 0.0f, 0.0f, 0.0f));
         j().setWidget(this);
     }
 

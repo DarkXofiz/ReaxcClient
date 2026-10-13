@@ -55,7 +55,7 @@ public abstract class HandledScreenMixin<T extends ScreenHandler> {
     @Inject(method = {"drawSlot"}, at = {@At("HEAD")})
     private void onDrawSlotHead(DrawContext context, Slot slot, CallbackInfo ci) {
         Animations animations = Reaxc.getInstance().getModuleProcessor().t().Q();
-        if (animations.m() && animations.q().a("Предметы").c().booleanValue()) {
+        if (animations.m() && animations.q().a("Items").c().booleanValue()) {
             boolean focused = slot == ((HandledScreenAccessor) this).getFocusedSlot() && slot.hasStack();
             float scale = ((ISlot) slot).getAnimation().a(focused ? 1.25f : 1.0f, focused ? 1.25f : 0.75f);
             context.getMatrices().push();
@@ -68,7 +68,7 @@ public abstract class HandledScreenMixin<T extends ScreenHandler> {
     @Inject(method = {"drawSlot"}, at = {@At("RETURN")})
     private void onDrawSlotTail(DrawContext context, Slot slot, CallbackInfo ci) {
         Animations animations = Reaxc.getInstance().getModuleProcessor().t().Q();
-        if (animations.m() && animations.q().a("Предметы").c().booleanValue()) {
+        if (animations.m() && animations.q().a("Items").c().booleanValue()) {
             context.getMatrices().pop();
         }
     }
@@ -96,13 +96,13 @@ public abstract class HandledScreenMixin<T extends ScreenHandler> {
                 iMethod_17388 = this.handler instanceof ShulkerBoxScreenHandler ? 27 : this.chestSize;
             }
             this.chestSize = iMethod_17388;
-            this.buttonFold = screenBase.invokeAddDrawableChild(ButtonWidget.builder(Text.literal("Сложить"), b -> {
+            this.buttonFold = screenBase.invokeAddDrawableChild(ButtonWidget.builder(Text.literal("Stack"), b -> {
                 onFoldClick();
             }).dimensions(((screenBase.getWidth() + screen.getBackgroundWidth()) / 2) + 5, (screenBase.getHeight() - screen.getBackgroundHeight()) / 2, 100, 20).build());
-            this.buttonTake = screenBase.invokeAddDrawableChild(ButtonWidget.builder(Text.literal("Забрать"), b2 -> {
+            this.buttonTake = screenBase.invokeAddDrawableChild(ButtonWidget.builder(Text.literal("Take"), b2 -> {
                 onTakeClick();
             }).dimensions(((screenBase.getWidth() + screen.getBackgroundWidth()) / 2) + 5, ((screenBase.getHeight() - screen.getBackgroundHeight()) / 2) + 24, 100, 20).build());
-            this.buttonDrop = screenBase.invokeAddDrawableChild(ButtonWidget.builder(Text.literal("Выкинуть"), b3 -> {
+            this.buttonDrop = screenBase.invokeAddDrawableChild(ButtonWidget.builder(Text.literal("Drop"), b3 -> {
                 onDropClick();
             }).dimensions(((screenBase.getWidth() + screen.getBackgroundWidth()) / 2) + 5, ((screenBase.getHeight() - screen.getBackgroundHeight()) / 2) + 48, 100, 20).build());
             if (autoBuy.m()) {

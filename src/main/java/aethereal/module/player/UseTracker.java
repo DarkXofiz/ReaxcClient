@@ -41,9 +41,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@ModuleRegister(name = "Use Tracker", description = "Отслеживает выбранные использования и уведомляет о них", category = Category.Player)
+@ModuleRegister(name = "Use Tracker", description = "Tracks the selected uses and notifies you about them", category = Category.Player)
 public class UseTracker extends Module {
-    private final MultiModeSetting b = new MultiModeSetting("Отслеживать использования", new BooleanSetting("Тотема", true), new BooleanSetting("Зелья", true), new BooleanSetting("Предмета", true));
+    private final MultiModeSetting b = new MultiModeSetting("Track uses", new BooleanSetting("Totem", true), new BooleanSetting("Potions", true), new BooleanSetting("Item", true));
 
     public UseTracker() {
         a(this.b);
@@ -51,7 +51,7 @@ public class UseTracker extends Module {
 
     @EventTarget
     public void a(TickEvent event) {
-        if (this.b.a("Предмета").c().booleanValue()) {
+        if (this.b.a("Item").c().booleanValue()) {
             for (Entity _e : mc.world.getEntities()) {
                 if (!(_e instanceof PlayerEntity player)) continue;
                 if (player != mc.player) {
@@ -64,8 +64,8 @@ public class UseTracker extends Module {
                                     return info.entityId() == player.getId();
                                 });
                             }
-                            ChatUtil.sendMessage("[" + j() + "]", player.getName().getString() + " использовал \"" + color + active.getItem().getName().getString() + "&7\"");
-                            Reaxc.getInstance().getModuleProcessor().m().a(new Notification(active.copy(), player.getName().getString() + " использовал " + active.getItem().getName().getString(), 1500));
+                            ChatUtil.sendMessage("[" + j() + "]", player.getName().getString() + " used \"" + color + active.getItem().getName().getString() + "&7\"");
+                            Reaxc.getInstance().getModuleProcessor().m().a(new Notification(active.copy(), player.getName().getString() + " used " + active.getItem().getName().getString(), 1500));
                         }
                     }
                 }
@@ -76,7 +76,7 @@ public class UseTracker extends Module {
     @EventTarget
     public void a(PotionEvent event) {
         MutableText notificationText;
-        if (this.b.a("Зелья").c().booleanValue() && event.getType() == PotionEvent.type.PARTICLES && mc.world != null) {
+        if (this.b.a("Potions").c().booleanValue() && event.getType() == PotionEvent.type.PARTICLES && mc.world != null) {
             for (a type : a.values()) {
                 for (int color : type.d()) {
                     if ((color & 16777215) == (event.getData() & 16777215)) {
@@ -91,15 +91,15 @@ public class UseTracker extends Module {
                             if (factor > 0.0d) {
                                 List<StatusEffectInstance> effects = new ArrayList<>();
                                 if (player != mc.player) {
-                                    ChatUtil.sendMessage((Object) ("[" + j() + "]"), ChatUtil.b(player.getName().getString() + " получил эффекты от \"").append(type.getDisplayText()).append(ChatUtil.b("\"")));
-                                    ChatUtil.sendMessage("[" + j() + "]", "- Успешность: &a" + ((int) (factor * 100.0d)) + "%");
+                                    ChatUtil.sendMessage((Object) ("[" + j() + "]"), ChatUtil.b(player.getName().getString() + " received effects from \"").append(type.getDisplayText()).append(ChatUtil.b("\"")));
+                                    ChatUtil.sendMessage("[" + j() + "]", "- Success rate: &a" + ((int) (factor * 100.0d)) + "%");
                                 }
                                 if (player == mc.player) {
-                                    notificationText = Text.literal("Вы получили эффекты от ").styled(style -> {
+                                    notificationText = Text.literal("You received effects from ").styled(style -> {
                                         return style.withColor(Reaxc.getInstance().getModuleProcessor().o().a(ThemeInfo.PRIMARY).toIntColor());
                                     }).append(type.getDisplayText()).append(ChatUtil.b(" &7(" + ((int) (factor * 100.0d)) + "%)"));
                                 } else {
-                                    notificationText = ChatUtil.b(player.getName().getString() + " получил эффекты от ").append(type.getDisplayText()).append(ChatUtil.b(" &7(" + ((int) (factor * 100.0d)) + "%)"));
+                                    notificationText = ChatUtil.b(player.getName().getString() + " received effects from ").append(type.getDisplayText()).append(ChatUtil.b(" &7(" + ((int) (factor * 100.0d)) + "%)"));
                                 }
                                 Reaxc.getInstance().getModuleProcessor().m().a(new Notification("o", notificationText, 2000));
                                 for (Map.Entry<RegistryEntry<StatusEffect>, int[]> entry : type.b()) {
@@ -150,11 +150,11 @@ public class UseTracker extends Module {
                         Reaxc.getInstance().getModuleProcessor().t().aa().getTrackers().removeIf(info2 -> {
                             return info2.entityId() == entity.getId();
                         });
-                        if (this.b.a("Тотема").c().booleanValue()) {
+                        if (this.b.a("Totem").c().booleanValue()) {
                             ItemStack totem = entity.getMainHandStack().getItem() == Items.TOTEM_OF_UNDYING ? entity.getMainHandStack() : entity.getOffHandStack().getItem() == Items.TOTEM_OF_UNDYING ? entity.getOffHandStack() : null;
                             if (totem != null) {
                                 String name = ServerUtil.a.a$() ? ServerUtil.a.b(totem) : totem.getName().getString();
-                                ChatUtil.sendMessage("[" + j() + "]", (entity == mc.player ? "Вы потеряли " : entity.getName().getString() + " потерял ") + name + ", зачарован: " + ((name.startsWith("Талисман") || totem.hasGlint()) ? "&a●&7" : "&c●&7"));
+                                ChatUtil.sendMessage("[" + j() + "]", (entity == mc.player ? "You lost " : entity.getName().getString() + " lost ") + name + ", enchanted: " + ((name.startsWith("Талисман") || totem.hasGlint()) ? "&a●&7" : "&c●&7"));
                             }
                         }
                     }

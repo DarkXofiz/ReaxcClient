@@ -11,13 +11,13 @@ import aethereal.util.Rotation;
 import net.minecraft.item.Items;
 import net.minecraft.util.Hand;
 
-@ModuleRegister(name = "Auto EXP", description = "Бросает бутылочки опыта под себя, пока удерживается заданная клавиша", category = Category.Combat)
+@ModuleRegister(name = "Auto EXP", description = "Throws experience bottles at your feet while the set key is held", category = Category.Combat)
 public class AutoEXP extends Module {
     private final int[] d = {-1, -1};
     private boolean isActive;
 
     public AutoEXP() {
-        BindSetting b = new BindSetting("Кнопка активации", -1, 0).a(() -> {
+        BindSetting b = new BindSetting("Activation key", -1, 0).a(() -> {
             setActive(true);
         }).b(() -> {
             setActive(false);

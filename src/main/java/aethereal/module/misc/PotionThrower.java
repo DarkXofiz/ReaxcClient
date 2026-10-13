@@ -11,13 +11,13 @@ import aethereal.ui.screen.AssistantScreen;
 import net.minecraft.item.Items;
 import net.minecraft.text.Text;
 
-@ModuleRegister(name = "Potion Thrower", description = "Быстрое метание бафов через колесо или по клавише", category = Category.Misc)
+@ModuleRegister(name = "Potion Thrower", description = "Quickly throw buffs via a wheel or a key", category = Category.Misc)
 public class PotionThrower extends Module {
-    private final ModeSetting b = new ModeSetting("Способ использования зелий", "Колесо выбора", "Колесо выбора", "Клавиша");
+    private final ModeSetting b = new ModeSetting("Potion usage method", "Selection wheel", "Selection wheel", "Key");
     private final AssistantScreen c = new AssistantScreen(Text.literal("Potion Thrower"));
 
     public PotionThrower() {
-        BindSetting d = new BindSetting("Открыть меню зелий", 86, 0).a(() -> {
+        BindSetting d = new BindSetting("Open potion menu", 86, 0).a(() -> {
             mc.setScreen(this.c);
         }).b(() -> {
             if (mc.currentScreen == this.c) {
@@ -27,7 +27,7 @@ public class PotionThrower extends Module {
                 }
             }
         }).a(() -> {
-            return Boolean.valueOf(this.b.l("Колесо выбора"));
+            return Boolean.valueOf(this.b.l("Selection wheel"));
         });
         a(this.b, d);
         for (AutoBuyEntry potion : AutoBuyEntry.values()) {
@@ -35,7 +35,7 @@ public class PotionThrower extends Module {
                 a(new BindSetting(potion.getDisplayName(), -1).a(() -> {
                     Reaxc.getInstance().getModuleProcessor().v().getUseableHandler().a(potion.a());
                 }).a(() -> {
-                    return Boolean.valueOf(this.b.l("Клавиша"));
+                    return Boolean.valueOf(this.b.l("Key"));
                 }));
             }
         }

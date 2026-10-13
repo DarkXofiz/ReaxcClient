@@ -21,7 +21,7 @@ import org.joml.Vector2f;
 
 import java.util.List;
 
-@ModuleRegister(name = "Shulker Preview", description = "Показывает содержимое шалкеров в инвентаре зажав ALT (и на земле, без зажатия, если античит слабый)", category = Category.Render)
+@ModuleRegister(name = "Shulker Preview", description = "Shows shulker contents in your inventory while holding ALT (and on the ground without holding if the anticheat is weak)", category = Category.Render)
 public class ShulkerPreview extends Module {
     private final Vector2f b = new Vector2f(175.0f, 70.0f);
 

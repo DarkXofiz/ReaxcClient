@@ -17,17 +17,17 @@ import net.minecraft.util.Formatting;
 import java.util.Locale;
 import java.util.Optional;
 
-@ModuleRegister(name = "Board Spoofer", description = "Подменяет значения доната, монет и токенов в Scoreboard", category = Category.Render)
+@ModuleRegister(name = "Board Spoofer", description = "Spoofs donation, coin and token values on the Scoreboard", category = Category.Render)
 public class BoardSpoofer extends Module {
-    private final MultiModeSetting b = new MultiModeSetting("Элементы настройки", new BooleanSetting("Ранг", true), new BooleanSetting("Монеты", true), new BooleanSetting("Токены", true));
-    private final ModeSetting c = new ModeSetting("Выберите привилегию", "Игрок", "Игрок", "Барон", "Страж", "Герой", "Аспид", "Сквид", "Глава", "Элита", "Титан", "Принц", "Князь", "Герцог").a(() -> {
-        return this.b.a("Ранг").c();
+    private final MultiModeSetting b = new MultiModeSetting("Setting elements", new BooleanSetting("Rank", true), new BooleanSetting("Coins", true), new BooleanSetting("Tokens", true));
+    private final ModeSetting c = new ModeSetting("Select privilege", "Игрок", "Игрок", "Барон", "Страж", "Герой", "Аспид", "Сквид", "Глава", "Элита", "Титан", "Принц", "Князь", "Герцог").a(() -> {
+        return this.b.a("Rank").c();
     });
-    private final StringSetting d = new StringSetting("Число монет", "", true).a(() -> {
-        return this.b.a("Монеты").c();
+    private final StringSetting d = new StringSetting("Coin count", "", true).a(() -> {
+        return this.b.a("Coins").c();
     });
-    private final StringSetting e = new StringSetting("Число токенов", "", true).a(() -> {
-        return this.b.a("Токены").c();
+    private final StringSetting e = new StringSetting("Token count", "", true).a(() -> {
+        return this.b.a("Tokens").c();
     });
 
     public BoardSpoofer() {
@@ -37,17 +37,17 @@ public class BoardSpoofer extends Module {
     @EventTarget
     public void a(ScoreboardEvent event) {
         Text title = event.b();
-        if (this.b.a("Ранг").c().booleanValue()) {
+        if (this.b.a("Rank").c().booleanValue()) {
             title = a(title, "Ранг: ", this.c.c());
         }
-        if (this.b.a("Монеты").c().booleanValue()) {
+        if (this.b.a("Coins").c().booleanValue()) {
             Text previousTitle = title;
             Locale locale = Locale.US;
             Object[] objArr = new Object[1];
             objArr[0] = Long.valueOf(Long.parseLong(this.d.c().isEmpty() ? "0" : this.d.c()));
             title = a(previousTitle, "Монет: ", String.format(locale, "%", objArr));
         }
-        if (this.b.a("Токены").c().booleanValue()) {
+        if (this.b.a("Tokens").c().booleanValue()) {
             title = a(title, "Токенов: ", this.e.c().isEmpty() ? "0" : this.e.c());
         }
         event.setTitle(title);

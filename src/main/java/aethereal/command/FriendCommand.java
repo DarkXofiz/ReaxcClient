@@ -16,54 +16,54 @@ public class FriendCommand extends BaseCommand {
     public void a(LiteralArgumentBuilder<CommandSource> builder) {
         FriendProcessor processor = Reaxc.getInstance().getModuleProcessor().e();
         LiteralArgumentBuilder<CommandSource> literalArgumentBuilderThen = builder.then(a("add").executes(context -> {
-            ChatUtil.sendMessage("Использование: .friend add <ник>");
+            ChatUtil.sendMessage("Usage: .friend add <nick>");
             return 1;
-        }).then(b("ник").suggests(a()).executes(context2 -> {
-            String name = a(context2, "ник");
+        }).then(b("nick").suggests(a()).executes(context2 -> {
+            String name = a(context2, "nick");
             if (processor.d(name)) {
-                ChatUtil.sendMessage("Друг " + name + " уже находится в списке друзей.");
+                ChatUtil.sendMessage("Friend " + name + " is already in the friends list.");
                 return 1;
             }
             processor.b(name);
             processor.unSetup();
-            ChatUtil.sendMessage("Друг " + name + " был успешно добавлен в список друзей.");
+            ChatUtil.sendMessage("Friend " + name + " was successfully added to the friends list.");
             return 1;
         })));
         LiteralArgumentBuilder<CommandSource> literalArgumentBuilderExecutes = a("remove").executes(context3 -> {
-            ChatUtil.sendMessage("Использование: .friend remove <ник>");
+            ChatUtil.sendMessage("Usage: .friend remove <nick>");
             return 1;
         });
-        RequiredArgumentBuilder<CommandSource, String> requiredArgumentBuilderB = b("ник");
+        RequiredArgumentBuilder<CommandSource, String> requiredArgumentBuilderB = b("nick");
         Objects.requireNonNull(processor);
         literalArgumentBuilderThen.then(literalArgumentBuilderExecutes.then(requiredArgumentBuilderB.suggests(a(processor::a, (v0) -> {
             return v0.a();
         })).executes(context4 -> {
-            String name = a(context4, "ник");
+            String name = a(context4, "nick");
             if (!processor.d(name)) {
-                ChatUtil.sendMessage("Друг " + name + " не найден в списке друзей.");
+                ChatUtil.sendMessage("Friend " + name + " was not found in the friends list.");
                 return 1;
             }
             processor.c(name);
             processor.unSetup();
-            ChatUtil.sendMessage("Друг " + name + " был успешно удален из списка друзей.");
+            ChatUtil.sendMessage("Friend " + name + " was successfully removed from the friends list.");
             return 1;
         }))).then(a("list").executes(context5 -> {
             if (processor.a().isEmpty()) {
-                ChatUtil.sendMessage("Список друзей пуст.");
+                ChatUtil.sendMessage("The friends list is empty.");
                 return 1;
             }
-            ChatUtil.sendMessage("Список друзей (" + processor.a().size() + "):");
+            ChatUtil.sendMessage("Friends (" + processor.a().size() + "):");
             for (FriendConstructor friend : processor.a()) {
                 ChatUtil.sendMessage("  - " + friend.a());
             }
             return 1;
         })).then(a("clear").executes(context6 -> {
-            ChatUtil.sendMessage("Было успешно удалено друзей из списка: " + processor.a().size());
+            ChatUtil.sendMessage("Friends successfully removed from the list: " + processor.a().size());
             processor.f();
             processor.unSetup();
             return 1;
         })).executes(context7 -> {
-            ChatUtil.sendMessage("Использование: .friend <add|remove|list|clear>");
+            ChatUtil.sendMessage("Usage: .friend <add|remove|list|clear>");
             return 1;
         });
     }

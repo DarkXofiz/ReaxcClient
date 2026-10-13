@@ -32,7 +32,7 @@ public abstract class DisconnectedScreenMixin extends Screen {
     private void init(CallbackInfo ci) {
         ServerInfo server = Reaxc.getInstance().getModuleProcessor().v().getMainHandler().a();
         if (server != null) {
-            this.buttonWidget = addDrawableChild(ButtonWidget.builder(Text.literal("Переподключиться"), btn -> {
+            this.buttonWidget = addDrawableChild(ButtonWidget.builder(Text.literal("Reconnect"), btn -> {
                 ConnectScreen.connect(new MultiplayerScreen(null), Interface.mc, ServerAddress.parse(server.address), server, false, null);
             }).dimensions(0, 0, InterfaceC0020Opcode.aN, 20).build());
         }

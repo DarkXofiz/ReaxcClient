@@ -51,7 +51,7 @@ public abstract class ChatHudMixin {
     @WrapOperation(method = {"render(Lnet/minecraft/client/gui/DrawContext;IIIZ)V"}, at = {@At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/OrderedText;III)I")})
     private int onRenderLineText(DrawContext context, TextRenderer renderer, OrderedText text, int x, int y, int color, Operation<Integer> original, @Local ChatHudLine.Visible line, @Local(argsOnly = true, ordinal = 0) int currentTick) {
         Animations animations = Reaxc.getInstance().getModuleProcessor().t().Q();
-        if (!animations.m() || !animations.q().a("Появление сообщений").c().booleanValue()) {
+        if (!animations.m() || !animations.q().a("Message appearance").c().booleanValue()) {
             return original.call(context, renderer, text, Integer.valueOf(x), Integer.valueOf(y), Integer.valueOf(color)).intValue();
         }
         double t = Math.max(0.0d, Math.min(1.0d, ((double) ((currentTick - line.addedTime()) + Interface.mc.getRenderTickCounter().getTickDelta(false))) / 9.0d));

@@ -8,11 +8,11 @@ import aethereal.event.RatioEvent;
 import aethereal.setting.ModeSetting;
 import aethereal.setting.SliderSetting;
 
-@ModuleRegister(name = "Aspect Ratio", description = "Изменяет соотношение сторон экрана", category = Category.Render)
+@ModuleRegister(name = "Aspect Ratio", description = "Changes the screen aspect ratio", category = Category.Render)
 public class AspectRatio extends Module {
-    public final ModeSetting b = new ModeSetting("Соотношение сторон", "Пользовательский", "4:3", "16:9", "1:1", "16:10", "Пользовательский");
-    public final SliderSetting c = new SliderSetting("Соотношение", 1.9f, 0.1f, 5.0f, 0.1f).a(() -> {
-        return Boolean.valueOf(this.b.l("Пользовательский"));
+    public final ModeSetting b = new ModeSetting("Aspect ratio", "Custom", "4:3", "16:9", "1:1", "16:10", "Custom");
+    public final SliderSetting c = new SliderSetting("Ratio", 1.9f, 0.1f, 5.0f, 0.1f).a(() -> {
+        return Boolean.valueOf(this.b.l("Custom"));
     });
 
     public AspectRatio() {

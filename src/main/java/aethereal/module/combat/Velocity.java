@@ -16,14 +16,14 @@ import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
-@ModuleRegister(name = "Velocity", description = "Не позволяет игрокам откидывать вас", category = Category.Combat)
+@ModuleRegister(name = "Velocity", description = "Prevents players from knocking you back", category = Category.Combat)
 public class Velocity extends Module {
-    private final ModeSetting b = new ModeSetting("Режим анти-отбрасывания", "Легитный", "Обычный", "Легитный");
-    private final BooleanSetting c = new BooleanSetting("Прыгать в легит", true).a(() -> {
-        return Boolean.valueOf(this.b.l("Легитный"));
+    private final ModeSetting b = new ModeSetting("Anti-knockback mode", "Legit", "Normal", "Legit");
+    private final BooleanSetting c = new BooleanSetting("Jump (legit)", true).a(() -> {
+        return Boolean.valueOf(this.b.l("Legit"));
     });
-    private final BooleanSetting d = new BooleanSetting("Легитный", true).a(() -> {
-        return Boolean.valueOf(this.b.l("Легитный"));
+    private final BooleanSetting d = new BooleanSetting("Legit", true).a(() -> {
+        return Boolean.valueOf(this.b.l("Legit"));
     });
     private Vec3d e = Vec3d.ZERO;
     private int tickTimer;
@@ -58,7 +58,7 @@ public class Velocity extends Module {
         EntityVelocityUpdateS2CPacket packet = (EntityVelocityUpdateS2CPacket) event.getPacket();
         if (packet instanceof EntityVelocityUpdateS2CPacket) {
             if (packet.getEntityId() == mc.player.getId()) {
-                if (!this.b.l("Обычный")) {
+                if (!this.b.l("Normal")) {
                     this.e = new Vec3d(packet.getVelocityX(), 0.0d, packet.getVelocityZ());
                 } else {
                     event.a(true);
@@ -75,7 +75,7 @@ public class Velocity extends Module {
             this.e = Vec3d.ZERO;
             return;
         }
-        if (!this.b.l("Легитный") || this.e.lengthSquared() == 0.0d || mc.player.age - this.tickTimer > 10) {
+        if (!this.b.l("Legit") || this.e.lengthSquared() == 0.0d || mc.player.age - this.tickTimer > 10) {
             return;
         }
         double angle = MathHelper.wrapDegrees((Math.toDegrees(Math.atan2(-this.e.z, -this.e.x)) - 90.0d) - ((double) Look.b()));

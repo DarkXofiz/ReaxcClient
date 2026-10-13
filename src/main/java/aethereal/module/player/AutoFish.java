@@ -14,7 +14,7 @@ import net.minecraft.network.packet.s2c.play.PlaySoundS2CPacket;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
 
-@ModuleRegister(name = "Auto Fish", description = "Автоматически ловит рыбу в AFK-режиме", category = Category.Player)
+@ModuleRegister(name = "Auto Fish", description = "Automatically fishes in AFK mode", category = Category.Player)
 public class AutoFish extends Module {
     private final CounterUtil b = new CounterUtil();
     private boolean isFishing;
@@ -34,7 +34,7 @@ public class AutoFish extends Module {
             if (mc.player.fishHook == null) {
                 d(false);
             }
-            ChatUtil.sendMessage(j() + " активирован, удачной рыбалки!");
+            ChatUtil.sendMessage(j() + " enabled, happy fishing!");
         }
     }
 

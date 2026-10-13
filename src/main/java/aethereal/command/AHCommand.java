@@ -39,8 +39,8 @@ public class AHCommand extends BaseCommand {
         }).then(a("sell").executes(context2 -> {
             a(0.0f);
             return 1;
-        }).then(f("процент").executes(context3 -> {
-            a(c(context3, "процент"));
+        }).then(f("percent").executes(context3 -> {
+            a(c(context3, "percent"));
             return 1;
         })));
     }
@@ -91,7 +91,7 @@ public class AHCommand extends BaseCommand {
             return info.a(stack);
         }).findFirst().orElse(null);
         if (item == null) {
-            ChatUtil.sendMessage("Авто-продажа недоступна для обычных предметов — только для донатных");
+            ChatUtil.sendMessage("Auto-sell is not available for regular items — donor items only");
             return;
         }
         b request = new b(item, stack.getCount(), percent);
@@ -109,7 +109,7 @@ public class AHCommand extends BaseCommand {
     private void a(b sell, int cheapest) {
         long price = Math.max(1L, Math.round(((double) cheapest) * (1.0d - (((double) sell.c()) / 100.0d)) * ((double) Math.max(1, sell.b()))));
         String strB = sell.a().getDisplayName();
-        ChatUtil.sendMessage("Выставляю &c" + strB + " &7за &c" + price + " &7(-" + strB + "% от " + ((int) sell.c()) + ")");
+        ChatUtil.sendMessage("Listing &c" + strB + " &7for &c" + price + " &7(-" + strB + "% of " + ((int) sell.c()) + ")");
         this.pendingCommand = "ah sell " + price;
     }
 

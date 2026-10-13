@@ -12,10 +12,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-@ModuleRegister(name = "Auto Accept", description = "Автоматически принимает выбранные запросы", category = Category.Player)
+@ModuleRegister(name = "Auto Accept", description = "Automatically accepts the selected requests", category = Category.Player)
 public class AutoAccept extends Module {
-    public final MultiModeSetting b = new MultiModeSetting("Принимать запросы", new BooleanSetting("В клановую команду", true), new BooleanSetting("Телепортации", true));
-    private final BooleanSetting c = new BooleanSetting("Принимать только друзей", true);
+    public final MultiModeSetting b = new MultiModeSetting("Accept requests", new BooleanSetting("To clan team", true), new BooleanSetting("Teleports", true));
+    private final BooleanSetting c = new BooleanSetting("Accept friends only", true);
     private final List<String> d = List.of("просит телепортироваться", "хочет телепортироваться", "Заявка буудет автоматически отменена через", "просит телепортироваться к Вам.", "120 секунд", "has requested to teleport", "teleport to you", "This request will timeout after", "120 seconds");
     private final List<String> e = List.of("приглашает вас в клан", "invites you to the clan");
 
@@ -33,7 +33,7 @@ public class AutoAccept extends Module {
                 })) {
                     return;
                 }
-                if (this.b.a("Телепортации").c().booleanValue()) {
+                if (this.b.a("Teleports").c().booleanValue()) {
                     Stream<String> stream = this.d.stream();
                     Objects.requireNonNull(chat);
                     if (stream.anyMatch((v1) -> {
@@ -42,7 +42,7 @@ public class AutoAccept extends Module {
                         mc.player.networkHandler.sendChatCommand("tpaccept");
                     }
                 }
-                if (this.b.a("В клановую команду").c().booleanValue()) {
+                if (this.b.a("To clan team").c().booleanValue()) {
                     Stream<String> stream2 = this.e.stream();
                     Objects.requireNonNull(chat);
                     if (stream2.anyMatch((v1) -> {

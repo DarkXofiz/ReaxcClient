@@ -27,9 +27,9 @@ public class BlockESPCommand extends BaseCommand {
     @Override
     public void a(LiteralArgumentBuilder<CommandSource> builder) {
         builder.then(a("add").executes(context -> {
-            ChatUtil.sendMessage("Использование: .blockesp add <блок> [цвет]");
+            ChatUtil.sendMessage("Usage: .blockesp add <block> [color]");
             return 1;
-        }).then(d("блок").suggests((context2, suggestions) -> {
+        }).then(d("block").suggests((context2, suggestions) -> {
             Stream<String> streamLimit = Registries.BLOCK.stream().filter(block -> {
                 return block != Blocks.AIR;
             }).map(block2 -> {
@@ -41,8 +41,8 @@ public class BlockESPCommand extends BaseCommand {
             streamLimit.forEach(s -> suggestions.suggest((String) s));
             return suggestions.buildFuture();
         }).executes(context3 -> {
-            return a(a(context3, "блок"), null);
-        }).then(d("цвет").suggests((context4, suggestions2) -> {
+            return a(a(context3, "block"), null);
+        }).then(d("color").suggests((context4, suggestions2) -> {
             Stream<String> streamFilter = Arrays.stream(EspColor.values()).map(color -> {
                 return color.name().toLowerCase();
             }).filter(name -> {
@@ -52,40 +52,40 @@ public class BlockESPCommand extends BaseCommand {
             streamFilter.forEach(s -> suggestions2.suggest((String) s));
             return suggestions2.buildFuture();
         }).executes(context5 -> {
-            return a(a(context5, "блок"), a(context5, "цвет"));
+            return a(a(context5, "block"), a(context5, "color"));
         })))).then(a("remove").executes(context6 -> {
-            ChatUtil.sendMessage("Использование: .blockesp remove <блок>");
+            ChatUtil.sendMessage("Usage: .blockesp remove <block>");
             return 1;
-        }).then(d("блок").suggests(a(() -> {
+        }).then(d("block").suggests(a(() -> {
             return this.c;
         }, info -> {
             return Registries.BLOCK.getId(info.a).getPath();
         })).executes(context7 -> {
-            String name = a(context7, "блок");
+            String name = a(context7, "block");
             if (this.c.removeIf(info2 -> {
                 return info2.a == Registries.BLOCK.get(Identifier.of(name));
             })) {
-                ChatUtil.sendMessage("Блок &c" + name + " &7успешно удалён");
+                ChatUtil.sendMessage("Block &c" + name + " &7removed successfully");
                 return 1;
             }
-            ChatUtil.sendMessage("Блок с именем &c" + name + " &7отсутствует");
+            ChatUtil.sendMessage("Block named &c" + name + " &7is not in the list");
             return 1;
         }))).then(a("list").executes(context8 -> {
             if (this.c.isEmpty()) {
-                ChatUtil.sendMessage("Список блоков не содержит элементов");
+                ChatUtil.sendMessage("The block list is empty");
                 return 1;
             }
-            ChatUtil.sendMessage("Список всех блоков (" + this.c.size() + "):");
+            ChatUtil.sendMessage("All blocks (" + this.c.size() + "):");
             for (a info2 : this.c) {
                 ChatUtil.sendMessage("— &c" + Registries.BLOCK.getId(info2.a).getPath() + (info2.b != -1 ? " &7(" + a(info2.b) + ")" : ""));
             }
             return 1;
         })).then(a("clear").executes(context9 -> {
-            ChatUtil.sendMessage("Количество удалённых блоков: " + this.c.size());
+            ChatUtil.sendMessage("Number of removed blocks: " + this.c.size());
             this.c.clear();
             return 1;
         })).executes(context10 -> {
-            ChatUtil.sendMessage("Использование: .blockesp <add|remove|list|clear>");
+            ChatUtil.sendMessage("Usage: .blockesp <add|remove|list|clear>");
             return 1;
         });
     }
@@ -97,10 +97,10 @@ public class BlockESPCommand extends BaseCommand {
                 return info.a == block;
             });
             this.c.add(new a(block, colorName != null ? EspColor.a(colorName) : -1));
-            ChatUtil.sendMessage("Блок &c" + name + " &7успешно добавлен" + (colorName != null ? " (&c" + colorName + "&7)" : ""));
+            ChatUtil.sendMessage("Block &c" + name + " &7added successfully" + (colorName != null ? " (&c" + colorName + "&7)" : ""));
             return 1;
         }
-        ChatUtil.sendMessage("Блок с именем &c" + name + " &7не найден");
+        ChatUtil.sendMessage("Block named &c" + name + " &7not found");
         return 1;
     }
 

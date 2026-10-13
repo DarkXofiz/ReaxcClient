@@ -31,8 +31,8 @@ public class PotionWidget extends Widget implements Interface {
     private final StatusEffectInstance g;
 
     public PotionWidget() {
-        super(new DragInfo("Зелья", 0.0f, 0.0f, 0.0f, 0.0f));
-        this.f = new BooleanSetting("Боковое отображение", false);
+        super(new DragInfo("Potions", 0.0f, 0.0f, 0.0f, 0.0f));
+        this.f = new BooleanSetting("Side display", false);
         this.g = new StatusEffectInstance(StatusEffects.SPEED, 1200, 0);
         j().setWidget(this);
         a(this.f);
@@ -153,9 +153,9 @@ public class PotionWidget extends Widget implements Interface {
                     visible = true;
                 }
                 if (effect != this.g && effect.getDuration() == 100 && (effect.getEffectType().equals(StatusEffects.STRENGTH) || effect.getEffectType().equals(StatusEffects.SPEED) || effect.getEffectType().equals(StatusEffects.HEALTH_BOOST) || effect.getEffectType().equals(StatusEffects.INVISIBILITY))) {
-                    Reaxc.getInstance().getModuleProcessor().m().a(new Notification("E", Text.literal("Эффект ").append(Text.translatable(effect.getEffectType().value().getTranslationKey()).append(" " + (effect.getAmplifier() + 1)).styled(style -> {
+                    Reaxc.getInstance().getModuleProcessor().m().a(new Notification("E", Text.literal("Effect ").append(Text.translatable(effect.getEffectType().value().getTranslationKey()).append(" " + (effect.getAmplifier() + 1)).styled(style -> {
                         return style.withColor(Reaxc.getInstance().getModuleProcessor().o().a(ThemeInfo.PRIMARY).toIntColor());
-                    })).append(Text.literal(" заканчивается")), 2500));
+                    })).append(Text.literal(" is ending")), 2500));
                 }
             }
         }

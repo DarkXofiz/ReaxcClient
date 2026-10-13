@@ -11,11 +11,11 @@ import aethereal.setting.StringSetting;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
-@ModuleRegister(name = "Fun Deliver", description = "Автоматическая выдача валюты по заказам FunPay", category = Category.Misc)
+@ModuleRegister(name = "Fun Deliver", description = "Automatic currency delivery for FunPay orders", category = Category.Misc)
 public class FunDeliver extends Module {
-    private final StringSetting b = new StringSetting("Укажите ваш Golden-Key", "").a();
-    private final SliderSetting c = new SliderSetting("Триггер цены обработки товара", 1.0f, 0.5f, 10.0f, 0.01f, true);
-    private final SliderSetting d = new SliderSetting("Продавать при сумме от (кк)", 10.0f, 1.0f, 50.0f, 1.0f, true);
+    private final StringSetting b = new StringSetting("Enter your Golden-Key", "").a();
+    private final SliderSetting c = new SliderSetting("Item processing price trigger", 1.0f, 0.5f, 10.0f, 0.01f, true);
+    private final SliderSetting d = new SliderSetting("Sell when the amount is at least (kk)", 10.0f, 1.0f, 50.0f, 1.0f, true);
     private final ScheduledExecutorService e = Executors.newSingleThreadScheduledExecutor();
 
     public FunDeliver() {

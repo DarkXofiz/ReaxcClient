@@ -7,10 +7,10 @@ import aethereal.core.ModuleRegister;
 import aethereal.event.TickEvent;
 import aethereal.setting.SliderSetting;
 
-@ModuleRegister(name = "Fly", description = "Позволяет свободно летать по миру", category = Category.Movement)
+@ModuleRegister(name = "Fly", description = "Lets you fly freely around the world", category = Category.Movement)
 public class Fly extends Module {
-    private final SliderSetting b = new SliderSetting("Скорость X и Z", 1.0f, 0.1f, 5.0f, 0.1f);
-    private final SliderSetting c = new SliderSetting("Скорость Y", 1.0f, 0.1f, 5.0f, 0.1f);
+    private final SliderSetting b = new SliderSetting("Speed X and Z", 1.0f, 0.1f, 5.0f, 0.1f);
+    private final SliderSetting c = new SliderSetting("Speed Y", 1.0f, 0.1f, 5.0f, 0.1f);
 
     public Fly() {
         a(this.b, this.c);

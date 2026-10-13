@@ -29,14 +29,14 @@ import java.util.Optional;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-@ModuleRegister(name = "Trigger Bot", description = "Автоматически наносит удар при наведении прицела на цель", category = Category.Combat)
+@ModuleRegister(name = "Trigger Bot", description = "Automatically hits when the crosshair is on a target", category = Category.Combat)
 public class TriggerBot extends Module {
-    final BooleanSetting b = new BooleanSetting("Преследование цели", false);
-    private final MultiModeSetting f = new MultiModeSetting("Цели для атаки", new BooleanSetting("Игроки", true), new BooleanSetting("Животные", false), new BooleanSetting("Мобы", false), new BooleanSetting("Друзья", true));
-    private final MultiModeSetting g = new MultiModeSetting("Дополнительно", new BooleanSetting("Только критические удары", true), new BooleanSetting("Адаптивные удары", true), new BooleanSetting("Случайные промахи", true));
-    private final MultiModeSetting h = new MultiModeSetting("Не бить когда", new BooleanSetting("Используется предмет", true), new BooleanSetting("Открыт контейнер", true), new BooleanSetting("Враг за стеной", false));
-    private final ModeSetting i = new ModeSetting("Сброс спринта", "Легитный", "Легитный", "Рейдж");
-    private final ModeSetting j = new ModeSetting("Выбор таргета", "Свободный", "Свободный", "Фиксирующий");
+    final BooleanSetting b = new BooleanSetting("Target chasing", false);
+    private final MultiModeSetting f = new MultiModeSetting("Attack targets", new BooleanSetting("Players", true), new BooleanSetting("Animals", false), new BooleanSetting("Mobs", false), new BooleanSetting("Friends", true));
+    private final MultiModeSetting g = new MultiModeSetting("Extra", new BooleanSetting("Critical hits only", true), new BooleanSetting("Adaptive hits", true), new BooleanSetting("Random misses", true));
+    private final MultiModeSetting h = new MultiModeSetting("Don't hit when", new BooleanSetting("Using an item", true), new BooleanSetting("Container open", true), new BooleanSetting("Enemy behind a wall", false));
+    private final ModeSetting i = new ModeSetting("Sprint reset", "Legit", "Legit", "Rage");
+    private final ModeSetting j = new ModeSetting("Target selection", "Free", "Free", "Locking");
     private final CounterUtil k = new CounterUtil();
     public int d;
     boolean c;
@@ -76,7 +76,7 @@ public class TriggerBot extends Module {
             Vec3d targetPosition = AuraUtil.a(mc.player.getEyePos(), this.target, 3.0d, true);
             this.targetYaw = targetPosition == Vec3d.ZERO ? Look.b() : (float) MathHelper.wrapDegrees(Math.toDegrees(Math.atan2(targetPosition.z, targetPosition.x)) - 90.0d);
         }
-        if (this.i.l("Легитный") && this.stallTicks > 0) {
+        if (this.i.l("Legit") && this.stallTicks > 0) {
             e.setForward(0.0f);
             e.setStrafe(0.0f);
             this.stallTicks--;
@@ -96,7 +96,7 @@ public class TriggerBot extends Module {
     private void t() {
         this.d++;
         v();
-        if (this.target != null && this.g.a("Случайные промахи").c().booleanValue() && this.d >= 2 && this.m >= 30 && (((Math.random() > 0.5d && this.d >= 1) || this.d == 4) && (!this.e || !AuraUtil.a(mc.player.getYaw(), mc.player.getPitch(), 3.0d, this.target, false)))) {
+        if (this.target != null && this.g.a("Random misses").c().booleanValue() && this.d >= 2 && this.m >= 30 && (((Math.random() > 0.5d && this.d >= 1) || this.d == 4) && (!this.e || !AuraUtil.a(mc.player.getYaw(), mc.player.getPitch(), 3.0d, this.target, false)))) {
             ((platform.inject.invokers.MinecraftClientInvoker) mc).invokeDoAttack();
             this.e = !this.e;
             this.m = (int) MathUtil.a(-10.0f, 10.0f);
@@ -111,7 +111,7 @@ public class TriggerBot extends Module {
         if (this.target == null || !q()) {
             return;
         }
-        if (!AuraUtil.a(mc.player.getYaw(), mc.player.getPitch(), 3.0d, this.target, !this.h.a("Враг за стеной").c().booleanValue())) {
+        if (!AuraUtil.a(mc.player.getYaw(), mc.player.getPitch(), 3.0d, this.target, !this.h.a("Enemy behind a wall").c().booleanValue())) {
             return;
         }
         boolean skip = false;
@@ -140,7 +140,7 @@ public class TriggerBot extends Module {
     }
 
     private void v() {
-        if (this.j.l("Фиксирующий")) {
+        if (this.j.l("Locking")) {
             if (!a(this.target) || (MaceUtil.a() && !this.c && !mc.player.getItemCooldownManager().isCoolingDown(Items.MACE.getDefaultStack()))) {
                 this.target = d(false);
                 return;
@@ -179,7 +179,7 @@ public class TriggerBot extends Module {
         if (!((platform.inject.accessors.ClientPlayerEntityAccessor) mc.player).getWasSprinting() || mc.player.isTouchingWater() || mc.player.isInLava() || mc.player.isSwimming() || mc.player.isOnGround()) {
             return false;
         }
-        if (this.i.l("Рейдж")) {
+        if (this.i.l("Rage")) {
             ((platform.inject.accessors.ClientPlayerEntityAccessor) mc.player).setWasSprinting(false);
             mc.player.setSprinting(false);
             mc.player.networkHandler.sendPacket(new ClientCommandC2SPacket(mc.player, ClientCommandC2SPacket.Mode.STOP_SPRINTING));
@@ -191,11 +191,11 @@ public class TriggerBot extends Module {
     }
 
     public boolean q() {
-        if (this.h.a("Используется предмет") != null && this.h.a("Используется предмет").c().booleanValue() && mc.player.isUsingItem() && mc.player.getItemUseTimeLeft() > 0 && this.d >= 8) {
+        if (this.h.a("Using an item") != null && this.h.a("Using an item").c().booleanValue() && mc.player.isUsingItem() && mc.player.getItemUseTimeLeft() > 0 && this.d >= 8) {
             this.d = 8;
             return false;
         }
-        if ((this.h.a("Открыт контейнер") != null && this.h.a("Открыт контейнер").c().booleanValue() && mc.currentScreen != null && !(mc.currentScreen instanceof GUIScreen) && !(mc.currentScreen instanceof AssistantScreen)) || !AuraUtil.a(this.target, 3.0d)) {
+        if ((this.h.a("Container open") != null && this.h.a("Container open").c().booleanValue() && mc.currentScreen != null && !(mc.currentScreen instanceof GUIScreen) && !(mc.currentScreen instanceof AssistantScreen)) || !AuraUtil.a(this.target, 3.0d)) {
             return false;
         }
         if (Reaxc.getInstance().getModuleProcessor().t().H().e) {
@@ -213,19 +213,19 @@ public class TriggerBot extends Module {
         } else if (mc.player.getAttackCooldownProgress(0.5f) < 0.9f || this.d < 10) {
             return false;
         }
-        return AuraUtil.c() || (this.g.a("Адаптивные удары").c().booleanValue() && mc.player.isOnGround() && !mc.player.input.playerInput.jump()) || !AuraUtil.b();
+        return AuraUtil.c() || (this.g.a("Adaptive hits").c().booleanValue() && mc.player.isOnGround() && !mc.player.input.playerInput.jump()) || !AuraUtil.b();
     }
 
     private LivingEntity d(boolean aimed) {
         if (!aimed) {
-            return (this.h.a("Враг за стеной").c().booleanValue() ? e(false).or(() -> {
+            return (this.h.a("Enemy behind a wall").c().booleanValue() ? e(false).or(() -> {
                 return e(true);
             }) : e(true)).orElse(null);
         }
         float yaw = mc.player.getYaw();
         float pitch = mc.player.getPitch();
         return x().filter(e -> {
-            return AuraUtil.a(yaw, pitch, 3.0d, e, !this.h.a("Враг за стеной").c().booleanValue());
+            return AuraUtil.a(yaw, pitch, 3.0d, e, !this.h.a("Enemy behind a wall").c().booleanValue());
         }).min(Comparator.comparingDouble((v0) -> {
             return AuraUtil.a(v0);
         })).orElse(null);
@@ -265,13 +265,13 @@ public class TriggerBot extends Module {
 
     private boolean d(LivingEntity e) {
         if (e instanceof PlayerEntity p) {
-            return this.f.a("Игроки").c().booleanValue() && (this.f.a("Друзья").c().booleanValue() || !Reaxc.getInstance().getModuleProcessor().e().d(p.getName().getString()));
+            return this.f.a("Players").c().booleanValue() && (this.f.a("Friends").c().booleanValue() || !Reaxc.getInstance().getModuleProcessor().e().d(p.getName().getString()));
         }
         if (e instanceof MobEntity) {
-            return this.f.a("Мобы").c().booleanValue();
+            return this.f.a("Mobs").c().booleanValue();
         }
         if (e instanceof AnimalEntity) {
-            return this.f.a("Животные").c().booleanValue();
+            return this.f.a("Animals").c().booleanValue();
         }
         return false;
     }

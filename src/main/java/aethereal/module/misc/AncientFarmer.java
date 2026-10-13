@@ -40,9 +40,9 @@ import java.util.function.Predicate;
 import java.util.stream.IntStream;
 import java.util.stream.StreamSupport;
 
-@ModuleRegister(name = "Ancient Farmer", description = "Автоматически фармит древние обломки в режиме полета", category = Category.Misc)
+@ModuleRegister(name = "Ancient Farmer", description = "Automatically farms ancient debris while flying", category = Category.Misc)
 public class AncientFarmer extends Module {
-    private final ModeSetting b = new ModeSetting("Режим поиска территории", "Поиск сверху", "Поиск сверху", "Поиск снизу");
+    private final ModeSetting b = new ModeSetting("Territory search mode", "Search from above", "Search from above", "Search from below");
     private final ExecutorService c = Executors.newSingleThreadExecutor();
     private final CounterUtil d = new CounterUtil();
     private Phase e = Phase.SEARCH;
@@ -74,7 +74,7 @@ public class AncientFarmer extends Module {
         boolean work = missing == AncientFarmer.a.TNT && this.e != Phase.SEARCH;
         ServerUtil.a.d();
         if (missing != null && !work) {
-            ChatUtil.sendMessage("Для работы модуля " + missing.c() + "!");
+            ChatUtil.sendMessage("For this module to work, " + missing.c() + "!");
             a();
             return;
         }
@@ -113,12 +113,12 @@ public class AncientFarmer extends Module {
         switch (this.e) {
             case SEARCH:
                 if (!xray.getDebrisList().isEmpty()) {
-                    ChatUtil.sendMessage("Вскапываем обломки найденные по пути");
+                    ChatUtil.sendMessage("Mining debris found along the way");
                     this.e = Phase.MINE;
                 } else if (this.searchBox == null) {
                     this.c.execute(() -> {
                         if (this.searchBox == null && mc.player.age > 20) {
-                            ChatUtil.sendMessage("Переходим к поиску новой территории.");
+                            ChatUtil.sendMessage("Moving on to find a new territory.");
                             this.searchBox = searchArea();
                         }
                     });
@@ -237,7 +237,7 @@ public class AncientFarmer extends Module {
                     return true;
                 });
                 if (burning.isEmpty()) {
-                    ChatUtil.sendMessage("Ожидаем обломки, и начинаем вскапывать");
+                    ChatUtil.sendMessage("Waiting for debris, then starting to mine");
                     baritone.getPathingBehavior().cancelEverything();
                     this.searchBox = null;
                     this.e = Phase.MINE;
@@ -255,7 +255,7 @@ public class AncientFarmer extends Module {
                     if (!xray.getDebrisList().isEmpty()) {
                         if (!baritone.getMineProcess().isActive()) {
                             baritone.getMineProcess().minePositions(Items.ANCIENT_DEBRIS, xray.getDebrisList());
-                            Reaxc.getInstance().f().a(false, "telegram", "message", "⛏️ AncientFarmer — Найдены древние обломки!\n\n📍 Позиций для добычи: %s\n".formatted(Integer.valueOf(xray.getDebrisList().size())));
+                            Reaxc.getInstance().f().a(false, "telegram", "message", "⛏️ AncientFarmer — Ancient debris found!\n\n📍 Positions to mine: %s\n".formatted(Integer.valueOf(xray.getDebrisList().size())));
                         }
                     } else if (!baritone.getMineProcess().isActive()) {
                         this.e = Phase.SEARCH;
@@ -277,8 +277,8 @@ public class AncientFarmer extends Module {
         int reach = ((int) ((Math.sqrt(mc.world.getChunkManager().getLoadedChunkCount()) - 1.0d) / 2.0d)) * 16;
         BlockPos feet = mc.player.getBlockPos();
         WorldBorder border = mc.world.getWorldBorder();
-        int bottom = this.b.l("Поиск сверху") ? 90 : 20;
-        int top = this.b.l("Поиск сверху") ? InterfaceC0020Opcode.bN : 60;
+        int bottom = this.b.l("Search from above") ? 90 : 20;
+        int top = this.b.l("Search from above") ? InterfaceC0020Opcode.bN : 60;
         Box best = null;
         double bestScore = -1.0d;
         double bestFill = 0.0d;
@@ -324,7 +324,7 @@ public class AncientFarmer extends Module {
         if (best != null) {
             long jRound = Math.round(bestFill * 100.0d);
             Math.round(Math.sqrt(feet.getSquaredDistance(best.getCenter())));
-            ChatUtil.sendMessage("Успешность: &c" + jRound + "%&7, до неё &c" + jRound + "&7 блоков");
+            ChatUtil.sendMessage("Success rate: &c" + jRound + "%&7, distance to it &c" + jRound + "&7 blocks");
         }
         return best;
     }
@@ -349,25 +349,25 @@ public class AncientFarmer extends Module {
     }
 
     enum a {
-        FLY("необходимо включить режим полёта (/fly)", () -> {
+        FLY("you need to enable fly mode (/fly)", () -> {
             return Interface.mc.player.getAbilities().allowFlying;
         }),
-        NETHER("необходимо находиться в Незере", () -> {
+        NETHER("you need to be in the Nether", () -> {
             return Interface.mc.world.getRegistryKey() == World.NETHER;
         }),
-        FOOD("в хотбаре должна быть еда", stack -> {
+        FOOD("you need food in your hotbar", stack -> {
             return stack.contains(DataComponentTypes.FOOD);
         }),
-        TNT("в хотбаре должен быть динамит", stack2 -> {
+        TNT("you need TNT in your hotbar", stack2 -> {
             return stack2.isOf(Items.TNT);
         }),
-        FLINT_AND_STEEL("в хотбаре должно быть огниво", stack3 -> {
+        FLINT_AND_STEEL("you need a flint and steel in your hotbar", stack3 -> {
             return stack3.isOf(Items.FLINT_AND_STEEL);
         }),
-        PICKAXE("в хотбаре должна быть кирка с прочностью больше 5%", stack4 -> {
+        PICKAXE("you need a pickaxe with more than 5% durability in your hotbar", stack4 -> {
             return (stack4.getItem() instanceof PickaxeItem) && ((double) (stack4.getMaxDamage() - stack4.getDamage())) > ((double) stack4.getMaxDamage()) * 0.050000008964116646d;
         }),
-        FIRE_RESISTANCE("в хотбаре должна быть огнестойкость", stack5 -> {
+        FIRE_RESISTANCE("you need fire resistance in your hotbar", stack5 -> {
             return StreamSupport.stream(stack5.getOrDefault(DataComponentTypes.POTION_CONTENTS, PotionContentsComponent.DEFAULT).getEffects().spliterator(), false).anyMatch(effect -> {
                 return effect.getEffectType() == StatusEffects.FIRE_RESISTANCE;
             });

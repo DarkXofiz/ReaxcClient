@@ -31,7 +31,7 @@ public abstract class InventoryScreenMixin extends HandledScreen<PlayerScreenHan
 
     public void init() {
         super.init();
-        this.button = addDrawableChild(ButtonWidget.builder(Text.literal("Выкинуть всё"), this::onDropAllClick).dimensions((this.width - 100) / 2, ((this.height - this.backgroundHeight) / 2) - 24, 100, 20).build());
+        this.button = addDrawableChild(ButtonWidget.builder(Text.literal("Drop all"), this::onDropAllClick).dimensions((this.width - 100) / 2, ((this.height - this.backgroundHeight) / 2) - 24, 100, 20).build());
     }
 
     public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta) {
@@ -45,7 +45,7 @@ public abstract class InventoryScreenMixin extends HandledScreen<PlayerScreenHan
     @Inject(method = {"render"}, at = {@At("HEAD")})
     private void headRender(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         Animations animations = Reaxc.getInstance().getModuleProcessor().t().Q();
-        if (animations.m() && animations.q().a("Открытие инвентаря").c().booleanValue()) {
+        if (animations.m() && animations.q().a("Inventory opening").c().booleanValue()) {
             float value = animations.t().c();
             context.getMatrices().push();
             context.getMatrices().translate(this.width / 2.0f, this.height / 2.0f, 0.0f);
@@ -60,7 +60,7 @@ public abstract class InventoryScreenMixin extends HandledScreen<PlayerScreenHan
     @Inject(method = {"render"}, at = {@At("RETURN")})
     private void render(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         Animations animations = Reaxc.getInstance().getModuleProcessor().t().Q();
-        if (animations.m() && animations.q().a("Открытие инвентаря").c().booleanValue()) {
+        if (animations.m() && animations.q().a("Inventory opening").c().booleanValue()) {
             context.getMatrices().pop();
         }
     }

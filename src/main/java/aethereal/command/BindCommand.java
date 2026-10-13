@@ -20,41 +20,41 @@ public class BindCommand extends BaseCommand {
     public void a(LiteralArgumentBuilder<CommandSource> builder) {
         ModuleProcessor processor = Reaxc.getInstance().getModuleProcessor().t();
         LiteralArgumentBuilder<CommandSource> literalArgumentBuilderExecutes = a("add").executes(context -> {
-            ChatUtil.sendMessage("Использование: .bind add <название модуля> <клавиша>");
+            ChatUtil.sendMessage("Usage: .bind add <module name> <key>");
             return 1;
         });
-        RequiredArgumentBuilder<CommandSource, String> requiredArgumentBuilderC = c("аргументы");
+        RequiredArgumentBuilder<CommandSource, String> requiredArgumentBuilderC = c("args");
         Objects.requireNonNull(processor);
         builder.then(literalArgumentBuilderExecutes.then(requiredArgumentBuilderC.suggests(a(processor::e, (v0) -> {
             return v0.j();
         })).executes(context2 -> {
-            String args = a(context2, "аргументы");
+            String args = a(context2, "args");
             if (args == null || args.trim().isEmpty()) {
-                ChatUtil.sendMessage("Использование: .bind add <название модуля> <клавиша>");
+                ChatUtil.sendMessage("Usage: .bind add <module name> <key>");
                 return 1;
             }
             String[] parts = args.trim().split("\\s+");
             if (parts.length < 2) {
-                ChatUtil.sendMessage("Использование: .bind add <название модуля> <клавиша>");
+                ChatUtil.sendMessage("Usage: .bind add <module name> <key>");
                 return 1;
             }
             String keyName = parts[parts.length - 1];
             String moduleName = args.substring(0, args.length() - keyName.length()).trim();
             KeyUtil key = KeyUtil.a(keyName);
             if (key == KeyUtil.UNKNOWN) {
-                ChatUtil.sendMessage("Клавиша " + keyName + " не найдена.");
+                ChatUtil.sendMessage("Key " + keyName + " not found.");
                 return 1;
             }
             Module module = processor.e().stream().filter(m -> {
                 return m.j().equalsIgnoreCase(moduleName);
             }).findFirst().orElse(null);
             if (module == null) {
-                ChatUtil.sendMessage("Модуль " + moduleName + " не найден.");
+                ChatUtil.sendMessage("Module " + moduleName + " not found.");
                 return 1;
             }
             module.a(key.a());
             processor.unSetup();
-            ChatUtil.sendMessage("Модуль " + moduleName + " был успешно привязан к клавише " + key.b() + ".");
+            ChatUtil.sendMessage("Module " + moduleName + " was successfully bound to key " + key.b() + ".");
             return 1;
         }))).then(a("list").executes(context3 -> {
             List<Module> modules = processor.e().stream().filter(module -> {
@@ -66,10 +66,10 @@ public class BindCommand extends BaseCommand {
                 });
             }).toList();
             if (modules.isEmpty()) {
-                ChatUtil.sendMessage("Список модулей с привязанными клавишами пуст.");
+                ChatUtil.sendMessage("The list of modules with bound keys is empty.");
                 return 1;
             }
-            ChatUtil.sendMessage("Список модулей с привязанными клавишами (" + modules.size() + "):");
+            ChatUtil.sendMessage("Modules with bound keys (" + modules.size() + "):");
             modules.forEach(module2 -> {
                 String binds = module2.e().stream().filter(setting -> {
                     if (setting instanceof BindSetting bind) {
@@ -87,33 +87,33 @@ public class BindCommand extends BaseCommand {
                 module.a(-1);
             }
             processor.unSetup();
-            ChatUtil.sendMessage("Привязанные клавиши были успешно очищены у всех модулей.");
+            ChatUtil.sendMessage("Bound keys were successfully cleared from all modules.");
             return 1;
         })).then(a("remove").executes(context5 -> {
-            ChatUtil.sendMessage("Использование: .bind remove <клавиша>");
+            ChatUtil.sendMessage("Usage: .bind remove <key>");
             return 1;
-        }).then(d("клавиша").suggests(b()).executes(context6 -> {
-            String name = a(context6, "клавиша");
+        }).then(d("key").suggests(b()).executes(context6 -> {
+            String name = a(context6, "key");
             KeyUtil key = KeyUtil.a(name);
             if (key == KeyUtil.UNKNOWN) {
-                ChatUtil.sendMessage("Клавиша " + name + " не найдена.");
+                ChatUtil.sendMessage("Key " + name + " not found.");
                 return 1;
             }
             List<Module> modules = processor.e().stream().filter(module -> {
                 return module.p() == key.a();
             }).toList();
             if (modules.isEmpty()) {
-                ChatUtil.sendMessage("Нет модулей, привязанных к клавише " + key.b() + ".");
+                ChatUtil.sendMessage("No modules are bound to key " + key.b() + ".");
                 return 1;
             }
             modules.forEach(module2 -> {
                 module2.a(-1);
             });
             processor.unSetup();
-            ChatUtil.sendMessage("Клавиша " + key.b() + " была успешно удалена из " + modules.size() + " модулей.");
+            ChatUtil.sendMessage("Key " + key.b() + " was successfully removed from " + modules.size() + " modules.");
             return 1;
         }))).executes(context7 -> {
-            ChatUtil.sendMessage("Использование: .bind <add|list|clear|remove>");
+            ChatUtil.sendMessage("Usage: .bind <add|list|clear|remove>");
             return 1;
         });
     }

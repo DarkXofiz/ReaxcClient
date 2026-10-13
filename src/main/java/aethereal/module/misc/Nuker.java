@@ -17,12 +17,12 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.*;
 import net.minecraft.world.RaycastContext;
 
-@ModuleRegister(name = "Nuker", description = "Автоматически разрушает блоки в радиусе досягаемости", category = Category.Misc)
+@ModuleRegister(name = "Nuker", description = "Automatically breaks blocks within reach", category = Category.Misc)
 public class Nuker extends Module {
-    private final ModeSetting b = new ModeSetting("Режим копания территории", "Шахта ФанТайм", "Шахта ФанТайм", "Общий");
-    private final SliderSetting c = new SliderSetting("Дистанция копания", 4.0f, 1.0f, 6.0f, 0.5f);
-    private final SliderSetting d = new SliderSetting("Скорость копания", 1.0f, 1.0f, 5.0f, 1.0f);
-    private final BooleanSetting e = new BooleanSetting("Не копать под себя", true);
+    private final ModeSetting b = new ModeSetting("Territory digging mode", "FunTime Mine", "FunTime Mine", "General");
+    private final SliderSetting c = new SliderSetting("Dig distance", 4.0f, 1.0f, 6.0f, 0.5f);
+    private final SliderSetting d = new SliderSetting("Dig speed", 1.0f, 1.0f, 5.0f, 1.0f);
+    private final BooleanSetting e = new BooleanSetting("Don't dig under yourself", true);
     private BlockPos targetPos;
 
     public Nuker() {
@@ -47,11 +47,11 @@ public class Nuker extends Module {
         this.targetPos = null;
         ItemStack tool = mc.player.getMainHandStack();
         if (tool.isDamageable() && tool.getMaxDamage() - tool.getDamage() < 50) {
-            ChatUtil.sendMessage("Работа прекращена во избежание поломки кирки.");
+            ChatUtil.sendMessage("Stopped to avoid breaking the pickaxe.");
             a();
             return;
         }
-        if (this.b.l("Шахта ФанТайм") && ServerUtil.a.a$()) {
+        if (this.b.l("FunTime Mine") && ServerUtil.a.a$()) {
             assistant.detectMineArea();
         }
         boolean pickaxe = tool.getItem() instanceof PickaxeItem;
@@ -109,7 +109,7 @@ public class Nuker extends Module {
         if (state.isAir()) {
             return false;
         }
-        return !this.b.l("Шахта ФанТайм") || (pickaxe && mineBox.contains(pos.toCenterPos()) && state.calcBlockBreakingDelta(mc.player, mc.world, pos) >= 1.0f);
+        return !this.b.l("FunTime Mine") || (pickaxe && mineBox.contains(pos.toCenterPos()) && state.calcBlockBreakingDelta(mc.player, mc.world, pos) >= 1.0f);
     }
 
     private boolean a(Vec3d eye, BlockPos pos) {

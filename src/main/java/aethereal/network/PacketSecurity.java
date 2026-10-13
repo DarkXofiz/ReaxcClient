@@ -31,7 +31,7 @@ public class PacketSecurity {
         }
         Object parsed = gson.fromJson(jsonPayload, JsonObject.class);
         if (!(parsed instanceof JsonObject jsonObject)) {
-            throw new ClassCastException("Ожидался JsonObject");
+            throw new ClassCastException("Expected JsonObject");
         }
         if (jsonObject.has(key) && !jsonObject.get(key).isJsonNull()) {
             return jsonObject.get(key).getAsString();
@@ -48,7 +48,7 @@ public class PacketSecurity {
             return null;
         }
         if (!(parsed instanceof JsonObject jsonObject)) {
-            throw new ClassCastException("Ожидался JsonObject");
+            throw new ClassCastException("Expected JsonObject");
         }
         if (!jsonObject.has(key)) {
             return null;
@@ -86,7 +86,7 @@ public class PacketSecurity {
 
     public String buildJson(Object... keyValues) {
         if (keyValues == null || (keyValues.length & 1) != 0) {
-            throw new IllegalArgumentException("keyValues должно содержать чётное количество элементов");
+            throw new IllegalArgumentException("keyValues must contain an even number of elements");
         }
         JsonObject jsonObject = new JsonObject();
         for (int i = 0; i < keyValues.length; i += 2) {

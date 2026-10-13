@@ -29,9 +29,9 @@ public class TargetWidget extends Widget {
     private String k;
 
     public TargetWidget() {
-        super(new DragInfo("Таргет-худ", 0.0f, 0.0f, 0.0f, 0.0f));
-        this.f = new BooleanSetting("Визуализация предметов", true);
-        this.g = new BooleanSetting("Отображать при наводке", false);
+        super(new DragInfo("Target HUD", 0.0f, 0.0f, 0.0f, 0.0f));
+        this.f = new BooleanSetting("Item visualization", true);
+        this.g = new BooleanSetting("Show when aiming", false);
         this.h = new AnimationUtil();
         this.i = new AnimationUtil();
         this.k = "";

@@ -11,9 +11,9 @@ import aethereal.setting.BooleanSetting;
 import net.minecraft.item.Items;
 import net.minecraft.network.packet.c2s.play.PlayerInteractItemC2SPacket;
 
-@ModuleRegister(name = "Wind Hop", description = "Автоматически прыгает после использования заряда ветра", category = Category.Player)
+@ModuleRegister(name = "Wind Hop", description = "Automatically jumps after using a wind charge", category = Category.Player)
 public class WindHop extends Module {
-    private final BooleanSetting b = new BooleanSetting("Поворачивать голову вниз", true);
+    private final BooleanSetting b = new BooleanSetting("Look down", true);
     private int c = -1;
 
     public WindHop() {

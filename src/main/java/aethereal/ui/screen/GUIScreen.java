@@ -37,7 +37,7 @@ public class GUIScreen extends Screen {
         for (Category category : Category.values()) {
             this.c.add(new GUIPanel(category));
         }
-        this.a.setPlaceholder("Поиск по модулям");
+        this.a.setPlaceholder("Search modules");
     }
 
     public static boolean f(GUIPanel panel) {

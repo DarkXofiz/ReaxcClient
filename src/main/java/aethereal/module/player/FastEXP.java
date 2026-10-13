@@ -7,7 +7,7 @@ import aethereal.core.ModuleRegister;
 import aethereal.event.TickEvent;
 import net.minecraft.item.Items;
 
-@ModuleRegister(name = "Fast EXP", description = "Позволяет очень быстро бросать опыт", category = Category.Player)
+@ModuleRegister(name = "Fast EXP", description = "Lets you throw experience bottles very quickly", category = Category.Player)
 public class FastEXP extends Module {
     @EventTarget
     public void a(TickEvent event) {

@@ -40,10 +40,10 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
-@ModuleRegister(name = "Predictions", description = "Прогнозирует и отображает траекторию полёта трезубца, стрел и зелий", category = Category.Render)
+@ModuleRegister(name = "Predictions", description = "Predicts and displays the flight path of tridents, arrows and potions", category = Category.Render)
 public class Predictions extends Module {
-    private final MultiModeSetting b = new MultiModeSetting("Отслеживаемые предметы", new BooleanSetting("Стрелы", true), new BooleanSetting("Трезубцы", true), new BooleanSetting("Эндер жемчуг", true), new BooleanSetting("Зелья", true));
-    private final BooleanSetting c = new BooleanSetting("Радужный цвет", false);
+    private final MultiModeSetting b = new MultiModeSetting("Tracked items", new BooleanSetting("Arrows", true), new BooleanSetting("Tridents", true), new BooleanSetting("Ender pearls", true), new BooleanSetting("Potions", true));
+    private final BooleanSetting c = new BooleanSetting("Rainbow color", false);
     private final Map<Integer, b> d = new HashMap<>();
 
     public Predictions() {
@@ -62,28 +62,28 @@ public class Predictions extends Module {
         if (event.c()) {
             Set<Integer> activeIds = new HashSet<>();
             Box range = mc.player.getBoundingBox().expand(mc.options.getViewDistance().getValue().intValue() * 16);
-            if (this.b.a("Стрелы").c().booleanValue()) {
+            if (this.b.a("Arrows").c().booleanValue()) {
                 mc.world.getEntitiesByClass(ArrowEntity.class, range, (v1) -> {
                     return a(v1);
                 }).forEach(e -> {
                     a(event, e, Items.ARROW.getDefaultStack(), activeIds);
                 });
             }
-            if (this.b.a("Трезубцы").c().booleanValue()) {
+            if (this.b.a("Tridents").c().booleanValue()) {
                 mc.world.getEntitiesByClass(TridentEntity.class, range, e2 -> {
                     return ((TridentEntityAccessor) e2).getReturnTimer() <= 0 && a(e2);
                 }).forEach(e3 -> {
                     a(event, e3, Items.TRIDENT.getDefaultStack(), activeIds);
                 });
             }
-            if (this.b.a("Эндер жемчуг").c().booleanValue()) {
+            if (this.b.a("Ender pearls").c().booleanValue()) {
                 mc.world.getEntitiesByClass(EnderPearlEntity.class, range, (v1) -> {
                     return a(v1);
                 }).forEach(e4 -> {
                     a(event, e4, Items.ENDER_PEARL.getDefaultStack(), activeIds);
                 });
             }
-            if (this.b.a("Зелья").c().booleanValue()) {
+            if (this.b.a("Potions").c().booleanValue()) {
                 mc.world.getEntitiesByClass(PotionEntity.class, range, (v1) -> {
                     return a(v1);
                 }).forEach(e5 -> {
@@ -194,21 +194,21 @@ public class Predictions extends Module {
         float speed = 0.0f;
         boolean isThrowable = false;
         boolean potion = main == Items.SPLASH_POTION || main == Items.LINGERING_POTION || off == Items.SPLASH_POTION || off == Items.LINGERING_POTION;
-        if ((main instanceof BowItem) && this.b.a("Стрелы").c().booleanValue()) {
+        if ((main instanceof BowItem) && this.b.a("Arrows").c().booleanValue()) {
             float pull = q();
             if (pull < 0.1f) {
                 return;
             } else {
                 speed = pull * 3.0f;
             }
-        } else if ((main instanceof CrossbowItem) && this.b.a("Стрелы").c().booleanValue()) {
+        } else if ((main instanceof CrossbowItem) && this.b.a("Arrows").c().booleanValue()) {
             speed = 3.0f;
-        } else if ((main instanceof TridentItem) && this.b.a("Трезубцы").c().booleanValue()) {
+        } else if ((main instanceof TridentItem) && this.b.a("Tridents").c().booleanValue()) {
             speed = 2.5f;
-        } else if ((main == Items.ENDER_PEARL || off == Items.ENDER_PEARL) && this.b.a("Эндер жемчуг").c().booleanValue()) {
+        } else if ((main == Items.ENDER_PEARL || off == Items.ENDER_PEARL) && this.b.a("Ender pearls").c().booleanValue()) {
             speed = 1.5f;
             isThrowable = true;
-        } else if (potion && this.b.a("Зелья").c().booleanValue()) {
+        } else if (potion && this.b.a("Potions").c().booleanValue()) {
             speed = 0.5f;
             isThrowable = true;
         }

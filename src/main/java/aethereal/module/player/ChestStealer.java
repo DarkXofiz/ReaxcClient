@@ -13,10 +13,10 @@ import net.minecraft.client.gui.screen.ingame.ShulkerBoxScreen;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
 
-@ModuleRegister(name = "Chest Stealer", description = "Автоматически забирает предметы из открытого сундука", category = Category.Player)
+@ModuleRegister(name = "Chest Stealer", description = "Automatically takes items from an open chest", category = Category.Player)
 public class ChestStealer extends Module {
-    private final BooleanSetting b = new BooleanSetting("Игнорировать сущностей", true);
-    private final BooleanSetting c = new BooleanSetting("Авто-закрытие сундука", true);
+    private final BooleanSetting b = new BooleanSetting("Ignore entities", true);
+    private final BooleanSetting c = new BooleanSetting("Auto-close chest", true);
     private final CounterUtil d = new CounterUtil();
 
     public ChestStealer() {

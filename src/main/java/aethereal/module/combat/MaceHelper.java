@@ -14,10 +14,10 @@ import platform.inject.accessors.ItemCooldownManagerAccessor;
 
 import java.util.List;
 
-@ModuleRegister(name = "Mace Helper", description = "Автоматизирует действия при использовании булавы", category = Category.Combat)
+@ModuleRegister(name = "Mace Helper", description = "Automates actions when using a mace", category = Category.Combat)
 public class MaceHelper extends Module {
-    public final BooleanSetting b = new BooleanSetting("Усиление урона", true);
-    public final BooleanSetting c = new BooleanSetting("Авто-переключение булавы", false);
+    public final BooleanSetting b = new BooleanSetting("Damage boost", true);
+    public final BooleanSetting c = new BooleanSetting("Auto mace switch", false);
     public int d;
     public boolean e;
     int[] f = {-1, -1};

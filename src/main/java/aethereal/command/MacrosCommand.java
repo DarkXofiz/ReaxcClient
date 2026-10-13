@@ -18,69 +18,69 @@ public class MacrosCommand extends BaseCommand {
     public void a(LiteralArgumentBuilder<CommandSource> builder) {
         MacrosProcessor processor = Reaxc.getInstance().getModuleProcessor().d();
         LiteralArgumentBuilder<CommandSource> literalArgumentBuilderThen = builder.then(a("add").executes(context -> {
-            ChatUtil.sendMessage("Использование: .macros add <клавиша> <команда>");
+            ChatUtil.sendMessage("Usage: .macros add <key> <command>");
             return 1;
-        }).then(d("клавиша").suggests(b()).then(c("команда").executes(context2 -> {
-            String key = a(context2, "клавиша");
-            String command = a(context2, "команда");
+        }).then(d("key").suggests(b()).then(c("command").executes(context2 -> {
+            String key = a(context2, "key");
+            String command = a(context2, "command");
             KeyUtil keyUtil = KeyUtil.a(key);
             if (keyUtil == KeyUtil.UNKNOWN) {
-                ChatUtil.sendMessage("Клавиша " + key + " не найдена.");
+                ChatUtil.sendMessage("Key " + key + " not found.");
                 return 1;
             }
             processor.a(key, command);
             processor.unSetup();
-            ChatUtil.sendMessage("Макрос " + command + " был успешно добавлен на клавишу " + keyUtil.b() + ".");
+            ChatUtil.sendMessage("Macro " + command + " was successfully added to key " + keyUtil.b() + ".");
             return 1;
         }))));
         LiteralArgumentBuilder<CommandSource> literalArgumentBuilderExecutes = a("remove").executes(context3 -> {
             List<MacrosConstructor> macros = processor.a();
             if (macros.isEmpty()) {
-                ChatUtil.sendMessage("Список макросов пуст.");
+                ChatUtil.sendMessage("The macro list is empty.");
                 return 1;
             }
-            ChatUtil.sendMessage("Доступные команды для удаления (" + macros.size() + "):");
+            ChatUtil.sendMessage("Commands available for removal (" + macros.size() + "):");
             for (MacrosConstructor macro : macros) {
-                ChatUtil.sendMessage("  " + macro.b() + " (клавиша: " + KeyUtil.a(macro.a()).b() + ")");
+                ChatUtil.sendMessage("  " + macro.b() + " (key: " + KeyUtil.a(macro.a()).b() + ")");
             }
-            ChatUtil.sendMessage("Использование: .macros remove <команда>");
+            ChatUtil.sendMessage("Usage: .macros remove <command>");
             return 1;
         });
-        RequiredArgumentBuilder<CommandSource, String> requiredArgumentBuilderC = c("команда");
+        RequiredArgumentBuilder<CommandSource, String> requiredArgumentBuilderC = c("command");
         Objects.requireNonNull(processor);
         literalArgumentBuilderThen.then(literalArgumentBuilderExecutes.then(requiredArgumentBuilderC.suggests(a(processor::a, (v0) -> {
             return v0.b();
         })).executes(context4 -> {
-            String command = a(context4, "команда");
+            String command = a(context4, "command");
             MacrosConstructor macro = processor.a().stream().filter(m -> {
                 return m.b().equals(command);
             }).findFirst().orElse(null);
             if (macro == null) {
-                ChatUtil.sendMessage("Макрос с командой " + command + " не найден в списке макросов.");
+                ChatUtil.sendMessage("Macro with command " + command + " was not found in the macro list.");
                 return 1;
             }
             processor.b(macro.a());
             processor.unSetup();
-            ChatUtil.sendMessage("Макрос " + command + " был успешно удален с клавиши " + KeyUtil.a(macro.a()).b() + ".");
+            ChatUtil.sendMessage("Macro " + command + " was successfully removed from key " + KeyUtil.a(macro.a()).b() + ".");
             return 1;
         }))).then(a("list").executes(context5 -> {
             List<MacrosConstructor> macros = processor.a();
             if (macros.isEmpty()) {
-                ChatUtil.sendMessage("Список макросов пуст.");
+                ChatUtil.sendMessage("The macro list is empty.");
                 return 1;
             }
-            ChatUtil.sendMessage("Список макросов (" + macros.size() + "):");
+            ChatUtil.sendMessage("Macros (" + macros.size() + "):");
             for (MacrosConstructor macro : macros) {
                 ChatUtil.sendMessage("  " + KeyUtil.a(macro.a()).b() + ": " + macro.b());
             }
             return 1;
         })).then(a("clear").executes(context6 -> {
-            ChatUtil.sendMessage("Было успешно удалено макросов из списка: " + processor.a().size());
+            ChatUtil.sendMessage("Macros successfully removed from the list: " + processor.a().size());
             processor.f();
             processor.unSetup();
             return 1;
         })).executes(context7 -> {
-            ChatUtil.sendMessage("Использование: .macros <add|remove|list|clear>");
+            ChatUtil.sendMessage("Usage: .macros <add|remove|list|clear>");
             return 1;
         });
     }

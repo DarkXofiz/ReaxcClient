@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NotificationProcessor extends BaseProcessor {
-    private final Notification b = new Notification("o", "Пример отображения уведомления", 0);
+    private final Notification b = new Notification("o", "Example notification", 0);
     private final List<Notification> c = new ArrayList<>();
 
     @Override

@@ -25,10 +25,10 @@ import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
 
-@ModuleRegister(name = "Server Joiner", description = "Автоматически подключается к указанному серверу", category = Category.Misc)
+@ModuleRegister(name = "Server Joiner", description = "Automatically connects to the specified server", category = Category.Misc)
 public class ServerJoiner extends Module {
-    private final ModeSetting b = new ModeSetting("Выберите сервер", "SpookyTime", "SpookyTime", "ReallyWorld");
-    private final SliderSetting c = new SliderSetting("Укажите номер грифа (1-54)", 1.0f, 1.0f, 54.0f, 1.0f).a(() -> {
+    private final ModeSetting b = new ModeSetting("Select server", "SpookyTime", "SpookyTime", "ReallyWorld");
+    private final SliderSetting c = new SliderSetting("Enter griefing server number (1-54)", 1.0f, 1.0f, 54.0f, 1.0f).a(() -> {
         return Boolean.valueOf(this.b.l("ReallyWorld"));
     });
     private final CounterUtil d = new CounterUtil();
@@ -74,7 +74,7 @@ public class ServerJoiner extends Module {
                     return;
                 }
                 if (!ServerUtil.a().isEmpty() && !ServerUtil.a().contains("Режим: Хаб # ")) {
-                    ChatUtil.sendMessage("Вы находитесь не в хабе SpookyTime, а значит модуль выключается!");
+                    ChatUtil.sendMessage("You are not in the SpookyTime hub, so the module is being disabled!");
                     a();
                     return;
                 }
@@ -110,7 +110,7 @@ public class ServerJoiner extends Module {
                     }
                     return;
                 }
-                ChatUtil.sendMessage("Вы находитесь не в лобби ReallyWorld, а значит модуль выключается!");
+                ChatUtil.sendMessage("You are not in the ReallyWorld lobby, so the module is being disabled!");
                 a();
             }
         }

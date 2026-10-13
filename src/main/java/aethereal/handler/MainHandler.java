@@ -77,7 +77,7 @@ public class MainHandler extends BaseHandler implements Interface {
                             return line5.substring("Окончание:".length()).trim();
                         }).findFirst().orElse(null);
                         if (userLine != null && reason != null && expiration != null) {
-                            mc.player.sendMessage(Text.literal("§c[♨] §6" + userLine.substring(userLine.indexOf(93) + 1).trim() + "§e забанен с причиной: §c\"" + reason + "\"§e на §c\"" + expiration + "\" ").append(ChatUtil.sendMessage((Object) "&c[Подробнее]", hoverText)), false);
+                            mc.player.sendMessage(Text.literal("§c[♨] §6" + userLine.substring(userLine.indexOf(93) + 1).trim() + "§e banned for reason: §c\"" + reason + "\"§e for §c\"" + expiration + "\" ").append(ChatUtil.sendMessage((Object) "&c[Details]", hoverText)), false);
                             event.a(true);
                             break;
                         }
@@ -152,7 +152,7 @@ public class MainHandler extends BaseHandler implements Interface {
                     return;
                 }
                 this.confirmMessage = trimmed;
-                ChatUtil.sendMessage("&cВы находитесь в PvP режиме! &7Чтобы отправить эту команду, повторите её");
+                ChatUtil.sendMessage("&cYou are in PvP mode! &7To send this command, repeat it");
                 Reaxc.getInstance().getModuleProcessor().u().f().d();
                 event.a(true);
             }

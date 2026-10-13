@@ -13,11 +13,11 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 
-@ModuleRegister(name = "Auto Totem", description = "Берёт тотем бессмертия в руку при падении здоровья ниже заданного значения", category = Category.Combat)
+@ModuleRegister(name = "Auto Totem", description = "Takes a Totem of Undying into your hand when health drops below the set value", category = Category.Combat)
 public class AutoTotem extends Module {
-    private final SliderSetting c = new SliderSetting("Порог здоровья", 6.0f, 1.0f, 20.0f, 0.5f);
-    private final MultiModeSetting d = new MultiModeSetting("Дополнительные опции", new BooleanSetting("Возвращать предмет", true), new BooleanSetting("Сначала обычные тотемы", true), new BooleanSetting("Не во время еды", false));
-    private final BooleanSetting e = new BooleanSetting("Умное перемещение", true);
+    private final SliderSetting c = new SliderSetting("Health threshold", 6.0f, 1.0f, 20.0f, 0.5f);
+    private final MultiModeSetting d = new MultiModeSetting("Extra options", new BooleanSetting("Return item", true), new BooleanSetting("Regular totems first", true), new BooleanSetting("Not while eating", false));
+    private final BooleanSetting e = new BooleanSetting("Smart swap", true);
     private final CounterUtil f = new CounterUtil();
     private final float[] g = new float[20];
     public boolean b;
@@ -44,7 +44,7 @@ public class AutoTotem extends Module {
     public void a(TickEvent event) {
         System.arraycopy(this.g, 0, this.g, 1, 19);
         this.g[0] = mc.player.getHealth() + (mc.player.hasStatusEffect(StatusEffects.ABSORPTION) ? mc.player.getAbsorptionAmount() : 0.0f);
-        if (this.d.a("Не во время еды").c().booleanValue() && t()) {
+        if (this.d.a("Not while eating").c().booleanValue() && t()) {
             return;
         }
         Boolean should = s();
@@ -63,7 +63,7 @@ public class AutoTotem extends Module {
 
     private boolean q() {
         ItemStack offhand = mc.player.getOffHandStack();
-        boolean preferPlain = this.d.a("Сначала обычные тотемы").c().booleanValue();
+        boolean preferPlain = this.d.a("Regular totems first").c().booleanValue();
         if (a(offhand) && (!preferPlain || !offhand.hasGlint())) {
             return false;
         }
@@ -74,7 +74,7 @@ public class AutoTotem extends Module {
         if (slot == -1) {
             return false;
         }
-        if (this.d.a("Возвращать предмет").c().booleanValue() && this.h == -1 && !offhand.isEmpty()) {
+        if (this.d.a("Return item").c().booleanValue() && this.h == -1 && !offhand.isEmpty()) {
             this.h = slot;
         }
         Reaxc.getInstance().getModuleProcessor().v().getInventoryHandler().moveItem(slot, 40, 1);
@@ -83,7 +83,7 @@ public class AutoTotem extends Module {
 
     private boolean r() {
         ItemStack offhand = mc.player.getOffHandStack();
-        if (this.d.a("Возвращать предмет").c().booleanValue() && this.h != -1 && (offhand.isEmpty() || a(offhand))) {
+        if (this.d.a("Return item").c().booleanValue() && this.h != -1 && (offhand.isEmpty() || a(offhand))) {
             Reaxc.getInstance().getModuleProcessor().v().getInventoryHandler().moveItem(this.h, 40, 1);
         }
         this.h = -1;

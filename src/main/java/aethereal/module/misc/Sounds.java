@@ -12,12 +12,12 @@ import java.io.BufferedInputStream;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@ModuleRegister(name = "Sounds", description = "Воспроизводит выбранные звуки при определённых игровых событиях", category = Category.Misc)
+@ModuleRegister(name = "Sounds", description = "Plays the selected sounds on certain game events", category = Category.Misc)
 public class Sounds extends Module {
-    private final ModeSetting b = new ModeSetting("Звук для воспроизведения", "Тип 1", "Тип 1", "Тип 2", "Тип 3", "Тип 4").a(selected -> {
+    private final ModeSetting b = new ModeSetting("Sound to play", "Type 1", "Type 1", "Type 2", "Type 3", "Type 4").a(selected -> {
         a(e(true));
     });
-    private final SliderSetting c = new SliderSetting("Громкость воспроизведения", 0.25f, 0.0f, 1.0f, 0.05f);
+    private final SliderSetting c = new SliderSetting("Playback volume", 0.25f, 0.0f, 1.0f, 0.05f);
     private final ExecutorService d = Executors.newSingleThreadExecutor(runnable -> {
         Thread thread = new Thread(runnable, "ClientSound-Thread");
         thread.setDaemon(true);
@@ -64,13 +64,13 @@ public class Sounds extends Module {
 
     public String e(boolean active) {
         switch (this.b.c()) {
-            case "Тип 1":
+            case "Type 1":
                 return active ? "enable.wav" : "disable.wav";
-            case "Тип 2":
+            case "Type 2":
                 return active ? "enable1.wav" : "disable1.wav";
-            case "Тип 3":
+            case "Type 3":
                 return active ? "enable2.wav" : "disable2.wav";
-            case "Тип 4":
+            case "Type 4":
                 return active ? "enable3.wav" : "disable3.wav";
             default:
                 return null;

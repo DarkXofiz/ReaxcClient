@@ -7,7 +7,7 @@ import aethereal.core.ModuleRegister;
 import aethereal.event.TickEvent;
 import net.minecraft.client.gui.screen.DeathScreen;
 
-@ModuleRegister(name = "Auto Respawn", description = "Автоматически возрождает персонажа после смерти", category = Category.Player)
+@ModuleRegister(name = "Auto Respawn", description = "Automatically respawns your character after death", category = Category.Player)
 public class AutoRespawn extends Module {
     @EventTarget
     public void a(TickEvent event) {

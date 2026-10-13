@@ -50,7 +50,7 @@ public class AuraHandler extends BaseHandler implements Interface {
                 float ringWidth = this.target.getWidth() * 1.5f;
                 float ringScale = 1.25f - (0.5f * anim);
                 enableRenderState();
-                if (Reaxc.getInstance().getModuleProcessor().t().B().getVisualizationMode().l("Круг")) {
+                if (Reaxc.getInstance().getModuleProcessor().t().B().getVisualizationMode().l("Circle")) {
                     drawCircle(event.h(), renderPos, ColorUtil.applyAlphaToColor(themeColor, anim));
                 } else {
                     drawRing(event.h(), renderPos, ringWidth, ringScale, moving, ColorUtil.applyAlphaToColor(themeColor, anim));

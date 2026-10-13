@@ -33,9 +33,9 @@ import org.joml.Vector2f;
 import java.util.ArrayList;
 import java.util.List;
 
-@ModuleRegister(name = "Entity ESP", description = "Отображает информацию о сущностях над их головой", category = Category.Render)
+@ModuleRegister(name = "Entity ESP", description = "Displays information about entities above their heads", category = Category.Render)
 public class EntityESP extends Module {
-    private final MultiModeSetting trackedEntities = new MultiModeSetting("Отслеживаемые сущности", new BooleanSetting("Игроки", true), new BooleanSetting("Животные", false), new BooleanSetting("Мобы", false), new BooleanSetting("Предметы", false));
+    private final MultiModeSetting trackedEntities = new MultiModeSetting("Tracked entities", new BooleanSetting("Players", true), new BooleanSetting("Animals", false), new BooleanSetting("Mobs", false), new BooleanSetting("Items", false));
     private final List<Tracker> trackers = new ArrayList<>();
 
     public EntityESP() {
@@ -53,13 +53,13 @@ public class EntityESP extends Module {
             for (Entity entity : mc.world.getEntities()) {
                 if (entity != mc.player) {
                     if (entity instanceof PlayerEntity) {
-                        str = "Игроки";
+                        str = "Players";
                     } else if (entity instanceof HostileEntity) {
-                        str = "Мобы";
+                        str = "Mobs";
                     } else if ((entity instanceof AnimalEntity) || (entity instanceof ShulkerEntity) || (entity instanceof VillagerEntity)) {
-                        str = "Животные";
+                        str = "Animals";
                     } else {
-                        str = ((entity instanceof ItemEntity) || (entity instanceof ArrowEntity)) ? "Предметы" : null;
+                        str = ((entity instanceof ItemEntity) || (entity instanceof ArrowEntity)) ? "Items" : null;
                     }
                     String key = str;
                     if (key != null && this.trackedEntities.a(key).c().booleanValue()) {

@@ -10,11 +10,11 @@ import aethereal.setting.ModeSetting;
 import aethereal.setting.SliderSetting;
 import aethereal.util.CounterUtil;
 
-@ModuleRegister(name = "Tape Mouse", description = "Автоматически кликает выбранной кнопкой мыши через заданные промежутки времени", category = Category.Combat)
+@ModuleRegister(name = "Tape Mouse", description = "Automatically clicks the selected mouse button at set intervals", category = Category.Combat)
 public class TapeMouse extends Module {
-    private final SliderSetting b = new SliderSetting("Задержка между кликами", 1000.0f, 10.0f, 5000.0f, 10.0f);
-    private final BooleanSetting c = new BooleanSetting("Не кликать во время еды", true);
-    private final ModeSetting d = new ModeSetting("Кнопка мыши", "Правая", "Правая", "Левая");
+    private final SliderSetting b = new SliderSetting("Delay between clicks", 1000.0f, 10.0f, 5000.0f, 10.0f);
+    private final BooleanSetting c = new BooleanSetting("Don't click while eating", true);
+    private final ModeSetting d = new ModeSetting("Mouse button", "Right", "Right", "Left");
     private final CounterUtil e = new CounterUtil();
 
     public TapeMouse() {
@@ -41,10 +41,10 @@ public class TapeMouse extends Module {
     public void a(TickEvent event) {
         if ((!this.c.c().booleanValue() || !mc.player.isUsingItem()) && this.e.a(this.b.c().intValue())) {
             switch (this.d.c()) {
-                case "Правая":
+                case "Right":
                     ((platform.inject.invokers.MinecraftClientInvoker) mc).invokeDoItemUse();
                     break;
-                case "Левая":
+                case "Left":
                     ((platform.inject.invokers.MinecraftClientInvoker) mc).invokeDoAttack();
                     break;
             }

@@ -28,7 +28,7 @@ import java.util.function.Predicate;
 import java.util.function.ToDoubleFunction;
 import java.util.stream.IntStream;
 
-@ModuleRegister(name = "Apple Farmer", description = "Автоматически фармит яблоки", category = Category.Misc)
+@ModuleRegister(name = "Apple Farmer", description = "Automatically farms apples", category = Category.Misc)
 public class AppleFarmer extends Module {
     @EventTarget
     public void a(TickEvent event) {

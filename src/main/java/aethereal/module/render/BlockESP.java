@@ -21,7 +21,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
-@ModuleRegister(name = "Block ESP", description = "Подсвечивает добавленные вами блоки через .blockesp", category = Category.Render)
+@ModuleRegister(name = "Block ESP", description = "Highlights blocks you added via .blockesp", category = Category.Render)
 public class BlockESP extends Module {
     private final List<BlockPos> b = new CopyOnWriteArrayList<>();
     private ExecutorService renderExecutor;

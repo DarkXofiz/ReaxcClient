@@ -38,7 +38,7 @@ public class AutoBuySection extends Section implements Interface {
         this.e = new Vector4f();
         this.f = new Vector4f();
         this.g = new Vector4f();
-        this.b.setPlaceholder("Цена предмета");
+        this.b.setPlaceholder("Item price");
     }
 
     @Override
@@ -159,12 +159,12 @@ public class AutoBuySection extends Section implements Interface {
     public boolean a(double mouseX, double mouseY, int button) {
         if (button == 0 && MathUtil.a(mouseX, mouseY, this.e.x, this.e.y, this.e.z, this.e.w)) {
             Reaxc.getInstance().getModuleProcessor().q().unSetup();
-            ChatUtil.sendMessage("Конфигурация авто-закупки успешно сохранена");
+            ChatUtil.sendMessage("Auto-buy configuration saved successfully");
             return true;
         }
         if (button == 0 && MathUtil.a(mouseX, mouseY, this.f.x, this.f.y, this.f.z, this.f.w)) {
             Reaxc.getInstance().getModuleProcessor().q().setup();
-            ChatUtil.sendMessage("Конфигурация авто-закупки успешно загружена");
+            ChatUtil.sendMessage("Auto-buy configuration loaded successfully");
             selectEntry(this.h);
             return true;
         }

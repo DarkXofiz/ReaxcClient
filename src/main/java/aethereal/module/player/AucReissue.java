@@ -14,7 +14,7 @@ import net.minecraft.network.packet.c2s.play.ClickSlotC2SPacket;
 import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
 import net.minecraft.screen.slot.SlotActionType;
 
-@ModuleRegister(name = "Auc Reissue", description = "Автоматически перевыставляет предметы на аукционе", category = Category.Player)
+@ModuleRegister(name = "Auc Reissue", description = "Automatically relists items on the auction", category = Category.Player)
 public class AucReissue extends Module {
     private boolean isActive;
 
@@ -76,7 +76,7 @@ public class AucReissue extends Module {
                         Reaxc.getInstance().getModuleProcessor().v().getAFKHandler().a(10);
                     }
                     if (msg.equals("[☃] В хранилище отсутствуют предметы для перевыставления.")) {
-                        ChatUtil.sendMessage("Авто-выключение: в хранилище отсутствуют предметы для перевыставления");
+                        ChatUtil.sendMessage("Auto-disabled: no items to relist in storage");
                         a();
                     }
                     if (msg.contains("[☃] Предметы успешно перевыставлены ")
