@@ -24,7 +24,7 @@ public class Reaxc {
     }
 
     public static void publishUser(User user) {
-        ReaxcClient = instanceRef;
+        Reaxc client = instanceRef;
         if (client != null) {
             client.currentUser = user;
         }
