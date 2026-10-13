@@ -1,0 +1,36 @@
+{
+  "accessWidener": "reaxc.accesswidener",
+  "schemaVersion": 1,
+  "id": "reaxc",
+  "version": "3.0.14",
+  "name": "ReaxcClient",
+  "description": "ReaxcClient for Minecraft 1.21.4",
+  "authors": [
+    "dezzDev",
+    "fruz"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+  "license": "Minecraft EULA",
+  "icon": "assets/reaxc/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "platform.Initializer"
+    ]
+  },
+  "mixins": [
+    "reaxc.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": "\u003e\u003d0.16.5",
+    "minecraft": "~1.21.4",
+    "java": "\u003e\u003d21",
+    "fabric-api": "*"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
