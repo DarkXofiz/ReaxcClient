@@ -4,32 +4,79 @@ import aethereal.core.*;
 import aethereal.core.Module;
 import aethereal.event.TickEvent;
 import aethereal.module.combat.Aura;
+import aethereal.handler.InventoryHandler;
 import aethereal.module.combat.AuraUtil;
 import aethereal.util.CounterUtil;
+import aethereal.util.InventoryUtil;
 import aethereal.util.Rotation;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Items;
+import net.minecraft.network.packet.c2s.play.UpdateSelectedSlotC2SPacket;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 
-@ModuleRegister(name = "Elytra Target", description = "Aims at an enemy while flying with elytra and boosts with a firework from the off-hand", category = Category.Movement)
+@ModuleRegister(name = "Elytra Target", description = "Aims at an enemy while flying with elytra and boosts with a firework from the hotbar without moving it into your hand", category = Category.Movement)
 public class ElytraTarget extends Module {
     private final CounterUtil b = new CounterUtil();
+    private boolean swapped;
+    private int slot = -1;
+    private int wait;
 
     @EventTarget
     public void a(TickEvent event) {
         Aura aura = Reaxc.getInstance().getModuleProcessor().t().B();
+        InventoryHandler inventory = Reaxc.getInstance().getModuleProcessor().v().getInventoryHandler();
         if (aura.m() && mc.player.isGliding()) {
-            if (mc.player.getOffHandStack().getItem() != Items.FIREWORK_ROCKET && !Reaxc.getInstance().getModuleProcessor().t().V().b) {
-                if (Reaxc.getInstance().getModuleProcessor().v().getInventoryHandler().a().isEmpty()) {
-                    Reaxc.getInstance().getModuleProcessor().v().getInventoryHandler().moveItemByType(Items.FIREWORK_ROCKET, 45, 1);
+            // The sword stays in the main hand; the firework is never held visibly.
+            boolean totemBusy = Reaxc.getInstance().getModuleProcessor().t().V().b;
+            boolean shouldFire = (this.b.a(150L) && mc.player.getVelocity().length() < 1.5d) || aura.attackCooldown == 1;
+            if (this.swapped) {
+                if (mc.player.getOffHandStack().getItem() == Items.FIREWORK_ROCKET) {
+                    mc.interactionManager.interactItem(mc.player, Hand.OFF_HAND);
+                    this.b.b();
+                    inventory.moveItem(this.slot, 45, 1);
+                    this.swapped = false;
+                    this.slot = -1;
+                } else {
+                    this.wait++;
+                    if (this.wait > 10) {
+                        this.swapped = false;
+                        this.slot = -1;
+                    }
                 }
-            } else if ((this.b.a(150L) && mc.player.getVelocity().length() < 1.5d) || aura.attackCooldown == 1) {
-                mc.interactionManager.interactItem(mc.player, Hand.OFF_HAND);
-                this.b.b();
+            } else if (!totemBusy && shouldFire) {
+                if (mc.player.getOffHandStack().getItem() == Items.FIREWORK_ROCKET) {
+                    mc.interactionManager.interactItem(mc.player, Hand.OFF_HAND);
+                    this.b.b();
+                } else {
+                    // Firework in the hotbar: use it silently. The selected slot is switched only on the server
+                    // for a single use and switched straight back, so nothing is ever moved into your hands
+                    // and the sword stays in your main hand on screen.
+                    int hotbar = InventoryUtil.a(Items.FIREWORK_ROCKET, true, false);
+                    int current = mc.player.getInventory().selectedSlot;
+                    if (hotbar != -1) {
+                        if (hotbar != current) {
+                            mc.player.networkHandler.sendPacket(new UpdateSelectedSlotC2SPacket(hotbar));
+                            mc.interactionManager.interactItem(mc.player, Hand.MAIN_HAND);
+                            mc.player.networkHandler.sendPacket(new UpdateSelectedSlotC2SPacket(current));
+                        } else {
+                            mc.interactionManager.interactItem(mc.player, Hand.MAIN_HAND);
+                        }
+                        this.b.b();
+                    } else if (inventory.a().isEmpty()) {
+                        // Firework only in the inventory: fall back to the off-hand swap.
+                        int found = InventoryUtil.b(Items.FIREWORK_ROCKET);
+                        if (found != -1) {
+                            inventory.moveItem(found, 45, 1);
+                            this.slot = found;
+                            this.swapped = true;
+                            this.wait = 0;
+                        }
+                    }
+                }
             }
             LivingEntity target = aura.getTarget();
             if (target == null) {

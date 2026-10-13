@@ -103,3 +103,8 @@ publishing {
 		}
 	}
 }
+
+// Jar file names without the version (reaxc-client.jar instead of reaxc-client-1.0.0.jar)
+tasks.withType(AbstractArchiveTask).configureEach {
+	archiveVersion = ''
+}
