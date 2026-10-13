@@ -42,7 +42,8 @@ public class ElytraTarget extends Module {
         return this.hitAlign.c();
     });
     private final SliderSetting overshoot = new SliderSetting("Overshoot distance", 4.0f, 0.0f, 8.0f, 0.5f);
-    private final SliderSetting liftHeight = new SliderSetting("Lift height", 3.0f, 0.0f, 6.0f, 0.5f);
+    private final SliderSetting liftHeight = new SliderSetting("Lift height", 1.0f, 0.0f, 6.0f, 0.5f);
+    private final BooleanSetting critPitch = new BooleanSetting("Crit pitch limit", true);
     private final SliderSetting turnSpeed = new SliderSetting("Turn speed", 180.0f, 30.0f, 360.0f, 10.0f);
     private final SliderSetting fireworkDelay = new SliderSetting("Firework delay (ms)", 150.0f, 50.0f, 1000.0f, 10.0f);
     private final SliderSetting fireworkSpeedLimit = new SliderSetting("Firework speed limit", 1.5f, 0.5f, 3.0f, 0.1f);
@@ -59,7 +60,7 @@ public class ElytraTarget extends Module {
 
     public ElytraTarget() {
         a(this.cutOff, this.fleeSpeed, this.cutOffLead, this.maxPredict, this.hitAlign, this.alignRange, this.hitReach,
-                this.overshoot, this.liftHeight, this.turnSpeed, this.fireworkDelay, this.fireworkSpeedLimit);
+                this.overshoot, this.liftHeight, this.critPitch, this.turnSpeed, this.fireworkDelay, this.fireworkSpeedLimit);
     }
 
     @Override
@@ -151,7 +152,7 @@ public class ElytraTarget extends Module {
                 Vec3d point = rel.equals(Vec3d.ZERO) ? enemy : eye.add(rel);
                 Rotation hitRotation = Rotation.a(eye, point);
                 float hitYaw = AuraUtil.a(mc.player.getYaw(), hitRotation.c(), 1.0f);
-                float hitPitch = AuraUtil.a(mc.player.getPitch(), hitRotation.d(), 1.0f);
+                float hitPitch = critPitch(AuraUtil.a(mc.player.getPitch(), hitRotation.d(), 1.0f));
                 Reaxc.getInstance().getModuleProcessor().k().startAiming(new Rotation(hitYaw, hitPitch), this.turnSpeed.c().floatValue(), 1, 2);
                 return;
             }
@@ -177,9 +178,18 @@ public class ElytraTarget extends Module {
             }
             Rotation aimRotation = Rotation.a(eye, aim);
             float Yaw = AuraUtil.a(mc.player.getYaw(), aimRotation.c(), 1.0f);
-            float Pitch = AuraUtil.a(mc.player.getPitch(), aura.attackCooldown <= 3 ? 0.0f : aimRotation.d(), aura.attackCooldown <= 3 ? 1.0f : Math.clamp(aura.attackCooldown / 10.0f, 0.0f, 1.0f));
+            float Pitch = critPitch(AuraUtil.a(mc.player.getPitch(), aura.attackCooldown <= 3 ? 0.0f : aimRotation.d(), aura.attackCooldown <= 3 ? 1.0f : Math.clamp(aura.attackCooldown / 10.0f, 0.0f, 1.0f)));
             Reaxc.getInstance().getModuleProcessor().k().startAiming(new Rotation(Yaw, Pitch), this.turnSpeed.c().floatValue(), 1, 1);
         }
+    }
+
+    // A crit needs fallDistance > 0 on the server. While gliding it is kept at 1.0 only if you are not diving
+    // too steeply (vertical speed above -0.5), so near a hit we never pitch down harder than that allows.
+    private float critPitch(float pitch) {
+        if (this.critPitch.c().booleanValue() && mc.player.getVelocity().y < -0.4d) {
+            return Math.min(pitch, 0.0f);
+        }
+        return pitch;
     }
 
     private void trackTarget(LivingEntity target) {
