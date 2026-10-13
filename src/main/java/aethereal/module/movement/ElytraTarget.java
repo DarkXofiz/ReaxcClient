@@ -28,7 +28,7 @@ public class ElytraTarget extends Module {
     private final SliderSetting fleeSpeed = new SliderSetting("Flee min speed", 0.15f, 0.05f, 1.0f, 0.05f).a(() -> {
         return this.cutOff.c();
     });
-    private final SliderSetting cutOffLead = new SliderSetting("Cut-off lead", 2.0f, 0.0f, 8.0f, 0.5f).a(() -> {
+    private final SliderSetting cutOffLead = new SliderSetting("Cut-off lead", 4.0f, 0.0f, 12.0f, 0.5f).a(() -> {
         return this.cutOff.c();
     });
     private final SliderSetting maxPredict = new SliderSetting("Max prediction ticks", 12.0f, 1.0f, 30.0f, 1.0f).a(() -> {
@@ -46,7 +46,6 @@ public class ElytraTarget extends Module {
     private final SliderSetting driftStrength = new SliderSetting("Drift strength", 1.0f, 0.0f, 3.0f, 0.1f).a(() -> {
         return this.drift.c();
     });
-    private final SliderSetting chaseDelay = new SliderSetting("Chase firework delay (ms)", 100.0f, 50.0f, 1000.0f, 10.0f);
     private final SliderSetting overshoot = new SliderSetting("Overshoot distance", 0.0f, 0.0f, 8.0f, 0.5f).a(() -> {
         return !this.precise.c();
     });
@@ -54,7 +53,10 @@ public class ElytraTarget extends Module {
     private final BooleanSetting critPitch = new BooleanSetting("Crit pitch limit", true);
     private final SliderSetting turnSpeed = new SliderSetting("Turn speed", 180.0f, 30.0f, 360.0f, 10.0f);
     private final SliderSetting fireworkDelay = new SliderSetting("Firework delay (ms)", 150.0f, 50.0f, 1000.0f, 10.0f);
-    private final SliderSetting fireworkSpeedLimit = new SliderSetting("Firework speed limit", 1.5f, 0.5f, 3.0f, 0.1f);
+    private final BooleanSetting limitBySpeed = new BooleanSetting("Limit firework by speed", false);
+    private final SliderSetting fireworkSpeedLimit = new SliderSetting("Firework speed limit", 1.5f, 0.5f, 3.0f, 0.1f).a(() -> {
+        return this.limitBySpeed.c();
+    });
 
     private final CounterUtil b = new CounterUtil();
     private boolean swapped;
@@ -69,7 +71,7 @@ public class ElytraTarget extends Module {
 
     public ElytraTarget() {
         a(this.cutOff, this.fleeSpeed, this.cutOffLead, this.maxPredict, this.hitAlign, this.alignRange, this.hitReach,
-                this.precise, this.drift, this.driftStrength, this.chaseDelay, this.overshoot, this.liftHeight, this.critPitch, this.turnSpeed, this.fireworkDelay, this.fireworkSpeedLimit);
+                this.precise, this.drift, this.driftStrength, this.overshoot, this.liftHeight, this.critPitch, this.turnSpeed, this.fireworkDelay, this.limitBySpeed, this.fireworkSpeedLimit);
     }
 
     @Override
@@ -89,7 +91,9 @@ public class ElytraTarget extends Module {
         if (aura.m() && mc.player.isGliding()) {
             // The sword stays in the main hand; the firework is never held visibly.
             boolean totemBusy = Reaxc.getInstance().getModuleProcessor().t().V().b;
-            boolean shouldFire = (this.b.a((long) (this.chasing ? Math.min(this.chaseDelay.c().floatValue(), this.fireworkDelay.c().floatValue()) : this.fireworkDelay.c().floatValue())) && mc.player.getVelocity().length() < (double) this.fireworkSpeedLimit.c().floatValue()) || aura.attackCooldown == 1;
+            // Fires every "Firework delay" ms, no matter the speed or distance (speed limit is opt-in).
+            boolean shouldFire = this.b.a((long) this.fireworkDelay.c().floatValue())
+                    && (!this.limitBySpeed.c().booleanValue() || mc.player.getVelocity().length() < (double) this.fireworkSpeedLimit.c().floatValue());
             if (this.swapped) {
                 if (mc.player.getOffHandStack().getItem() == Items.FIREWORK_ROCKET) {
                     mc.interactionManager.interactItem(mc.player, Hand.OFF_HAND);
@@ -152,13 +156,18 @@ public class ElytraTarget extends Module {
             double nx = horizontal == 0.0d ? 0.0d : dx / horizontal;
             double nz = horizontal == 0.0d ? 0.0d : dz / horizontal;
 
+            boolean fleeing = this.cutOff.c().booleanValue() && isFleeing(dx, dz, horizontal);
+
             // Hit alignment: when the hit is (almost) ready and the target is close, look at a real point of
             // its hitbox instead of the "fly through" point. Aiming past/above the target is what made
             // some hits miss on the server side.
             if (this.hitAlign.c().booleanValue() && aura.attackCooldown >= 6
-                    && Math.sqrt(AuraUtil.a(eye, target)) <= (double) this.alignRange.c().floatValue()) {
+                    && Math.sqrt(AuraUtil.a(eye, target)) <= (double) (fleeing ? Math.min(this.alignRange.c().floatValue(), this.hitReach.c().floatValue()) : this.alignRange.c().floatValue())) {
                 Vec3d rel = AuraUtil.a(eye, target, (double) this.hitReach.c().floatValue(), true);
                 Vec3d point = rel.equals(Vec3d.ZERO) ? enemy : eye.add(rel);
+                if (fleeing) {
+                    point = point.add(this.targetVelocity.x, 0.0d, this.targetVelocity.z);
+                }
                 Rotation hitRotation = Rotation.a(eye, point);
                 float hitYaw = AuraUtil.a(mc.player.getYaw(), hitRotation.c(), 1.0f);
                 float hitPitch = critPitch(AuraUtil.a(mc.player.getPitch(), hitRotation.d(), 1.0f));
@@ -169,7 +178,6 @@ public class ElytraTarget extends Module {
             double lift = Math.max(0.0d, (double) this.liftHeight.c().floatValue() - q());
             double mySpeed = Math.max(mc.player.getVelocity().length(), 0.8d);
             double distance = eye.distanceTo(enemy);
-            boolean fleeing = this.cutOff.c().booleanValue() && isFleeing(dx, dz, horizontal);
             this.chasing = fleeing || distance > 8.0d;
             Vec3d aim;
             if (this.precise.c().booleanValue() || fleeing) {
@@ -240,7 +248,7 @@ public class ElytraTarget extends Module {
         }
         // Moving away from us: velocity points the same way as (target - me).
         double cos = ((hx * dx) + (hz * dz)) / (speed * horizontal);
-        return cos > 0.3d;
+        return cos > -0.3d;
     }
 
     private double q() {
